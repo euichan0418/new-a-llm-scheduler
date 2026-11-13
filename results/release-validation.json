@@ -1,0 +1,34 @@
+{
+  "scope": "UNPRIVILEGED_PUBLIC_SOURCE_RELEASE_CHECK",
+  "unprivileged_tests": {
+    "topology": 51,
+    "runtime_evidence": 17,
+    "total": 68
+  },
+  "static_build": "PASS",
+  "btf_kfunc": "PASS",
+  "reference_executable_sections_and_relocations": "IDENTICAL",
+  "policy_change": "NONE",
+  "ops_flags": 8,
+  "configuration_on_measured_cpu": {
+    "cpu": "Intel Core i5-1240P",
+    "threads": [
+      4,
+      4,
+      2
+    ],
+    "cpus": [
+      0,
+      2,
+      4,
+      6
+    ]
+  },
+  "public_package_bpf_load": "NOT_RUN",
+  "public_package_inference": "NOT_RUN",
+  "other_hardware_runtime": "NOT_TESTED",
+  "strict_acceptance": "FAILED",
+  "safety_verdict": "FAIL",
+  "energy_review": "OVERHEAD_REVIEW_REQUIRED",
+  "portable_runtime_performance_equivalence": "NOT_ESTABLISHED"
+}

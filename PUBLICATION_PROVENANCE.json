@@ -1,0 +1,739 @@
+{
+  "policy_change": "NONE",
+  "policy": "NEW_A_E_FULL_UNCHANGED",
+  "notes": [
+    "Public build helpers were relocated/extracted from historical candidate directories; no candidate BPF policy is selected.",
+    "The portable static builder additionally compiles the unchanged selected-child helper after matching-kernel UAPI validation.",
+    "Original guarded-loader monitor instrumentation is retained; no diagnostic reduction."
+  ],
+  "files": [
+    {
+      "path": "ggml/include/ggml.h",
+      "source": "reviewed-publication/ggml/include/ggml.h",
+      "source_sha256": "c65c30fdb4dce95eac71c26bb38ae8423fbc80d79db91d2b2ffaea8c4e46276a",
+      "kind": "EXACT_COPY",
+      "release_sha256": "c65c30fdb4dce95eac71c26bb38ae8423fbc80d79db91d2b2ffaea8c4e46276a"
+    },
+    {
+      "path": "tools/sched_ext/bench/analysis.py",
+      "source": "reviewed-publication/tools/sched_ext/bench/analysis.py",
+      "source_sha256": "f53f87b43f8580ece0db1c322a163403734a00c9d53a6ca24840ecd507f776ea",
+      "kind": "EXACT_COPY",
+      "release_sha256": "f53f87b43f8580ece0db1c322a163403734a00c9d53a6ca24840ecd507f776ea"
+    },
+    {
+      "path": "tools/sched_ext/bench/common.py",
+      "source": "reviewed-publication/tools/sched_ext/bench/common.py",
+      "source_sha256": "c167d2715c162f5b17e090d94585e6eaf18140eabe4d2095fdf04ba7a8c170b6",
+      "kind": "EXACT_COPY",
+      "release_sha256": "c167d2715c162f5b17e090d94585e6eaf18140eabe4d2095fdf04ba7a8c170b6"
+    },
+    {
+      "path": "tools/sched_ext/bench/detect_host_topology.sh",
+      "source": "reviewed-publication/tools/sched_ext/bench/detect_host_topology.sh",
+      "source_sha256": "e4f0cfec21e97ab10dbdbbac13ac380c1c1da808798ac72a4e1eb9e2dd1be9df",
+      "kind": "EXACT_COPY",
+      "release_sha256": "e4f0cfec21e97ab10dbdbbac13ac380c1c1da808798ac72a4e1eb9e2dd1be9df"
+    },
+    {
+      "path": "tools/sched_ext/bench/host_profile.py",
+      "source": "reviewed-publication/tools/sched_ext/bench/host_profile.py",
+      "source_sha256": "880fcec956a54ae3c104076c92478ed55744b0345cfab60bf691999f3fc36af0",
+      "kind": "EXACT_COPY",
+      "release_sha256": "880fcec956a54ae3c104076c92478ed55744b0345cfab60bf691999f3fc36af0"
+    },
+    {
+      "path": "tools/sched_ext/bench/machine.py",
+      "source": "reviewed-publication/tools/sched_ext/bench/machine.py",
+      "source_sha256": "164905d077fa8efceb7d1007d23cbb32cae24403d1913fd5e21d9e28932fba32",
+      "kind": "EXACT_COPY",
+      "release_sha256": "164905d077fa8efceb7d1007d23cbb32cae24403d1913fd5e21d9e28932fba32"
+    },
+    {
+      "path": "tools/sched_ext/bench/root_helper.py",
+      "source": "reviewed-publication/tools/sched_ext/bench/root_helper.py",
+      "source_sha256": "1414f8e43c8525fd9c4c287423a9e5c46abc2c5c6803c8872454d7ca8761728c",
+      "kind": "EXACT_COPY",
+      "release_sha256": "1414f8e43c8525fd9c4c287423a9e5c46abc2c5c6803c8872454d7ca8761728c"
+    },
+    {
+      "path": "tools/sched_ext/bench/step10.py",
+      "source": "reviewed-publication/tools/sched_ext/bench/step10.py",
+      "source_sha256": "5f54d8e20030ee8d028fbb03f89dfd3bc09047425ded05c4e30e0fa5013c4db7",
+      "kind": "EXACT_COPY",
+      "release_sha256": "5f54d8e20030ee8d028fbb03f89dfd3bc09047425ded05c4e30e0fa5013c4db7"
+    },
+    {
+      "path": "tools/sched_ext/include/llama_sched_uapi.h",
+      "source": "reviewed-publication/tools/sched_ext/include/llama_sched_uapi.h",
+      "source_sha256": "ed165cc90d2d58f48175e9e0a0895d19fe7cbf428f7d55075048d90d20074dc2",
+      "kind": "EXACT_COPY",
+      "release_sha256": "ed165cc90d2d58f48175e9e0a0895d19fe7cbf428f7d55075048d90d20074dc2"
+    },
+    {
+      "path": "tools/sched_ext/include/llama_scx_state.h",
+      "source": "reviewed-publication/tools/sched_ext/include/llama_scx_state.h",
+      "source_sha256": "e3b3b2df39a72ca2e1948f60fc442c65fa54e3042841eddf1b480f9f5bfc44f7",
+      "kind": "EXACT_COPY",
+      "release_sha256": "e3b3b2df39a72ca2e1948f60fc442c65fa54e3042841eddf1b480f9f5bfc44f7"
+    },
+    {
+      "path": "tools/sched_ext/llama_scx.c",
+      "source": "reviewed-publication/tools/sched_ext/llama_scx.c",
+      "source_sha256": "41a46fb330f58cb7a93cd166bc11e2de92b6b4b65e12a8aad9f25348eeb0f8fb",
+      "kind": "EXACT_COPY",
+      "release_sha256": "41a46fb330f58cb7a93cd166bc11e2de92b6b4b65e12a8aad9f25348eeb0f8fb"
+    },
+    {
+      "path": "tools/sched_ext/new_a/affinity_diagnostics.py",
+      "source": "reviewed-publication/tools/sched_ext/new_a/affinity_diagnostics.py",
+      "source_sha256": "f347786d907fa5a15b5e6f6e74cb635f147c602cbf08901dd084ff82a1e0cd6c",
+      "kind": "EXACT_COPY",
+      "release_sha256": "f347786d907fa5a15b5e6f6e74cb635f147c602cbf08901dd084ff82a1e0cd6c"
+    },
+    {
+      "path": "tools/sched_ext/new_a/compare.py",
+      "source": "reviewed-publication/tools/sched_ext/new_a/compare.py",
+      "source_sha256": "2782ead5b69a065aa351a078ad75f9a2e4bbf32ac13f9d321b98c3d1687cbccd",
+      "kind": "EXACT_COPY",
+      "release_sha256": "2782ead5b69a065aa351a078ad75f9a2e4bbf32ac13f9d321b98c3d1687cbccd"
+    },
+    {
+      "path": "tools/sched_ext/new_a/cpu_types.c",
+      "source": "reviewed-publication/tools/sched_ext/new_a/cpu_types.c",
+      "source_sha256": "fc3782febd6197157c6eef0c27fb1490ba054c486cce1d49164ac55397b21b6f",
+      "kind": "EXACT_COPY",
+      "release_sha256": "fc3782febd6197157c6eef0c27fb1490ba054c486cce1d49164ac55397b21b6f"
+    },
+    {
+      "path": "tools/sched_ext/new_a/linux_smoke.py",
+      "source": "reviewed-publication/tools/sched_ext/new_a/linux_smoke.py",
+      "source_sha256": "47de525023c393fb9ce8537287151d5a90f5daee0b256789fe8e105b828db029",
+      "kind": "EXACT_COPY",
+      "release_sha256": "47de525023c393fb9ce8537287151d5a90f5daee0b256789fe8e105b828db029"
+    },
+    {
+      "path": "tools/sched_ext/new_a/llama_new_a.bpf.c",
+      "source": "reviewed-publication/tools/sched_ext/new_a/llama_new_a.bpf.c",
+      "source_sha256": "509deb53c5932061583fa312c0536bf733fc6f775ce0f83e44dccd86260aeaa9",
+      "kind": "EXACT_COPY",
+      "release_sha256": "509deb53c5932061583fa312c0536bf733fc6f775ce0f83e44dccd86260aeaa9"
+    },
+    {
+      "path": "tools/sched_ext/new_a/loader.c",
+      "source": "reviewed-publication/tools/sched_ext/new_a/loader.c",
+      "source_sha256": "f7e2c6bad65bd9ff1cb571d24203483b4ecc74867cd8b8ebc9b1bfd694e6a6ab",
+      "kind": "EXACT_COPY",
+      "release_sha256": "f7e2c6bad65bd9ff1cb571d24203483b4ecc74867cd8b8ebc9b1bfd694e6a6ab"
+    },
+    {
+      "path": "tools/sched_ext/new_a/mask_dump.h",
+      "source": "reviewed-publication/tools/sched_ext/new_a/mask_dump.h",
+      "source_sha256": "cd85fc1d52e7b543396bb251f9c71ed3ea145228635d41b88ca55071d4a7b56d",
+      "kind": "EXACT_COPY",
+      "release_sha256": "cd85fc1d52e7b543396bb251f9c71ed3ea145228635d41b88ca55071d4a7b56d"
+    },
+    {
+      "path": "tools/sched_ext/new_a/new_a.h",
+      "source": "reviewed-publication/tools/sched_ext/new_a/new_a.h",
+      "source_sha256": "4967ea76dbfc2d7b6abdda27a2c242191fd2581a7e08bf26cf91c11909cf7dd9",
+      "kind": "EXACT_COPY",
+      "release_sha256": "4967ea76dbfc2d7b6abdda27a2c242191fd2581a7e08bf26cf91c11909cf7dd9"
+    },
+    {
+      "path": "tools/sched_ext/new_a/runtime.py",
+      "source": "reviewed-publication/tools/sched_ext/new_a/runtime.py",
+      "source_sha256": "972068936f301b1d7143ba9e2f565d3a904488449d13bf99a35d5a5ebb31d8f1",
+      "kind": "EXACT_COPY",
+      "release_sha256": "972068936f301b1d7143ba9e2f565d3a904488449d13bf99a35d5a5ebb31d8f1"
+    },
+    {
+      "path": "tools/sched_ext/new_a/session.py",
+      "source": "reviewed-publication/tools/sched_ext/new_a/session.py",
+      "source_sha256": "a395d678b7375c428c5674cbf8606812c29602f7ec5e371aab6eb263757ea74b",
+      "kind": "EXACT_COPY",
+      "release_sha256": "a395d678b7375c428c5674cbf8606812c29602f7ec5e371aab6eb263757ea74b"
+    },
+    {
+      "path": "tools/sched_ext/new_a/topology.py",
+      "source": "reviewed-publication/tools/sched_ext/new_a/topology.py",
+      "source_sha256": "4b70305969ab20674ae2c9c6f1626c5be7c285bd0afa8810f80e0d00abb94a02",
+      "kind": "EXACT_COPY",
+      "release_sha256": "4b70305969ab20674ae2c9c6f1626c5be7c285bd0afa8810f80e0d00abb94a02"
+    },
+    {
+      "path": "tools/sched_ext/new_a/verify.py",
+      "source": "reviewed-publication/tools/sched_ext/new_a/verify.py",
+      "source_sha256": "3694213695473ecb36fa0c32d1511d16abf78b2aff4d6d961599a5759488f79c",
+      "kind": "EXACT_COPY",
+      "release_sha256": "3694213695473ecb36fa0c32d1511d16abf78b2aff4d6d961599a5759488f79c"
+    },
+    {
+      "path": "tools/sched_ext/new_a/wake_probe.c",
+      "source": "reviewed-publication/tools/sched_ext/new_a/wake_probe.c",
+      "source_sha256": "2202768919bbcb4db4f06ab50585ae433711dbc2c44de716c2ad48451e2b8ae3",
+      "kind": "EXACT_COPY",
+      "release_sha256": "2202768919bbcb4db4f06ab50585ae433711dbc2c44de716c2ad48451e2b8ae3"
+    },
+    {
+      "path": "tools/sched_ext/new_a_4t_baseline/campaign.py",
+      "source": "reviewed-publication/tools/sched_ext/new_a_4t_baseline/campaign.py",
+      "source_sha256": "bf5d0a9e34cfd6ac4427f748edeb8d4361d5fe666f363346c967ef255864d6f1",
+      "kind": "EXACT_COPY",
+      "release_sha256": "bf5d0a9e34cfd6ac4427f748edeb8d4361d5fe666f363346c967ef255864d6f1"
+    },
+    {
+      "path": "tools/sched_ext/new_a_4t_baseline/kernel_guard.py",
+      "source": "reviewed-publication/tools/sched_ext/new_a_4t_baseline/kernel_guard.py",
+      "source_sha256": "9b2f802de7ffb3d1f559f315d0acee2e032ea63629d85e7578fb2bce7fb33d16",
+      "kind": "EXACT_COPY",
+      "release_sha256": "9b2f802de7ffb3d1f559f315d0acee2e032ea63629d85e7578fb2bce7fb33d16"
+    },
+    {
+      "path": "tools/sched_ext/new_a_4t_baseline/launch.py",
+      "source": "reviewed-publication/tools/sched_ext/new_a_4t_baseline/launch.py",
+      "source_sha256": "be554291949cfd519beec1ac3028914ae1a49a1ecdbb1b1206eeac3982c3b584",
+      "kind": "EXACT_COPY",
+      "release_sha256": "be554291949cfd519beec1ac3028914ae1a49a1ecdbb1b1206eeac3982c3b584"
+    },
+    {
+      "path": "tools/sched_ext/new_a_4t_baseline/prepare.py",
+      "source": "reviewed-publication/tools/sched_ext/new_a_4t_baseline/prepare.py",
+      "source_sha256": "216db745fb81ecfa7076fc4786fce8a0dd3127d1686246ff4a1b389beb68cc79",
+      "kind": "PUBLIC_BUILD_OR_PROFILE_SUPPORT_PACKAGING_ADAPTATION",
+      "release_sha256": "c9c7e1a88df4a58a16ed4523169790629e321f1cc7c43f46ffd628b570d6221f"
+    },
+    {
+      "path": "tools/sched_ext/new_a_4t_baseline/records.py",
+      "source": "reviewed-publication/tools/sched_ext/new_a_4t_baseline/records.py",
+      "source_sha256": "a59ad11a3b81b88d36e09354026835753f4828961dfa29b63f9c0c919311a392",
+      "kind": "EXACT_COPY",
+      "release_sha256": "a59ad11a3b81b88d36e09354026835753f4828961dfa29b63f9c0c919311a392"
+    },
+    {
+      "path": "tools/sched_ext/new_a_4t_baseline/study.py",
+      "source": "reviewed-publication/tools/sched_ext/new_a_4t_baseline/study.py",
+      "source_sha256": "d0310794c956189d7338edd37904f04b1cfb3828b723b7bcf5267c296531d4c0",
+      "kind": "EXACT_COPY",
+      "release_sha256": "d0310794c956189d7338edd37904f04b1cfb3828b723b7bcf5267c296531d4c0"
+    },
+    {
+      "path": "tools/sched_ext/new_a_4t_baseline/validation.py",
+      "source": "reviewed-publication/tools/sched_ext/new_a_4t_baseline/validation.py",
+      "source_sha256": "7e2690525b1a13a205c31077bfd356dd61342280346fa715d3b08433edbc8094",
+      "kind": "EXACT_COPY",
+      "release_sha256": "7e2690525b1a13a205c31077bfd356dd61342280346fa715d3b08433edbc8094"
+    },
+    {
+      "path": "tools/sched_ext/new_a_4t_baseline/workers.py",
+      "source": "reviewed-publication/tools/sched_ext/new_a_4t_baseline/workers.py",
+      "source_sha256": "7ff0483df18d5f524c7825d55aab7fcd7a248d8da78923df7a3a125185c0db41",
+      "kind": "EXACT_COPY",
+      "release_sha256": "7ff0483df18d5f524c7825d55aab7fcd7a248d8da78923df7a3a125185c0db41"
+    },
+    {
+      "path": "tools/sched_ext/new_a_4t_p_only/build.py",
+      "source": "reviewed-publication/tools/sched_ext/new_a_4t_p_only/build.py",
+      "source_sha256": "115872f6525625880cd1ea0a2f44545b388370474a8f54a5c79641e7d16dda2a",
+      "kind": "EXACT_COPY",
+      "release_sha256": "115872f6525625880cd1ea0a2f44545b388370474a8f54a5c79641e7d16dda2a"
+    },
+    {
+      "path": "tools/sched_ext/new_a_4t_p_only/campaign.py",
+      "source": "reviewed-publication/tools/sched_ext/new_a_4t_p_only/campaign.py",
+      "source_sha256": "1f3cac2ccb10295fe499a13a247a8c90971b9ac24d0b72013142546775a2cd97",
+      "kind": "EXACT_COPY",
+      "release_sha256": "1f3cac2ccb10295fe499a13a247a8c90971b9ac24d0b72013142546775a2cd97"
+    },
+    {
+      "path": "tools/sched_ext/new_a_4t_p_only/kernel_guard.py",
+      "source": "reviewed-publication/tools/sched_ext/new_a_4t_p_only/kernel_guard.py",
+      "source_sha256": "9b2f802de7ffb3d1f559f315d0acee2e032ea63629d85e7578fb2bce7fb33d16",
+      "kind": "EXACT_COPY",
+      "release_sha256": "9b2f802de7ffb3d1f559f315d0acee2e032ea63629d85e7578fb2bce7fb33d16"
+    },
+    {
+      "path": "tools/sched_ext/new_a_4t_p_only/launch.py",
+      "source": "reviewed-publication/tools/sched_ext/new_a_4t_p_only/launch.py",
+      "source_sha256": "b4f355006fdebc3db77ebfbce930b4ab300dc623deaacd58d9d3bd1ea9dab66b",
+      "kind": "EXACT_COPY",
+      "release_sha256": "b4f355006fdebc3db77ebfbce930b4ab300dc623deaacd58d9d3bd1ea9dab66b"
+    },
+    {
+      "path": "tools/sched_ext/new_a_4t_p_only/prepare.py",
+      "source": "reviewed-publication/tools/sched_ext/new_a_4t_p_only/prepare.py",
+      "source_sha256": "4bace81c20e1032eb9a660afe7ac2e406634a67355a48b60dd7b4e259674d3fe",
+      "kind": "PUBLIC_BUILD_OR_PROFILE_SUPPORT_PACKAGING_ADAPTATION",
+      "release_sha256": "ed8065011be5fa125dc6fec4b19a7667c35f62e17eb6d90afadfbd827ee999fa"
+    },
+    {
+      "path": "tools/sched_ext/new_a_4t_p_only/records.py",
+      "source": "reviewed-publication/tools/sched_ext/new_a_4t_p_only/records.py",
+      "source_sha256": "2fc6b4874746c11332a669879e3b2f3025ec04311dfe088270bda15a8d46c5db",
+      "kind": "EXACT_COPY",
+      "release_sha256": "2fc6b4874746c11332a669879e3b2f3025ec04311dfe088270bda15a8d46c5db"
+    },
+    {
+      "path": "tools/sched_ext/new_a_4t_p_only/stats_off.c",
+      "source": "reviewed-publication/tools/sched_ext/new_a_4t_p_only/stats_off.c",
+      "source_sha256": "24521c5fce16527d09858e152389f67453bb05a3d501dbafb91299e7acad7ccc",
+      "kind": "EXACT_COPY",
+      "release_sha256": "24521c5fce16527d09858e152389f67453bb05a3d501dbafb91299e7acad7ccc"
+    },
+    {
+      "path": "tools/sched_ext/new_a_4t_p_only/stats_off.py",
+      "source": "reviewed-publication/tools/sched_ext/new_a_4t_p_only/stats_off.py",
+      "source_sha256": "17becb406ef2a8b6a8b20046ad6069b4501404c3fa54b57a92f7041b701020b6",
+      "kind": "EXACT_COPY",
+      "release_sha256": "17becb406ef2a8b6a8b20046ad6069b4501404c3fa54b57a92f7041b701020b6"
+    },
+    {
+      "path": "tools/sched_ext/new_a_4t_p_only/study.py",
+      "source": "reviewed-publication/tools/sched_ext/new_a_4t_p_only/study.py",
+      "source_sha256": "b35f2d9d4f4e4a4875fa059ecece207cd26efaba6567f6bc1a27feba4b70ab99",
+      "kind": "EXACT_COPY",
+      "release_sha256": "b35f2d9d4f4e4a4875fa059ecece207cd26efaba6567f6bc1a27feba4b70ab99"
+    },
+    {
+      "path": "tools/sched_ext/new_a_4t_p_only/validation.py",
+      "source": "reviewed-publication/tools/sched_ext/new_a_4t_p_only/validation.py",
+      "source_sha256": "7eaf5681e1b3cbb2b7abc0ac1a7c1c5200a2f6dae36a98f8d78c6d2b2c27dbfd",
+      "kind": "EXACT_COPY",
+      "release_sha256": "7eaf5681e1b3cbb2b7abc0ac1a7c1c5200a2f6dae36a98f8d78c6d2b2c27dbfd"
+    },
+    {
+      "path": "tools/sched_ext/new_a_4t_p_only/workers.py",
+      "source": "reviewed-publication/tools/sched_ext/new_a_4t_p_only/workers.py",
+      "source_sha256": "7ff0483df18d5f524c7825d55aab7fcd7a248d8da78923df7a3a125185c0db41",
+      "kind": "EXACT_COPY",
+      "release_sha256": "7ff0483df18d5f524c7825d55aab7fcd7a248d8da78923df7a3a125185c0db41"
+    },
+    {
+      "path": "tools/sched_ext/new_a_affinity_8t/build.py",
+      "source": "reviewed-publication/tools/sched_ext/new_a_affinity_8t/build.py",
+      "source_sha256": "d7b8c3fa0caaee7e7e59aa4b0ae674dbf3be30eae946aa50b9c2add56e55da2e",
+      "kind": "PUBLIC_BUILD_OR_PROFILE_SUPPORT_PACKAGING_ADAPTATION",
+      "release_sha256": "cdfc0cf8cc631ffa54afd19ea41a46be51bc2bd775c2c38cd348894ed6ccf002"
+    },
+    {
+      "path": "tools/sched_ext/new_a_affinity_8t/campaign.py",
+      "source": "reviewed-publication/tools/sched_ext/new_a_affinity_8t/campaign.py",
+      "source_sha256": "f071be82e24a75990ead29d1a41bc2ad45731dda0425445861bd34a1d86dc320",
+      "kind": "EXACT_COPY",
+      "release_sha256": "f071be82e24a75990ead29d1a41bc2ad45731dda0425445861bd34a1d86dc320"
+    },
+    {
+      "path": "tools/sched_ext/new_a_affinity_8t/kernel_guard.py",
+      "source": "reviewed-publication/tools/sched_ext/new_a_affinity_8t/kernel_guard.py",
+      "source_sha256": "9b2f802de7ffb3d1f559f315d0acee2e032ea63629d85e7578fb2bce7fb33d16",
+      "kind": "EXACT_COPY",
+      "release_sha256": "9b2f802de7ffb3d1f559f315d0acee2e032ea63629d85e7578fb2bce7fb33d16"
+    },
+    {
+      "path": "tools/sched_ext/new_a_affinity_8t/kernel_watch.c",
+      "source": "reviewed-publication/tools/sched_ext/new_a_affinity_8t/kernel_watch.c",
+      "source_sha256": "d4d474be21fb043450a36b77e58b573a3b9751c0f75eca4a53e4843423ca1fa5",
+      "kind": "EXACT_COPY",
+      "release_sha256": "d4d474be21fb043450a36b77e58b573a3b9751c0f75eca4a53e4843423ca1fa5"
+    },
+    {
+      "path": "tools/sched_ext/new_a_affinity_8t/launch.py",
+      "source": "reviewed-publication/tools/sched_ext/new_a_affinity_8t/launch.py",
+      "source_sha256": "5f7eb06807a32228d64a2edebf81860dadb88958ffb40807c64fcef10c53fde4",
+      "kind": "EXACT_COPY",
+      "release_sha256": "5f7eb06807a32228d64a2edebf81860dadb88958ffb40807c64fcef10c53fde4"
+    },
+    {
+      "path": "tools/sched_ext/new_a_affinity_8t/prepare.py",
+      "source": "reviewed-publication/tools/sched_ext/new_a_affinity_8t/prepare.py",
+      "source_sha256": "b14f72a4f2912e775ed126f79f4ad39f823624af8f1746ff2cb5004794783d73",
+      "kind": "PUBLIC_BUILD_OR_PROFILE_SUPPORT_PACKAGING_ADAPTATION",
+      "release_sha256": "d5f5b5c590daefc5ce4a06dcbe758d682f8496cf2b6a4178dadc884726e807aa"
+    },
+    {
+      "path": "tools/sched_ext/new_a_affinity_8t/records.py",
+      "source": "reviewed-publication/tools/sched_ext/new_a_affinity_8t/records.py",
+      "source_sha256": "20722069ac95aacb1cd13038b8ee76dd3be2469fe51cd0febbdb6b9f1a5cc0fd",
+      "kind": "EXACT_COPY",
+      "release_sha256": "20722069ac95aacb1cd13038b8ee76dd3be2469fe51cd0febbdb6b9f1a5cc0fd"
+    },
+    {
+      "path": "tools/sched_ext/new_a_affinity_8t/study.py",
+      "source": "reviewed-publication/tools/sched_ext/new_a_affinity_8t/study.py",
+      "source_sha256": "4df74e05699212ea3f6c52c1d7bd5622f3e664387050c9c3ed387c5007f9b4aa",
+      "kind": "EXACT_COPY",
+      "release_sha256": "4df74e05699212ea3f6c52c1d7bd5622f3e664387050c9c3ed387c5007f9b4aa"
+    },
+    {
+      "path": "tools/sched_ext/new_a_affinity_8t/validation.py",
+      "source": "reviewed-publication/tools/sched_ext/new_a_affinity_8t/validation.py",
+      "source_sha256": "db14fb53a323b3143a0508bbb06dec6473f636cf5f9663ebac56baf4207cafe8",
+      "kind": "EXACT_COPY",
+      "release_sha256": "db14fb53a323b3143a0508bbb06dec6473f636cf5f9663ebac56baf4207cafe8"
+    },
+    {
+      "path": "tools/sched_ext/new_a_analysis/build_static.py",
+      "source": "reviewed-publication/tools/sched_ext/new_a_analysis/build_static.py",
+      "source_sha256": "2cfe4b7744eeb5c9c1721ed4477e8cbe4afea8485aeb2de9ae5a1fa27cfca5cb",
+      "kind": "PUBLIC_BUILD_OR_PROFILE_SUPPORT_PACKAGING_ADAPTATION",
+      "release_sha256": "8a5c927d856dbb677c765fe9f323a8e4c55e99c6723be78fec5aa0fceb91a859"
+    },
+    {
+      "path": "tools/sched_ext/new_a_analysis/extract.py",
+      "source": "reviewed-publication/tools/sched_ext/new_a_analysis/extract.py",
+      "source_sha256": "8bb23591035a736bdc54b6af4d7c573dd0650659f1f73797a601737b8df50e71",
+      "kind": "EXACT_COPY",
+      "release_sha256": "8bb23591035a736bdc54b6af4d7c573dd0650659f1f73797a601737b8df50e71"
+    },
+    {
+      "path": "tools/sched_ext/new_a_analysis/guard_validate.py",
+      "source": "reviewed-publication/tools/sched_ext/new_a_analysis/guard_validate.py",
+      "source_sha256": "83465b4464b1581e0880c9c5612fd3f130684e5d7611233e34da9828a1037258",
+      "kind": "EXACT_COPY",
+      "release_sha256": "83465b4464b1581e0880c9c5612fd3f130684e5d7611233e34da9828a1037258"
+    },
+    {
+      "path": "tools/sched_ext/new_a_analysis/histogram.py",
+      "source": "reviewed-publication/tools/sched_ext/new_a_analysis/histogram.py",
+      "source_sha256": "2841d6a10682a29058ba073862354ee9a109b62f4d4380801a4ac373370aa027",
+      "kind": "EXACT_COPY",
+      "release_sha256": "2841d6a10682a29058ba073862354ee9a109b62f4d4380801a4ac373370aa027"
+    },
+    {
+      "path": "tools/sched_ext/new_a_final/admission.py",
+      "source": "reviewed-publication/tools/sched_ext/new_a_final/admission.py",
+      "source_sha256": "0564c022d48cd1859428ac56af1461913937df40471fc35267acfe11f924820f",
+      "kind": "EXACT_COPY",
+      "release_sha256": "0564c022d48cd1859428ac56af1461913937df40471fc35267acfe11f924820f"
+    },
+    {
+      "path": "tools/sched_ext/new_a_final/build.py",
+      "source": "reviewed-publication/tools/sched_ext/new_a_final/build.py",
+      "source_sha256": "bd74e20a807dc0ea7596ee7a234e3fc1eb18aed485e2a2e368fb69f88f1f6cbd",
+      "kind": "EXACT_COPY",
+      "release_sha256": "bd74e20a807dc0ea7596ee7a234e3fc1eb18aed485e2a2e368fb69f88f1f6cbd"
+    },
+    {
+      "path": "tools/sched_ext/new_a_final/campaign.py",
+      "source": "reviewed-publication/tools/sched_ext/new_a_final/campaign.py",
+      "source_sha256": "5009424c7ade0671a6df5aabbd4304225844634f2e69e6573e8e4664ca06f727",
+      "kind": "EXACT_COPY",
+      "release_sha256": "5009424c7ade0671a6df5aabbd4304225844634f2e69e6573e8e4664ca06f727"
+    },
+    {
+      "path": "tools/sched_ext/new_a_final/kernel_guard.py",
+      "source": "reviewed-publication/tools/sched_ext/new_a_final/kernel_guard.py",
+      "source_sha256": "9b2f802de7ffb3d1f559f315d0acee2e032ea63629d85e7578fb2bce7fb33d16",
+      "kind": "EXACT_COPY",
+      "release_sha256": "9b2f802de7ffb3d1f559f315d0acee2e032ea63629d85e7578fb2bce7fb33d16"
+    },
+    {
+      "path": "tools/sched_ext/new_a_final/launch.py",
+      "source": "reviewed-publication/tools/sched_ext/new_a_final/launch.py",
+      "source_sha256": "f87ee104904a310321d1edc4ba9836c1219b3704b54f79fcf7099d2635b1049d",
+      "kind": "EXACT_COPY",
+      "release_sha256": "f87ee104904a310321d1edc4ba9836c1219b3704b54f79fcf7099d2635b1049d"
+    },
+    {
+      "path": "tools/sched_ext/new_a_final/policy-manifest.json",
+      "source": "reviewed-publication/tools/sched_ext/new_a_final/policy-manifest.json",
+      "source_sha256": "7052089f29db8eca0cb6d0d109db87b088c810452b892f688f4178edb2af0437",
+      "kind": "EXACT_COPY",
+      "release_sha256": "7052089f29db8eca0cb6d0d109db87b088c810452b892f688f4178edb2af0437"
+    },
+    {
+      "path": "tools/sched_ext/new_a_final/policy_identity.py",
+      "source": "reviewed-publication/tools/sched_ext/new_a_final/policy_identity.py",
+      "source_sha256": "3236fdbe190a73c83298d7b6e57d3c0c7e4a1b8eb15fb7c05bf574a23c46860e",
+      "kind": "EXACT_COPY",
+      "release_sha256": "3236fdbe190a73c83298d7b6e57d3c0c7e4a1b8eb15fb7c05bf574a23c46860e"
+    },
+    {
+      "path": "tools/sched_ext/new_a_final/prepare.py",
+      "source": "reviewed-publication/tools/sched_ext/new_a_final/prepare.py",
+      "source_sha256": "89dd4044b25176f3e7f004f52a2860ff08f1b1753ab2494c27375b52cb1d7aa7",
+      "kind": "PUBLIC_BUILD_OR_PROFILE_SUPPORT_PACKAGING_ADAPTATION",
+      "release_sha256": "1f42b389ad137986205a3c56f3e52bd1fac64bc9b6a6bae189f6f838af3cf5d5"
+    },
+    {
+      "path": "tools/sched_ext/new_a_final/records.py",
+      "source": "reviewed-publication/tools/sched_ext/new_a_final/records.py",
+      "source_sha256": "6cd411294f56020ace12dae691140c6cc70e06a401ac78ba098240ec56a655e4",
+      "kind": "EXACT_COPY",
+      "release_sha256": "6cd411294f56020ace12dae691140c6cc70e06a401ac78ba098240ec56a655e4"
+    },
+    {
+      "path": "tools/sched_ext/new_a_final/review.py",
+      "source": "reviewed-publication/tools/sched_ext/new_a_final/review.py",
+      "source_sha256": "770349cc1f1bb084d5406f5d51cc617448e9aa9094f78487c63d3b72d557b111",
+      "kind": "EXACT_COPY",
+      "release_sha256": "770349cc1f1bb084d5406f5d51cc617448e9aa9094f78487c63d3b72d557b111"
+    },
+    {
+      "path": "tools/sched_ext/new_a_final/stats_off.py",
+      "source": "reviewed-publication/tools/sched_ext/new_a_final/stats_off.py",
+      "source_sha256": "8ff0cc38b5a58f172faac38f34fc561de58adf4f65873570849ad46f5f6a8401",
+      "kind": "EXACT_COPY",
+      "release_sha256": "8ff0cc38b5a58f172faac38f34fc561de58adf4f65873570849ad46f5f6a8401"
+    },
+    {
+      "path": "tools/sched_ext/new_a_final/study.py",
+      "source": "reviewed-publication/tools/sched_ext/new_a_final/study.py",
+      "source_sha256": "595b0a17a2553a0cb45debc2be992730a684c13d239ca9ea0095df1aefedf0a2",
+      "kind": "EXACT_COPY",
+      "release_sha256": "595b0a17a2553a0cb45debc2be992730a684c13d239ca9ea0095df1aefedf0a2"
+    },
+    {
+      "path": "tools/sched_ext/new_a_final/validation.py",
+      "source": "reviewed-publication/tools/sched_ext/new_a_final/validation.py",
+      "source_sha256": "1c4fbca48f6a4257bdbbdf7068693a4dc88a8dba959ad5ee20b326b97b7a1324",
+      "kind": "EXACT_COPY",
+      "release_sha256": "1c4fbca48f6a4257bdbbdf7068693a4dc88a8dba959ad5ee20b326b97b7a1324"
+    },
+    {
+      "path": "tools/sched_ext/new_a_final/workers.py",
+      "source": "reviewed-publication/tools/sched_ext/new_a_final/workers.py",
+      "source_sha256": "7ff0483df18d5f524c7825d55aab7fcd7a248d8da78923df7a3a125185c0db41",
+      "kind": "EXACT_COPY",
+      "release_sha256": "7ff0483df18d5f524c7825d55aab7fcd7a248d8da78923df7a3a125185c0db41"
+    },
+    {
+      "path": "tools/sched_ext/new_a_full_guard/fg_analyze.py",
+      "source": "reviewed-publication/tools/sched_ext/new_a_full_guard/fg_analyze.py",
+      "source_sha256": "5bbbdc5bb0fac624f22b829623f156985457ac59e50f3c910de0ee717fa137ff",
+      "kind": "EXACT_COPY",
+      "release_sha256": "5bbbdc5bb0fac624f22b829623f156985457ac59e50f3c910de0ee717fa137ff"
+    },
+    {
+      "path": "tools/sched_ext/new_a_full_guard/fg_config.py",
+      "source": "reviewed-publication/tools/sched_ext/new_a_full_guard/fg_config.py",
+      "source_sha256": "efae5a843b25b6d207bfadad4122af4f694efb723f7391389570498948194baf",
+      "kind": "EXACT_COPY",
+      "release_sha256": "efae5a843b25b6d207bfadad4122af4f694efb723f7391389570498948194baf"
+    },
+    {
+      "path": "tools/sched_ext/new_a_full_guard/fg_gate.py",
+      "source": "reviewed-publication/tools/sched_ext/new_a_full_guard/fg_gate.py",
+      "source_sha256": "43c1e208e0b72eee6657ccda6a16b2945430ea6d72bc7efe249281156f2bc1ad",
+      "kind": "EXACT_COPY",
+      "release_sha256": "43c1e208e0b72eee6657ccda6a16b2945430ea6d72bc7efe249281156f2bc1ad"
+    },
+    {
+      "path": "tools/sched_ext/new_a_full_guard/fg_runner.py",
+      "source": "reviewed-publication/tools/sched_ext/new_a_full_guard/fg_runner.py",
+      "source_sha256": "3f0fb65dc7b71ce74e95a382424125b31cfcc61a681e6797caccd24b6efcfcd8",
+      "kind": "EXACT_COPY",
+      "release_sha256": "3f0fb65dc7b71ce74e95a382424125b31cfcc61a681e6797caccd24b6efcfcd8"
+    },
+    {
+      "path": "tools/sched_ext/new_a_full_guard/fg_validation.py",
+      "source": "reviewed-publication/tools/sched_ext/new_a_full_guard/fg_validation.py",
+      "source_sha256": "cb2affbbc6b8f636d9b5a35dc154c3eab640c345a71473cdd3b43897f490f0c0",
+      "kind": "EXACT_COPY",
+      "release_sha256": "cb2affbbc6b8f636d9b5a35dc154c3eab640c345a71473cdd3b43897f490f0c0"
+    },
+    {
+      "path": "tools/sched_ext/new_a_full_guard/monitor.h",
+      "source": "reviewed-publication/tools/sched_ext/new_a_full_guard/monitor.h",
+      "source_sha256": "4a96f1a86a4982bfb8ec0f9f61ce7796d031b90fe1f09e41fb6432409ab9f4ce",
+      "kind": "EXACT_COPY",
+      "release_sha256": "4a96f1a86a4982bfb8ec0f9f61ce7796d031b90fe1f09e41fb6432409ab9f4ce"
+    },
+    {
+      "path": "tools/sched_ext/new_a_full_guard/prepare_build.py",
+      "source": "reviewed-publication/tools/sched_ext/new_a_full_guard/prepare_build.py",
+      "source_sha256": "43cf43cbe78e3d3fc050ac482fde18cf5bdec838226876086c48b3b1854c2088",
+      "kind": "PUBLIC_BUILD_OR_PROFILE_SUPPORT_PACKAGING_ADAPTATION",
+      "release_sha256": "3bb4e4ad3e914d2d45084d84690b22dc93d849096b1eafa2d6ca52eb6803201c"
+    },
+    {
+      "path": "tools/sched_ext/new_a_portable/build.py",
+      "source": "reviewed-publication/tools/sched_ext/new_a_portable/build.py",
+      "source_sha256": "94316153679bcd134f98106432c8824563e637c4e35e15d6dea3482ec65d71e2",
+      "kind": "PUBLIC_BUILD_OR_PROFILE_SUPPORT_PACKAGING_ADAPTATION",
+      "release_sha256": "468524c3dba66f80ec85604460a09872f73d3c94ce182cc591b8370128a091ed"
+    },
+    {
+      "path": "tools/sched_ext/new_a_portable/config.py",
+      "source": "reviewed-publication/tools/sched_ext/new_a_portable/config.py",
+      "source_sha256": "c3ddca49fb789a87dcfb21bf794c8e75723190d898cdc84248c5ff7c63d8df5d",
+      "kind": "EXACT_COPY",
+      "release_sha256": "c3ddca49fb789a87dcfb21bf794c8e75723190d898cdc84248c5ff7c63d8df5d"
+    },
+    {
+      "path": "tools/sched_ext/new_a_portable/cpu_probe.c",
+      "source": "reviewed-publication/tools/sched_ext/new_a_portable/cpu_probe.c",
+      "source_sha256": "dcbca354a262b9124d32d8c83ff7973cb90d2cfeac4ae7119e459d1f04e80481",
+      "kind": "EXACT_COPY",
+      "release_sha256": "dcbca354a262b9124d32d8c83ff7973cb90d2cfeac4ae7119e459d1f04e80481"
+    },
+    {
+      "path": "tools/sched_ext/new_a_portable/test_portable.py",
+      "source": "reviewed-publication/tools/sched_ext/new_a_portable/test_portable.py",
+      "source_sha256": "d2cc2ad6fb3569486c85c724eff33907808a3a679002440b5933ddd64fea8f13",
+      "kind": "EXACT_COPY",
+      "release_sha256": "d2cc2ad6fb3569486c85c724eff33907808a3a679002440b5933ddd64fea8f13"
+    },
+    {
+      "path": "tools/sched_ext/new_a_portable/topology.py",
+      "source": "reviewed-publication/tools/sched_ext/new_a_portable/topology.py",
+      "source_sha256": "b5ba31defd4e141b2d311e9a16b048bf05bd9ffee30b988211e780b000ad4245",
+      "kind": "EXACT_COPY",
+      "release_sha256": "b5ba31defd4e141b2d311e9a16b048bf05bd9ffee30b988211e780b000ad4245"
+    },
+    {
+      "path": "tools/sched_ext/new_a_portable_runtime/admission.py",
+      "source": "reviewed-publication/tools/sched_ext/new_a_portable_runtime/admission.py",
+      "source_sha256": "de19c191aeb543bfb5c633e19d38d66323a3dbc78e444b72b66e2ba035a8a1ef",
+      "kind": "EXACT_COPY",
+      "release_sha256": "de19c191aeb543bfb5c633e19d38d66323a3dbc78e444b72b66e2ba035a8a1ef"
+    },
+    {
+      "path": "tools/sched_ext/new_a_portable_runtime/build.py",
+      "source": "reviewed-publication/tools/sched_ext/new_a_portable_runtime/build.py",
+      "source_sha256": "7a1254e0c1d1ca99410ab9ac61e1df1eed4d7f0209408ecf9a0b855b8905c5f1",
+      "kind": "EXACT_COPY",
+      "release_sha256": "7a1254e0c1d1ca99410ab9ac61e1df1eed4d7f0209408ecf9a0b855b8905c5f1"
+    },
+    {
+      "path": "tools/sched_ext/new_a_portable_runtime/campaign.py",
+      "source": "reviewed-publication/tools/sched_ext/new_a_portable_runtime/campaign.py",
+      "source_sha256": "69660d7abb15dbfb50573f7aa1f58077d5d3c1f6026eeb6db2956348360e8d3c",
+      "kind": "EXACT_COPY",
+      "release_sha256": "69660d7abb15dbfb50573f7aa1f58077d5d3c1f6026eeb6db2956348360e8d3c"
+    },
+    {
+      "path": "tools/sched_ext/new_a_portable_runtime/integration.py",
+      "source": "reviewed-publication/tools/sched_ext/new_a_portable_runtime/integration.py",
+      "source_sha256": "c46b9aa499c9b629fe63d02e7c19daea5df6d9e756f628c5ea9b45bb36e5b83c",
+      "kind": "EXACT_COPY",
+      "release_sha256": "c46b9aa499c9b629fe63d02e7c19daea5df6d9e756f628c5ea9b45bb36e5b83c"
+    },
+    {
+      "path": "tools/sched_ext/new_a_portable_runtime/kernel_guard.py",
+      "source": "reviewed-publication/tools/sched_ext/new_a_portable_runtime/kernel_guard.py",
+      "source_sha256": "9b2f802de7ffb3d1f559f315d0acee2e032ea63629d85e7578fb2bce7fb33d16",
+      "kind": "EXACT_COPY",
+      "release_sha256": "9b2f802de7ffb3d1f559f315d0acee2e032ea63629d85e7578fb2bce7fb33d16"
+    },
+    {
+      "path": "tools/sched_ext/new_a_portable_runtime/launch.py",
+      "source": "reviewed-publication/tools/sched_ext/new_a_portable_runtime/launch.py",
+      "source_sha256": "7d22192c5eb7fe0b895182c5c4acff764eb816527cab1cae972a2c1fb8d9f7f8",
+      "kind": "EXACT_COPY",
+      "release_sha256": "7d22192c5eb7fe0b895182c5c4acff764eb816527cab1cae972a2c1fb8d9f7f8"
+    },
+    {
+      "path": "tools/sched_ext/new_a_portable_runtime/prepare.py",
+      "source": "reviewed-publication/tools/sched_ext/new_a_portable_runtime/prepare.py",
+      "source_sha256": "d8e34ad1e3578731309b9331ba817669aaa63a845efe3ddadc6bc85ee8c872be",
+      "kind": "PUBLIC_BUILD_OR_PROFILE_SUPPORT_PACKAGING_ADAPTATION",
+      "release_sha256": "3c74a1a241d9eea4741ea82a0a839d00b4e7ecbf48e5615f7f7ca72763853b4e"
+    },
+    {
+      "path": "tools/sched_ext/new_a_portable_runtime/prepare_all.py",
+      "source": "reviewed-publication/tools/sched_ext/new_a_portable_runtime/prepare_all.py",
+      "source_sha256": "3b2a559c59154c895700b7ac53d025b58808688f9ae177827c91aba9a4da2604",
+      "kind": "EXACT_COPY",
+      "release_sha256": "3b2a559c59154c895700b7ac53d025b58808688f9ae177827c91aba9a4da2604"
+    },
+    {
+      "path": "tools/sched_ext/new_a_portable_runtime/records.py",
+      "source": "reviewed-publication/tools/sched_ext/new_a_portable_runtime/records.py",
+      "source_sha256": "1ccb2b3bb865e55d9355ba018492d00ed3f4ec2199ed7a3a7a9d0ff193c68c62",
+      "kind": "EXACT_COPY",
+      "release_sha256": "1ccb2b3bb865e55d9355ba018492d00ed3f4ec2199ed7a3a7a9d0ff193c68c62"
+    },
+    {
+      "path": "tools/sched_ext/new_a_portable_runtime/stats_off.py",
+      "source": "reviewed-publication/tools/sched_ext/new_a_portable_runtime/stats_off.py",
+      "source_sha256": "8ff0cc38b5a58f172faac38f34fc561de58adf4f65873570849ad46f5f6a8401",
+      "kind": "EXACT_COPY",
+      "release_sha256": "8ff0cc38b5a58f172faac38f34fc561de58adf4f65873570849ad46f5f6a8401"
+    },
+    {
+      "path": "tools/sched_ext/new_a_portable_runtime/study.py",
+      "source": "reviewed-publication/tools/sched_ext/new_a_portable_runtime/study.py",
+      "source_sha256": "f5856ae3aa9d16f748834ba7d674425af856dd929efa9ba38fcf8f8089db604e",
+      "kind": "EXACT_COPY",
+      "release_sha256": "f5856ae3aa9d16f748834ba7d674425af856dd929efa9ba38fcf8f8089db604e"
+    },
+    {
+      "path": "tools/sched_ext/new_a_portable_runtime/test_fixture.py",
+      "source": "reviewed-publication/tools/sched_ext/new_a_portable_runtime/test_fixture.py",
+      "source_sha256": "f93f461f0e94e767e490ed78dc4fbae90822032b83efdbe79906a1d072fa92ef",
+      "kind": "EXACT_COPY",
+      "release_sha256": "f93f461f0e94e767e490ed78dc4fbae90822032b83efdbe79906a1d072fa92ef"
+    },
+    {
+      "path": "tools/sched_ext/new_a_portable_runtime/test_runtime.py",
+      "source": "reviewed-publication/tools/sched_ext/new_a_portable_runtime/test_runtime.py",
+      "source_sha256": "36b3afb24c58db4e30d7a4ec7d40507f5cfe6e725f5b02453dd65912551a5730",
+      "kind": "EXACT_COPY",
+      "release_sha256": "36b3afb24c58db4e30d7a4ec7d40507f5cfe6e725f5b02453dd65912551a5730"
+    },
+    {
+      "path": "tools/sched_ext/new_a_portable_runtime/validation.py",
+      "source": "reviewed-publication/tools/sched_ext/new_a_portable_runtime/validation.py",
+      "source_sha256": "53f067d97d41d086c02873ec89aaf3fa38a4120e606f11f42ae63d2382e156eb",
+      "kind": "EXACT_COPY",
+      "release_sha256": "53f067d97d41d086c02873ec89aaf3fa38a4120e606f11f42ae63d2382e156eb"
+    },
+    {
+      "path": "tools/sched_ext/new_a_portable_runtime/workers.py",
+      "source": "reviewed-publication/tools/sched_ext/new_a_portable_runtime/workers.py",
+      "source_sha256": "7ff0483df18d5f524c7825d55aab7fcd7a248d8da78923df7a3a125185c0db41",
+      "kind": "EXACT_COPY",
+      "release_sha256": "7ff0483df18d5f524c7825d55aab7fcd7a248d8da78923df7a3a125185c0db41"
+    },
+    {
+      "path": "tools/sched_ext/support/build_static.py",
+      "source": "tools/sched_ext/new_a_analysis/build_static.py",
+      "source_sha256": "2cfe4b7744eeb5c9c1721ed4477e8cbe4afea8485aeb2de9ae5a1fa27cfca5cb",
+      "kind": "SUPPORT_FUNCTION_EXTRACTION",
+      "functions": [
+        "elf_sections",
+        "sha"
+      ],
+      "release_sha256": "8a5c927d856dbb677c765fe9f323a8e4c55e99c6723be78fec5aa0fceb91a859"
+    },
+    {
+      "path": "tools/sched_ext/support/prepare_build.py",
+      "source": "tools/sched_ext/new_a_full_guard/prepare_build.py",
+      "source_sha256": "43cf43cbe78e3d3fc050ac482fde18cf5bdec838226876086c48b3b1854c2088",
+      "kind": "SUPPORT_FUNCTION_EXTRACTION",
+      "functions": [
+        "elf_relocations",
+        "generate_loader"
+      ],
+      "release_sha256": "883e5d784c07439c23631d96ae2a6349f4fe3a230655c1a7dca0f95ecb6b856f"
+    },
+    {
+      "path": "tools/sched_ext/support/profile_preparation.py",
+      "source": "tools/sched_ext/new_a_v3_functional/prepare.py",
+      "source_sha256": "5bdf54ceef170802be4874d32e8704fcb45aab9b403d09611193f3cb15d87bc0",
+      "kind": "SUPPORT_FUNCTION_EXTRACTION",
+      "functions": [
+        "live",
+        "modules",
+        "physical_gate",
+        "power_gate"
+      ],
+      "release_sha256": "7a0fc1a85cbe06bde3fd6fc4806e1f3adaf86656441b9201d44940686ddca23e"
+    },
+    {
+      "path": "tools/sched_ext/support/static_btf.py",
+      "source": "tools/sched_ext/new_a_v2/static_btf.py",
+      "source_sha256": "e60522cf8c4f8c78eaaa8361ed1eddd614e973a23b3b34378e45fa4a9a98a098",
+      "kind": "STATIC_CHECK_HELPER_ONLY_NO_V2_POLICY",
+      "release_sha256": "e60522cf8c4f8c78eaaa8361ed1eddd614e973a23b3b34378e45fa4a9a98a098"
+    },
+    {
+      "path": "tools/sched_ext/llama_scx_child.c",
+      "source": "tools/sched_ext/llama_scx_child.c",
+      "source_sha256": "93638218e23ccacd061b35594e69c4900fef382918ec715fda55278cb263ba11",
+      "release_sha256": "93638218e23ccacd061b35594e69c4900fef382918ec715fda55278cb263ba11",
+      "kind": "EXACT_COPY"
+    }
+  ]
+}

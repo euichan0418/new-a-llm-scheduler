@@ -1,0 +1,17 @@
+{
+  "selected_policy": "NEW_A_E_FULL_UNCHANGED",
+  "policy_change": "NONE",
+  "scope": "선정한 기존 정책과 직접 소스 의존성. 전체 실행 입력은 별도 봉인한다.",
+  "files": {
+    "tools/sched_ext/new_a/llama_new_a.bpf.c": "509deb53c5932061583fa312c0536bf733fc6f775ce0f83e44dccd86260aeaa9",
+    "tools/sched_ext/new_a/new_a.h": "4967ea76dbfc2d7b6abdda27a2c242191fd2581a7e08bf26cf91c11909cf7dd9",
+    "tools/sched_ext/new_a/loader.c": "f7e2c6bad65bd9ff1cb571d24203483b4ecc74867cd8b8ebc9b1bfd694e6a6ab",
+    "tools/sched_ext/new_a/mask_dump.h": "cd85fc1d52e7b543396bb251f9c71ed3ea145228635d41b88ca55071d4a7b56d",
+    "tools/sched_ext/new_a/topology.py": "4b70305969ab20674ae2c9c6f1626c5be7c285bd0afa8810f80e0d00abb94a02",
+    "tools/sched_ext/new_a/cpu_types.c": "fc3782febd6197157c6eef0c27fb1490ba054c486cce1d49164ac55397b21b6f",
+    "tools/sched_ext/llama_scx.c": "41a46fb330f58cb7a93cd166bc11e2de92b6b4b65e12a8aad9f25348eeb0f8fb",
+    "tools/sched_ext/include/llama_scx_state.h": "e3b3b2df39a72ca2e1948f60fc442c65fa54e3042841eddf1b480f9f5bfc44f7"
+  },
+  "strict_acceptance": "FAILED",
+  "safety_verdict": "FAIL"
+}
