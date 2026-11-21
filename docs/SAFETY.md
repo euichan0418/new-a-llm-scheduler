@@ -16,3 +16,9 @@ Runtime invariants include correct Host/kernel/boot/BTF, AC/Turbo/profile, allow
 Other Intel and AMD CPUs have configuration/mock coverage only. Actual verifier/attach, LLM functionality and performance there are NOT_TESTED. Topology support does not prove scheduler runtime compatibility.
 
 Previous Wakeup/fexit observers significantly perturbed measured performance. Their ON latency is not treated as uninstrumented latency. RAPL instrumentation overhead review remains open; no energy advantage is claimed.
+
+## Recent Runtime Lite scope
+
+On the tested i5-1240P/kernel43 campaign, C/E/L Audit/Clean and valid performance sessions passed their fixed-affinity functional, identity, response, thermal and Cleanup gates. E/L had zero observed Mask/Tracking failures. Failed authentication attempts remained excluded; a failed OFF command is not proof that statistics were enabled. Lite keeps optional runtime unavailable and mandatory Migration/Mask/Tracking/error evidence. These scoped successes do not clear the historical live-affinity failure or establish production/unattended-use safety.
+
+Same-configuration scheduler superiority remains NOT_PROVEN. Runtime Lite exploration is INCONCLUSIVE and does not replace E FULL. New topology, Boot/BTF, governor, inputs or affinity require fresh admission. Do not run root experiments just because static source tests pass.

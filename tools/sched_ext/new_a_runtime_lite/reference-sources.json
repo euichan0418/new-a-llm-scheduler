@@ -1,0 +1,14 @@
+{
+  "tools/sched_ext/new_a/llama_new_a.bpf.c": "509deb53c5932061583fa312c0536bf733fc6f775ce0f83e44dccd86260aeaa9",
+  "tools/sched_ext/new_a/loader.c": "f7e2c6bad65bd9ff1cb571d24203483b4ecc74867cd8b8ebc9b1bfd694e6a6ab",
+  "tools/sched_ext/new_a/new_a.h": "4967ea76dbfc2d7b6abdda27a2c242191fd2581a7e08bf26cf91c11909cf7dd9",
+  "tools/sched_ext/new_a/mask_dump.h": "cd85fc1d52e7b543396bb251f9c71ed3ea145228635d41b88ca55071d4a7b56d",
+  "tools/sched_ext/llama_scx.c": "41a46fb330f58cb7a93cd166bc11e2de92b6b4b65e12a8aad9f25348eeb0f8fb",
+  "tools/sched_ext/include/llama_scx_state.h": "e3b3b2df39a72ca2e1948f60fc442c65fa54e3042841eddf1b480f9f5bfc44f7",
+  "tools/sched_ext/new_a_full_guard/prepare_build.py": "3bb4e4ad3e914d2d45084d84690b22dc93d849096b1eafa2d6ca52eb6803201c",
+  "tools/sched_ext/new_a_full_guard/monitor.h": "4a96f1a86a4982bfb8ec0f9f61ce7796d031b90fe1f09e41fb6432409ab9f4ce",
+  "tools/sched_ext/new_a_full_guard/fg_validation.py": "cb2affbbc6b8f636d9b5a35dc154c3eab640c345a71473cdd3b43897f490f0c0",
+  "tools/sched_ext/new_a_analysis/build_static.py": "8a5c927d856dbb677c765fe9f323a8e4c55e99c6723be78fec5aa0fceb91a859",
+  "tools/sched_ext/support/static_btf.py": "e60522cf8c4f8c78eaaa8361ed1eddd614e973a23b3b34378e45fa4a9a98a098",
+  "tools/sched_ext/support/prepare_build.py": "883e5d784c07439c23631d96ae2a6349f4fe3a230655c1a7dca0f95ecb6b856f"
+}

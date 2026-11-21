@@ -1,0 +1,27 @@
+{
+  "scope": "UNPRIVILEGED_RESEARCH_UPDATE_PUBLIC_SOURCE_CHECK",
+  "unprivileged_tests": {
+    "topology": 51,
+    "portable_runtime_evidence": 17,
+    "runtime_lite": 14,
+    "total": 82
+  },
+  "public_numeric_recalculation": "PASS",
+  "private_numeric_exports_rechecked": 30,
+  "lite_static_build": "STATIC_PASS",
+  "btf_kfunc": "PASS",
+  "kernel": "7.0.0-43-generic",
+  "candidate_bpf_exact_research_copy": true,
+  "original_E_policy_change": "NONE",
+  "full_and_plain_reference_sections_checked": true,
+  "actual_bpf_load_this_update": "NOT_RUN",
+  "actual_inference_this_update": "NOT_RUN",
+  "measured_hardware": "Intel Core i5-1240P only",
+  "other_cpu_runtime": "NOT_TESTED",
+  "historical_scoped_C_E_L_audit_clean": "PASS_ON_RESEARCH_HOST_ONLY",
+  "scheduler_superiority": "NOT_PROVEN",
+  "runtime_lite_exploration": "INCONCLUSIVE",
+  "strict_acceptance": "FAILED",
+  "safety_verdict": "FAIL",
+  "energy_review": "OVERHEAD_REVIEW_REQUIRED"
+}

@@ -9,12 +9,13 @@ import re
 ROOT=Path(__file__).resolve().parent.parent
 PATTERNS={
     'private_home_path':r'/(?:home|Users)/[A-Za-z0-9_.-]+/|Desk[t]op/',
-    'private_key':r'-----BEGIN (?:RSA |EC |OPENSSH |DSA )?PRIVATE KEY-----',
+    'private_key':r'-----BEGIN (?:RSA |EC |OPENSSH |DSA |ENCRYPTED )?PRIVATE KEY-----',
+    'private_system_uuid':r'\b[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}\b',
     'github_token':r'gh[pousr]_[A-Za-z0-9]{30,}|github_pat_[A-Za-z0-9_]{40,}',
     'aws_key':r'AKIA[A-Z0-9]{16}',
     'api_key':r'sk-(?:proj-)?[A-Za-z0-9_-]{32,}',
 }
-FORBIDDEN={'.gguf','.o','.so','.a','.bin','.gz','.zip','.tar','.log','.jsonl','.pem','.key','.p12','.pfx','.pyc'}
+FORBIDDEN={'.gguf','.o','.so','.a','.bin','.gz','.zip','.tar','.log','.jsonl','.pem','.key','.p12','.pfx','.pyc','.core','.dmp','.exe','.elf'}
 SECRET_NAMES={'.env','id_rsa','id_ed25519','.git-credentials','hosts.yml'}
 
 
@@ -28,7 +29,7 @@ def check():
         if not p.is_file()and not p.is_symlink():continue
         name=p.relative_to(ROOT).as_posix();paths.append(name)
         if p.is_symlink():errors.append((name,'symlink'));continue
-        if p.suffix in FORBIDDEN or p.name in SECRET_NAMES:errors.append((name,'forbidden_file_type'))
+        if p.suffix in FORBIDDEN or p.name in SECRET_NAMES or p.name=='core' or p.name.startswith('core.'):errors.append((name,'forbidden_file_type'))
         if p.stat().st_size>524288:errors.append((name,'file_over_512KiB'))
         raw=p.read_bytes()
         if b'\0'in raw:errors.append((name,'binary_content'));continue

@@ -15,3 +15,7 @@ The top-level LICENSE is copied verbatim from the original `tools/sched_ext/LICE
 LICENSES/GPL-2.0.txt duplicates the original GPL text for inventory purposes. PUBLICATION_PROVENANCE.json identifies copied sources and packaging-only adaptations. PUBLICATION_MANIFEST.json records the reviewed public file hashes. No private credentials or model binaries are part of the package.
 
 Preserved upstream copyright names/emails are required attribution, not accidentally included local account configuration. The Git commit uses the authenticated account's GitHub noreply identity instead of a private email address.
+
+## Research update additions
+
+Runtime Lite BPF, derivation, diagnostics and original tests retain GPL-2.0 notices. The BPF source and candidate.diff are unchanged research copies; packaging-only build/import/plan adaptations and the original ELF inventory extraction are recorded in PUBLICATION_PROVENANCE.json. No additional third-party implementation, binary, model or system library is vendored. Existing E policy source, LICENSE and upstream attribution are preserved. The sanitized measurement tables contain numeric research results, not raw model outputs or user/system identities.

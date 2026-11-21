@@ -7,11 +7,46 @@ STRICT_ACCEPTANCE=FAILED
 safety_verdict=FAIL
 OVERHEAD_REVIEW_REQUIRED
 Portable runtime performance equivalence: NOT ESTABLISHED
+SCHEDULER_SUPERIORITY_NOT_PROVEN
 ```
 
-No performance advantage over Linux and no energy-saving advantage have been demonstrated. Actual hardware measurements are limited to an Intel Core i5-1240P. Passing a scoped functional test is not a safety approval.
+Scheduler superiority over Linux under the same thread/affinity configuration has not been established. No energy-saving advantage has been demonstrated. Actual hardware measurements are limited to an Intel Core i5-1240P. Passing a scoped functional test is not a safety approval.
 
 [한국어 설명](README.ko.md) | [Reproducibility](docs/REPRODUCIBILITY.md) | [Safety and limitations](docs/SAFETY.md) | [Results](results/benchmarks.json) | [Licenses](docs/LICENSES.md)
+
+## Current research snapshot
+
+Review branch: [feature/new-a-48-research-update](https://github.com/euichan0418/new-a-llm-scheduler/tree/feature/new-a-48-research-update). This update does not change main before team review.
+
+```bash
+git clone --branch feature/new-a-48-research-update https://github.com/euichan0418/new-a-llm-scheduler.git
+cd new-a-llm-scheduler
+```
+
+**Selected policy: NEW_A(E) FULL. Performance-oriented configuration on the tested i5-1240P: Compute 4 / Batch 8 / HTTP 2, affinity `0,2,4,6,8,9,10,11` (P4+E4).** The portable P-core-count default remains unchanged. This is not claimed optimal on other CPUs or workloads.
+
+The six-block confirmation used the same P4+E4 mask for all four conditions, six independent servers per condition and 72 HTTP requests in the valid sessions (two warmups and one measurement per server):
+
+| Configuration | Prefill tok/s | Decode tok/s | HTTP s | Whole-process CPU s |
+|---|---:|---:|---:|---:|
+| C88 | 73.1430 | 19.4326 | 19.172912 | 122.393803 |
+| E88 | 72.5486 | 17.1294 | 20.160085 | 126.271304 |
+| C48 | 73.0414 | 21.5022 | 18.560891 | 106.998383 |
+| E48 | 72.4070 | 21.7677 | 18.593546 | 109.503467 |
+
+C = Linux; E = NEW_A FULL. 88 = Compute8/Batch8; 48 = Compute4/Batch8. HTTP threads=2 throughout.
+
+- E48 vs E88: **HTTP -7.77%, whole-process CPU -13.28%, Decode +27.08%, Prefill retention 99.80%**. HTTP/CPU decreased in all six paired blocks.
+- E48 vs C88: **HTTP -3.02%, CPU -10.53%**, decreases in all six blocks. Same affinity, different Compute setting: this is a configuration comparison, not proof of scheduler superiority.
+- E48 vs C48: HTTP **+32.66ms**, paired 95% interval **-176.62 to +241.94ms**. Superiority and equivalence are not established. Linux C48 has the lower observed means for HTTP and CPU.
+
+Runtime Lite is an **experimental candidate**, preserving scheduling and mandatory Mask/Tracking/Migration/error evidence while removing optional normal-path elapsed accumulation. Its independent kernel43 functional Audit/Clean passed, but n=2 exploration found L/E HTTP **+26.514ms**, CPU **+0.0808%**, inconsistent block directions and lower Decode. Verdict: **RUNTIME_LITE_EXPLORATION_INCONCLUSIVE**. E FULL remains selected; an immediate six-block Lite confirmation is not recommended as the next priority.
+
+[4/8 confirmation](docs/research/asymmetric-threads.md) | [Linux comparison](docs/research/linux-comparison.md) | [Runtime Lite](docs/research/runtime-lite.md) | [Team handoff and roadmap](docs/research/research-status.md)
+
+Public numeric samples: [24 confirmation samples](results/asymmetric-24.csv), [6 Lite exploration samples](results/runtime-lite-6.csv). Recompute them with `python3 -B scripts/summarize_research.py --check`. These campaigns are separate, with different kernel/Boot/governor bindings; do not pool them. Public numeric reanalysis is not a replacement for the private raw evidence corpus.
+
+Next research is **not implemented**: check whether duplicate PID/TGID reads survive BPF compilation; investigate Prefill worker placement/synchronization; test E-core L2-group affinity separately.
 
 ## 1. Overview
 
@@ -53,7 +88,7 @@ The BPF scheduler cannot change llama-server's internal thread count. A separate
 
 ## 5. Installation and static build
 
-Required: Linux x86-64 with compatible sched_ext/BTF and kfuncs, Python 3, a C compiler, clang with the BPF target, bpftool, make, libbpf/libelf/zlib development files, and headers matching the running kernel. The tested kernel was `7.0.0-42-generic`. Kernel versions and sched_ext APIs must not be assumed interchangeable.
+Required: Linux x86-64 with compatible sched_ext/BTF and kfuncs, Python 3, a C compiler, clang with the BPF target, bpftool, make, libbpf/libelf/zlib development files, and headers matching the running kernel. Historical confirmation used `7.0.0-42-generic`; recent C/E/L functional and exploration runs used `7.0.0-43-generic`. Kernel versions and sched_ext APIs must not be assumed interchangeable.
 
 No installation, privileged loading, or power setting changes occur automatically.
 
@@ -85,7 +120,7 @@ This produces `configuration.json` and `topology.bin`, including server argv/env
 
 For a previously validated research checkout, `new_a_portable_runtime` consumes the generated argv/env/mask/topology through the existing Session layer and compares manual/automatic runtime evidence. That acquisition path depends on the original Frozen bundle, historical Git references, request, strict-failure records, and sealed experiment inputs, which are not shipped here. A fresh clone is **not** a complete one-command inference benchmark environment. See [reproducibility](docs/REPRODUCIBILITY.md) before any privileged operation.
 
-## 7. Benchmarks
+## 7. Historical 4/4 P-only benchmark
 
 Same campaign; Intel Core i5-1240P; 4/4/2; P-only `0,2,4,6`; AC; Turbo OFF; performance profile; same Frozen server/model and 920/128-token request; GPU offload 0. Six independent measured server sessions per policy, each after two warmups. External Wakeup/fexit/probes, BPF Runtime Statistics and RAPL were off.
 
@@ -98,7 +133,7 @@ Same campaign; Intel Core i5-1240P; 4/4/2; P-only `0,2,4,6`; AC; Turbo OFF; perf
 
 **NEW_A did not demonstrate higher performance than Linux.** The final policy was selected as the research prototype, not as a performance winner. See aggregate ranges, standard deviations and paired results in [benchmarks.json](results/benchmarks.json).
 
-CPU time is the sum of stable server-TID schedstat deltas around the measured request; startup and warmups are excluded, while adjacent snapshot/power/serialization overhead is included. It is not wall-clock latency or a Prefill-only timer.
+For this historical 4/4 campaign, CPU time is the sum of stable server-TID schedstat deltas around the measured request; startup and warmups are excluded, while adjacent snapshot/power/serialization overhead is included. It is not wall-clock latency or a Prefill-only timer.
 
 ## 8. Resource efficiency
 
@@ -137,7 +172,9 @@ Do not automatically pool them into one official experiment. No clear implementa
 
 Known strict safety validation failures remain: a historical live-affinity test recorded mask-violation counters. Functional/cleanup success in fixed-affinity runs did not clear the strict failure. See [safety details](docs/SAFETY.md).
 
-Other limits include uncontrolled background load, limited hardware coverage, small resource/portable subsets, no reliable phase-specific energy attribution, and earlier Wakeup/fexit observer distortion. Migration reduction is not a success criterion by itself. No production-readiness, Linux performance advantage, energy advantage or cross-CPU performance guarantee is claimed.
+Other limits include uncontrolled background load, limited hardware coverage, small resource/portable subsets, no reliable phase-specific energy attribution, and earlier Wakeup/fexit observer distortion. Migration reduction is not a success criterion by itself. No production-readiness, scheduler-only Linux performance advantage, energy advantage or cross-CPU performance guarantee is claimed.
+
+The Runtime Lite source, derivation and static tests are available under `tools/sched_ext/new_a_runtime_lite`. `make test` includes its 14 nonprivileged tests. For an independent **static-only** E/L build, use `make build-lite NEW_BUILD="$NEW_EXTERNAL_BUILD"` with a new directory outside the repository. It does not load BPF or perform inference. Read [reproducibility](docs/REPRODUCIBILITY.md) first; private acquisition inputs and complete object-identity-attested measurement loaders are not bundled.
 
 ## 12. License
 
