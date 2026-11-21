@@ -8,11 +8,161 @@
   ],
   "files": [
     {
+      "path": ".gitignore",
+      "release_sha256": "ac2386cfffd5fcbee14d3f93d1fe4a46643757e8b982f7a049d6ec7310fbc025",
+      "source": "research-update-publication",
+      "kind": "PUBLIC_DOCUMENTATION_OR_RECALCULATION_TOOL"
+    },
+    {
+      "path": "LICENSE",
+      "release_sha256": "8177f97513213526df2cf6184d8ff986c675afb514d4e68a404010521b880643",
+      "source": "research-update-publication",
+      "kind": "PUBLIC_DOCUMENTATION_OR_RECALCULATION_TOOL"
+    },
+    {
+      "path": "LICENSES/GPL-2.0.txt",
+      "release_sha256": "8177f97513213526df2cf6184d8ff986c675afb514d4e68a404010521b880643",
+      "source": "research-update-publication",
+      "kind": "PUBLIC_DOCUMENTATION_OR_RECALCULATION_TOOL"
+    },
+    {
+      "path": "LICENSES/UPSTREAM-MIT.txt",
+      "release_sha256": "94f29bbed6a22c35b992c5c6ebf0e7c92f13b836b90f36f461c9cf2f0f1d010d",
+      "source": "research-update-publication",
+      "kind": "PUBLIC_DOCUMENTATION_OR_RECALCULATION_TOOL"
+    },
+    {
+      "path": "Makefile",
+      "release_sha256": "2dc1b57b04e26c2adffe3b0ed8764fc297e48bcfa4031dd6c9a64c4927447481",
+      "source": "research-update-publication",
+      "kind": "PUBLIC_DOCUMENTATION_OR_RECALCULATION_TOOL"
+    },
+    {
+      "path": "NOTICE",
+      "release_sha256": "0de3e3a8a4833cb94162a078261040c272400ae723fc2fc22c89a0c669f90c59",
+      "source": "research-update-publication",
+      "kind": "PUBLIC_DOCUMENTATION_OR_RECALCULATION_TOOL"
+    },
+    {
+      "path": "README.ko.md",
+      "release_sha256": "7b02ac02f5f7fb5b884c83ab16b50f08ce00d437d7eec75e7876974c5b02b768",
+      "source": "research-update-publication",
+      "kind": "PUBLIC_DOCUMENTATION_OR_RECALCULATION_TOOL"
+    },
+    {
+      "path": "README.md",
+      "release_sha256": "58f32b7857566026374f61e1b3f314b8f453c4785e2350d2405023341a86784e",
+      "source": "research-update-publication",
+      "kind": "PUBLIC_DOCUMENTATION_OR_RECALCULATION_TOOL"
+    },
+    {
+      "path": "docs/LICENSES.md",
+      "release_sha256": "d49a99348a68c8e8efed00d1736cb7334395d5c61555846ba2f3ca2ec8f3ac43",
+      "source": "research-update-publication",
+      "kind": "PUBLIC_DOCUMENTATION_OR_RECALCULATION_TOOL"
+    },
+    {
+      "path": "docs/REPRODUCIBILITY.md",
+      "release_sha256": "a71d477902aa45966b5db78b4e998af161b0fe9cd8fb03627c91a1b4980b1e89",
+      "source": "research-update-publication",
+      "kind": "PUBLIC_DOCUMENTATION_OR_RECALCULATION_TOOL"
+    },
+    {
+      "path": "docs/SAFETY.md",
+      "release_sha256": "f81b59f2d7ed78e1c1468455f52b0d207792bf61f41116438f53364adefc8c15",
+      "source": "research-update-publication",
+      "kind": "PUBLIC_DOCUMENTATION_OR_RECALCULATION_TOOL"
+    },
+    {
+      "path": "docs/research/asymmetric-threads.md",
+      "release_sha256": "b18ad7ae88fffbd5a0ae99199617df6e4f61ddc7786a3c3b458a7bb63aebfa45",
+      "source": "research-update-publication",
+      "kind": "PUBLIC_DOCUMENTATION_OR_RECALCULATION_TOOL"
+    },
+    {
+      "path": "docs/research/linux-comparison.md",
+      "release_sha256": "3126a036b0dab6819dfc1300de8687d4649213e66f0e128b80f2b4410d2242e4",
+      "source": "research-update-publication",
+      "kind": "PUBLIC_DOCUMENTATION_OR_RECALCULATION_TOOL"
+    },
+    {
+      "path": "docs/research/research-status.md",
+      "release_sha256": "d9ebabc9f3820586dcdccd4277753776a9dda3c9951840da379b8d3ffa6f5665",
+      "source": "research-update-publication",
+      "kind": "PUBLIC_DOCUMENTATION_OR_RECALCULATION_TOOL"
+    },
+    {
+      "path": "docs/research/runtime-lite.md",
+      "release_sha256": "f38c510c48b73014d8187395b2f4c617c81ff8dc336a0ed94c18c6ccac3052f6",
+      "source": "research-update-publication",
+      "kind": "PUBLIC_DOCUMENTATION_OR_RECALCULATION_TOOL"
+    },
+    {
+      "path": "examples/server-setup.example.json",
+      "release_sha256": "b90717d641771cb16dc5c125e1fbd2b56696d5b85e9a54773958c13ee3e76247",
+      "source": "research-update-publication",
+      "kind": "PUBLIC_DOCUMENTATION_OR_RECALCULATION_TOOL"
+    },
+    {
       "path": "ggml/include/ggml.h",
       "source": "reviewed-publication/ggml/include/ggml.h",
       "source_sha256": "c65c30fdb4dce95eac71c26bb38ae8423fbc80d79db91d2b2ffaea8c4e46276a",
       "kind": "EXACT_COPY",
       "release_sha256": "c65c30fdb4dce95eac71c26bb38ae8423fbc80d79db91d2b2ffaea8c4e46276a"
+    },
+    {
+      "path": "results/asymmetric-24.csv",
+      "release_sha256": "e1942877374e068a5451da53ef5d20bd1628d9ae7449ea2ad3f753101e5c83e3",
+      "source": "verified-private-research-numeric-export",
+      "kind": "NUMERIC_ALLOWLIST_EXPORT_OR_RECALCULATION"
+    },
+    {
+      "path": "results/asymmetric-summary.json",
+      "release_sha256": "fd6f78d3033331aa96b777643a03f74a2b2257a0bf224e28501f394f55990bfb",
+      "source": "verified-private-research-numeric-export",
+      "kind": "NUMERIC_ALLOWLIST_EXPORT_OR_RECALCULATION"
+    },
+    {
+      "path": "results/benchmarks.json",
+      "release_sha256": "f09a8addefdbd4080d6ca215782c754f0a40a134fd68a5385db373805c4dd749",
+      "source": "verified-private-research-numeric-export",
+      "kind": "NUMERIC_ALLOWLIST_EXPORT_OR_RECALCULATION"
+    },
+    {
+      "path": "results/release-validation.json",
+      "release_sha256": "b27fafc2daa9a89dcd16115208124b6018ebd3e588126449cc12ae67d0859592",
+      "source": "verified-private-research-numeric-export",
+      "kind": "NUMERIC_ALLOWLIST_EXPORT_OR_RECALCULATION"
+    },
+    {
+      "path": "results/research-update-validation.json",
+      "release_sha256": "e25bf1b8ce8ed05728cc745965c22828a0033bd12fe1e3c8b36eb40ddbdcd3e7",
+      "source": "verified-private-research-numeric-export",
+      "kind": "NUMERIC_ALLOWLIST_EXPORT_OR_RECALCULATION"
+    },
+    {
+      "path": "results/runtime-lite-6.csv",
+      "release_sha256": "056efa5beead2abc36b5dfec08e0d05a6cf9c234ca73c5816c9e1ac089e1eac1",
+      "source": "verified-private-research-numeric-export",
+      "kind": "NUMERIC_ALLOWLIST_EXPORT_OR_RECALCULATION"
+    },
+    {
+      "path": "results/runtime-lite-summary.json",
+      "release_sha256": "0bec32251d578f61dab6aeca633c3af33d84aa92f8ada234bff8f787cae59b54",
+      "source": "verified-private-research-numeric-export",
+      "kind": "NUMERIC_ALLOWLIST_EXPORT_OR_RECALCULATION"
+    },
+    {
+      "path": "scripts/summarize_research.py",
+      "release_sha256": "f7888538d563077c7811fe6ea54221a9fd1f6dfee06c2907373cc0aa06663f02",
+      "source": "research-update-publication",
+      "kind": "PUBLIC_DOCUMENTATION_OR_RECALCULATION_TOOL"
+    },
+    {
+      "path": "scripts/verify_release.py",
+      "release_sha256": "57ee276afac944cca8d92226981daae9d2dd73726154ebed024f77a3941abb50",
+      "source": "research-update-publication",
+      "kind": "PUBLIC_DOCUMENTATION_OR_RECALCULATION_TOOL"
     },
     {
       "path": "tools/sched_ext/bench/analysis.py",
@@ -83,6 +233,19 @@
       "source_sha256": "41a46fb330f58cb7a93cd166bc11e2de92b6b4b65e12a8aad9f25348eeb0f8fb",
       "kind": "EXACT_COPY",
       "release_sha256": "41a46fb330f58cb7a93cd166bc11e2de92b6b4b65e12a8aad9f25348eeb0f8fb"
+    },
+    {
+      "path": "tools/sched_ext/llama_scx_child.c",
+      "source": "tools/sched_ext/llama_scx_child.c",
+      "source_sha256": "93638218e23ccacd061b35594e69c4900fef382918ec715fda55278cb263ba11",
+      "release_sha256": "93638218e23ccacd061b35594e69c4900fef382918ec715fda55278cb263ba11",
+      "kind": "EXACT_COPY"
+    },
+    {
+      "path": "tools/sched_ext/new_a/README.md",
+      "release_sha256": "6c03aab77709649fef316c0d043dabce3b50cb0b82b39694f3944307f54d7fa0",
+      "source": "research-update-publication",
+      "kind": "PUBLIC_DOCUMENTATION_OR_RECALCULATION_TOOL"
     },
     {
       "path": "tools/sched_ext/new_a/affinity_diagnostics.py",
@@ -400,6 +563,12 @@
       "release_sha256": "2841d6a10682a29058ba073862354ee9a109b62f4d4380801a4ac373370aa027"
     },
     {
+      "path": "tools/sched_ext/new_a_final/README.md",
+      "release_sha256": "f52599870612e08493d9195a8ed73ff5c0c972f7e9f80f0596e21a814335a6f0",
+      "source": "research-update-publication",
+      "kind": "PUBLIC_DOCUMENTATION_OR_RECALCULATION_TOOL"
+    },
+    {
       "path": "tools/sched_ext/new_a_final/admission.py",
       "source": "reviewed-publication/tools/sched_ext/new_a_final/admission.py",
       "source_sha256": "0564c022d48cd1859428ac56af1461913937df40471fc35267acfe11f924820f",
@@ -547,6 +716,12 @@
       "release_sha256": "3bb4e4ad3e914d2d45084d84690b22dc93d849096b1eafa2d6ca52eb6803201c"
     },
     {
+      "path": "tools/sched_ext/new_a_portable/README.md",
+      "release_sha256": "d664019dfcc9f2a47712b7dd8b3c503c2cbda2f0b3840f5a8140e428cdbe99ab",
+      "source": "research-update-publication",
+      "kind": "PUBLIC_DOCUMENTATION_OR_RECALCULATION_TOOL"
+    },
+    {
       "path": "tools/sched_ext/new_a_portable/build.py",
       "source": "reviewed-publication/tools/sched_ext/new_a_portable/build.py",
       "source_sha256": "94316153679bcd134f98106432c8824563e637c4e35e15d6dea3482ec65d71e2",
@@ -580,6 +755,12 @@
       "source_sha256": "b5ba31defd4e141b2d311e9a16b048bf05bd9ffee30b988211e780b000ad4245",
       "kind": "EXACT_COPY",
       "release_sha256": "b5ba31defd4e141b2d311e9a16b048bf05bd9ffee30b988211e780b000ad4245"
+    },
+    {
+      "path": "tools/sched_ext/new_a_portable_runtime/README.md",
+      "release_sha256": "0d4c882e7d9b072115cd5dfce571d9ec3aa05cfe10752122cd780692e92f2ac4",
+      "source": "research-update-publication",
+      "kind": "PUBLIC_DOCUMENTATION_OR_RECALCULATION_TOOL"
     },
     {
       "path": "tools/sched_ext/new_a_portable_runtime/admission.py",
@@ -687,6 +868,83 @@
       "release_sha256": "7ff0483df18d5f524c7825d55aab7fcd7a248d8da78923df7a3a125185c0db41"
     },
     {
+      "path": "tools/sched_ext/new_a_runtime_lite/README.md",
+      "release_sha256": "43ef951e56fbc9b76ce3858a0a2c27e1147bb36ad0b1ffaba26588b205d984f8",
+      "source": "research-source/tools/sched_ext/new_a_runtime_lite/README.md",
+      "source_sha256": "146ec228c9b28402a0d41985847973a631dc350583321a40396316823df4744c",
+      "kind": "PUBLIC_PACKAGING_ADAPTATION"
+    },
+    {
+      "path": "tools/sched_ext/new_a_runtime_lite/build.py",
+      "release_sha256": "1af55c9cd16674d9549705432e91eb996dc9b6aaa248779bd1a38824b412a592",
+      "source": "research-source/tools/sched_ext/new_a_runtime_lite/build.py",
+      "source_sha256": "d40eff2de8f24a7e0423381c068b4d0dbbffb15bbc0280a91901474b05cf9cde",
+      "kind": "PUBLIC_PACKAGING_ADAPTATION"
+    },
+    {
+      "path": "tools/sched_ext/new_a_runtime_lite/candidate.diff",
+      "release_sha256": "2fe183562e1507480d83cc1a86222bc139e2de6dae437093897078a137184b20",
+      "source": "research-source/tools/sched_ext/new_a_runtime_lite/candidate.diff",
+      "source_sha256": "2fe183562e1507480d83cc1a86222bc139e2de6dae437093897078a137184b20",
+      "kind": "EXACT_RESEARCH_COPY"
+    },
+    {
+      "path": "tools/sched_ext/new_a_runtime_lite/check_diagnostics.py",
+      "release_sha256": "305493b939e925cbda29c00c6572cdce4b8c825cd72602bfb41292d2b5ed05b5",
+      "source": "research-source/tools/sched_ext/new_a_runtime_lite/check_diagnostics.py",
+      "source_sha256": "305493b939e925cbda29c00c6572cdce4b8c825cd72602bfb41292d2b5ed05b5",
+      "kind": "EXACT_RESEARCH_COPY"
+    },
+    {
+      "path": "tools/sched_ext/new_a_runtime_lite/derive.py",
+      "release_sha256": "7240b2c16eb331b0b3516976031e8a5ae2f7db5e59f440c097824ee7aa70a845",
+      "source": "research-source/tools/sched_ext/new_a_runtime_lite/derive.py",
+      "source_sha256": "6455669d645d1d7d405af894e10ebd6956d994c7ace80c125efbf69eaa18e45d",
+      "kind": "PUBLIC_PACKAGING_ADAPTATION"
+    },
+    {
+      "path": "tools/sched_ext/new_a_runtime_lite/llama_new_a_runtime_lite.bpf.c",
+      "release_sha256": "f069ef2034f09e0120c9128f9df6d0f5f31add36e33c198a7833be41f0f5ee6f",
+      "source": "research-source/tools/sched_ext/new_a_runtime_lite/llama_new_a_runtime_lite.bpf.c",
+      "source_sha256": "f069ef2034f09e0120c9128f9df6d0f5f31add36e33c198a7833be41f0f5ee6f",
+      "kind": "EXACT_RESEARCH_COPY"
+    },
+    {
+      "path": "tools/sched_ext/new_a_runtime_lite/original-research-pins.json",
+      "release_sha256": "8d1ca8a41e914b83a3bb771dd68820441e9f87d66555b928506b2b41289e8c51",
+      "source": "research-source/tools/sched_ext/new_a_runtime_lite/original-research-pins.json",
+      "source_sha256": null,
+      "kind": "PUBLIC_PACKAGING_ADAPTATION"
+    },
+    {
+      "path": "tools/sched_ext/new_a_runtime_lite/prepare_study.py",
+      "release_sha256": "a4cb880cb94273c0c85729a65dbe782a8fd4e723862900abd3251d0058f6152a",
+      "source": "research-source/tools/sched_ext/new_a_runtime_lite/prepare_study.py",
+      "source_sha256": "3b7820a1243b129125d265cc39bc727bc0d48922974e22f22a3094aba7293674",
+      "kind": "PUBLIC_PACKAGING_ADAPTATION"
+    },
+    {
+      "path": "tools/sched_ext/new_a_runtime_lite/reference-sources.json",
+      "release_sha256": "20ee36f13e0cbccc2e1726fad842e03d0844a1bced15d2196682a4706cae3d75",
+      "source": "research-source/tools/sched_ext/new_a_runtime_lite/reference-sources.json",
+      "source_sha256": "8d1ca8a41e914b83a3bb771dd68820441e9f87d66555b928506b2b41289e8c51",
+      "kind": "PUBLIC_PACKAGING_ADAPTATION"
+    },
+    {
+      "path": "tools/sched_ext/new_a_runtime_lite/test_runtime_lite.py",
+      "release_sha256": "a0dd454d100d3429539ef20b3aa565ca276d86c9119e7e6a5658755b96599f1f",
+      "source": "research-source/tools/sched_ext/new_a_runtime_lite/test_runtime_lite.py",
+      "source_sha256": "a0dd454d100d3429539ef20b3aa565ca276d86c9119e7e6a5658755b96599f1f",
+      "kind": "EXACT_RESEARCH_COPY"
+    },
+    {
+      "path": "tools/sched_ext/new_a_runtime_lite/validation.py",
+      "release_sha256": "527b02d1b3f7507fa881194878ed1c0ecc492ac4a7822dd964b69c66146a1f7f",
+      "source": "research-source/tools/sched_ext/new_a_runtime_lite/validation.py",
+      "source_sha256": "527b02d1b3f7507fa881194878ed1c0ecc492ac4a7822dd964b69c66146a1f7f",
+      "kind": "EXACT_RESEARCH_COPY"
+    },
+    {
       "path": "tools/sched_ext/support/build_static.py",
       "source": "tools/sched_ext/new_a_analysis/build_static.py",
       "source_sha256": "2cfe4b7744eeb5c9c1721ed4477e8cbe4afea8485aeb2de9ae5a1fa27cfca5cb",
@@ -729,11 +987,27 @@
       "release_sha256": "e60522cf8c4f8c78eaaa8361ed1eddd614e973a23b3b34378e45fa4a9a98a098"
     },
     {
-      "path": "tools/sched_ext/llama_scx_child.c",
-      "source": "tools/sched_ext/llama_scx_child.c",
-      "source_sha256": "93638218e23ccacd061b35594e69c4900fef382918ec715fda55278cb263ba11",
-      "release_sha256": "93638218e23ccacd061b35594e69c4900fef382918ec715fda55278cb263ba11",
-      "kind": "EXACT_COPY"
+      "path": ".gitattributes",
+      "source": "research-update-publication",
+      "kind": "EXACT_DIFF_FORMAT_PRESERVATION",
+      "release_sha256": "370538eae8f771a6f8360a496cff0a3c0734df8613a1c5d2b40ef0d2a3fbead7"
     }
-  ]
+  ],
+  "research_update": {
+    "base_commit": "42a5fea4bfd1fceb9a0dffee52a8b9f52e48025e",
+    "original_E_policy_change": "NONE",
+    "independent_candidate": "NEW_A_RUNTIME_LITE_EXPERIMENTAL_NOT_SELECTED",
+    "candidate_source_sha256": "f069ef2034f09e0120c9128f9df6d0f5f31add36e33c198a7833be41f0f5ee6f",
+    "data_export": "24+6 valid numeric samples; allowlist; no Boot/PID/paths/raw responses",
+    "adaptations": [
+      "derive imports published support loader",
+      "build checks matching kernel UAPI directly",
+      "build requires external new output",
+      "ELF inventory function extracted unchanged",
+      "plans function only; private campaign generator omitted",
+      "public support hashes are pinned separately",
+      "CSV uses LF; exact candidate.diff context formatting is exempt only from Git whitespace lint, not security/hash/runtime checks"
+    ],
+    "full_private_acquisition_chain_published": false
+  }
 }

@@ -1,0 +1,37 @@
+--- new_a/llama_new_a.bpf.c
++++ new_a_runtime_lite/llama_new_a_runtime_lite.bpf.c
+@@ -200,7 +200,6 @@
+ 	u32 key = 0, cpu = bpf_get_smp_processor_id();
+ 	struct new_a_stats *stats = bpf_map_lookup_elem(&new_a_stats, &key);
+ 	struct new_a_task_observation *task;
+-	u64 now = bpf_ktime_get_ns();
+ 
+ 	if (!stats)
+ 		return;
+@@ -208,24 +207,20 @@
+ 	if (!task) {
+ 		stats->tracking_failures++;
+ 		observe_event(p, stats, NEW_A_EVENT_TRACKING_FAILURE,
+-			      running ? NEW_A_CALLBACK_RUNNING : NEW_A_CALLBACK_STOPPING, now, NULL);
++			      running ? NEW_A_CALLBACK_RUNNING : NEW_A_CALLBACK_STOPPING, bpf_ktime_get_ns(), NULL);
+ 		return;
+ 	}
+ 	if (running) {
+ 		stats->running++;
+ 		if (!bpf_cpumask_test_cpu(cpu, p->cpus_ptr)) {
+ 			stats->mask_violations++;
+-			observe_event(p, stats, NEW_A_EVENT_MASK_VIOLATION, NEW_A_CALLBACK_RUNNING, now, NULL);
++			observe_event(p, stats, NEW_A_EVENT_MASK_VIOLATION, NEW_A_CALLBACK_RUNNING, bpf_ktime_get_ns(), NULL);
+ 		}
+ 		if (task->last_cpu_plus_one && task->last_cpu_plus_one != cpu + 1)
+ 			stats->migrations++;
+ 		task->last_cpu_plus_one = cpu + 1;
+-		task->start_ns = now;
+ 	} else {
+ 		stats->stopping++;
+-		if (task->start_ns)
+-			stats->runtime_ns += now - task->start_ns;
+-		task->start_ns = 0;
+ 	}
+ }
+ 

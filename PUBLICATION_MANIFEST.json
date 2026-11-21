@@ -8,6 +8,12 @@
   "manifest_self_excluded": true,
   "files": [
     {
+      "path": ".gitattributes",
+      "size": 135,
+      "sha256": "370538eae8f771a6f8360a496cff0a3c0734df8613a1c5d2b40ef0d2a3fbead7",
+      "executable": false
+    },
+    {
       "path": ".gitignore",
       "size": 148,
       "sha256": "ac2386cfffd5fcbee14d3f93d1fe4a46643757e8b982f7a049d6ec7310fbc025",
@@ -33,50 +39,74 @@
     },
     {
       "path": "Makefile",
-      "size": 682,
-      "sha256": "0b051442deec011394dd337a175d4ef886f3132267c987d04c1312be0b0b4b86",
+      "size": 1248,
+      "sha256": "2dc1b57b04e26c2adffe3b0ed8764fc297e48bcfa4031dd6c9a64c4927447481",
       "executable": false
     },
     {
       "path": "NOTICE",
-      "size": 501,
-      "sha256": "7a07372422f44d87b9c388109eba59a9bb60ff2d5adf95fbe0edea8592b7bb4d",
+      "size": 802,
+      "sha256": "0de3e3a8a4833cb94162a078261040c272400ae723fc2fc22c89a0c669f90c59",
       "executable": false
     },
     {
       "path": "PUBLICATION_PROVENANCE.json",
-      "size": 38378,
-      "sha256": "9a9e2c0638749a351c62ca83f7fffa4344f4ac6f6b2e3033e9b681aab408f13c",
+      "size": 51275,
+      "sha256": "53d81709433b28f5b97d30bc1f16b095dfb699572d56c74a5d4aaab521359915",
       "executable": false
     },
     {
       "path": "README.ko.md",
-      "size": 3564,
-      "sha256": "2f40bc64cd1fb7599a4d1e01169ef846d5b9b6326a0957db30268f230311224b",
+      "size": 5923,
+      "sha256": "7b02ac02f5f7fb5b884c83ab16b50f08ce00d437d7eec75e7876974c5b02b768",
       "executable": false
     },
     {
       "path": "README.md",
-      "size": 10904,
-      "sha256": "59bc4a9dec61f4593081369db6514736eddb88b5234b7d19640e5e43212c1784",
+      "size": 14757,
+      "sha256": "58f32b7857566026374f61e1b3f314b8f453c4785e2350d2405023341a86784e",
       "executable": false
     },
     {
       "path": "docs/LICENSES.md",
-      "size": 1994,
-      "sha256": "a973ef6140a55b7993c0ae3af13a2c1e2521d9012c0374233fb1a90bbc1b26b0",
+      "size": 2584,
+      "sha256": "d49a99348a68c8e8efed00d1736cb7334395d5c61555846ba2f3ca2ec8f3ac43",
       "executable": false
     },
     {
       "path": "docs/REPRODUCIBILITY.md",
-      "size": 4145,
-      "sha256": "02d2377e2ce21b392cdba3cc2d9a58b4baa75dcdd463a0aa08dbb5d9ac4c726b",
+      "size": 7768,
+      "sha256": "a71d477902aa45966b5db78b4e998af161b0fe9cd8fb03627c91a1b4980b1e89",
       "executable": false
     },
     {
       "path": "docs/SAFETY.md",
-      "size": 1727,
-      "sha256": "21d84d4697184481dc20b0234352383f59b58cb8b540bd5b77a22b0bc8175e70",
+      "size": 2587,
+      "sha256": "f81b59f2d7ed78e1c1468455f52b0d207792bf61f41116438f53364adefc8c15",
+      "executable": false
+    },
+    {
+      "path": "docs/research/asymmetric-threads.md",
+      "size": 4092,
+      "sha256": "b18ad7ae88fffbd5a0ae99199617df6e4f61ddc7786a3c3b458a7bb63aebfa45",
+      "executable": false
+    },
+    {
+      "path": "docs/research/linux-comparison.md",
+      "size": 2452,
+      "sha256": "3126a036b0dab6819dfc1300de8687d4649213e66f0e128b80f2b4410d2242e4",
+      "executable": false
+    },
+    {
+      "path": "docs/research/research-status.md",
+      "size": 4232,
+      "sha256": "d9ebabc9f3820586dcdccd4277753776a9dda3c9951840da379b8d3ffa6f5665",
+      "executable": false
+    },
+    {
+      "path": "docs/research/runtime-lite.md",
+      "size": 5885,
+      "sha256": "f38c510c48b73014d8187395b2f4c617c81ff8dc336a0ed94c18c6ccac3052f6",
       "executable": false
     },
     {
@@ -92,6 +122,18 @@
       "executable": false
     },
     {
+      "path": "results/asymmetric-24.csv",
+      "size": 4260,
+      "sha256": "e1942877374e068a5451da53ef5d20bd1628d9ae7449ea2ad3f753101e5c83e3",
+      "executable": false
+    },
+    {
+      "path": "results/asymmetric-summary.json",
+      "size": 40217,
+      "sha256": "fd6f78d3033331aa96b777643a03f74a2b2257a0bf224e28501f394f55990bfb",
+      "executable": false
+    },
+    {
       "path": "results/benchmarks.json",
       "size": 36620,
       "sha256": "f09a8addefdbd4080d6ca215782c754f0a40a134fd68a5385db373805c4dd749",
@@ -104,9 +146,33 @@
       "executable": false
     },
     {
+      "path": "results/research-update-validation.json",
+      "size": 951,
+      "sha256": "e25bf1b8ce8ed05728cc745965c22828a0033bd12fe1e3c8b36eb40ddbdcd3e7",
+      "executable": false
+    },
+    {
+      "path": "results/runtime-lite-6.csv",
+      "size": 1233,
+      "sha256": "056efa5beead2abc36b5dfec08e0d05a6cf9c234ca73c5816c9e1ac089e1eac1",
+      "executable": false
+    },
+    {
+      "path": "results/runtime-lite-summary.json",
+      "size": 17136,
+      "sha256": "0bec32251d578f61dab6aeca633c3af33d84aa92f8ada234bff8f787cae59b54",
+      "executable": false
+    },
+    {
+      "path": "scripts/summarize_research.py",
+      "size": 5695,
+      "sha256": "f7888538d563077c7811fe6ea54221a9fd1f6dfee06c2907373cc0aa06663f02",
+      "executable": false
+    },
+    {
       "path": "scripts/verify_release.py",
-      "size": 2871,
-      "sha256": "84aa02456b06baa9bc06b5f508ed760f3b5e0a944e9904e05ed7cf286f042272",
+      "size": 3069,
+      "sha256": "57ee276afac944cca8d92226981daae9d2dd73726154ebed024f77a3941abb50",
       "executable": false
     },
     {
@@ -716,6 +782,72 @@
       "executable": false
     },
     {
+      "path": "tools/sched_ext/new_a_runtime_lite/README.md",
+      "size": 2896,
+      "sha256": "43ef951e56fbc9b76ce3858a0a2c27e1147bb36ad0b1ffaba26588b205d984f8",
+      "executable": false
+    },
+    {
+      "path": "tools/sched_ext/new_a_runtime_lite/build.py",
+      "size": 8795,
+      "sha256": "1af55c9cd16674d9549705432e91eb996dc9b6aaa248779bd1a38824b412a592",
+      "executable": false
+    },
+    {
+      "path": "tools/sched_ext/new_a_runtime_lite/candidate.diff",
+      "size": 1254,
+      "sha256": "2fe183562e1507480d83cc1a86222bc139e2de6dae437093897078a137184b20",
+      "executable": false
+    },
+    {
+      "path": "tools/sched_ext/new_a_runtime_lite/check_diagnostics.py",
+      "size": 746,
+      "sha256": "305493b939e925cbda29c00c6572cdce4b8c825cd72602bfb41292d2b5ed05b5",
+      "executable": false
+    },
+    {
+      "path": "tools/sched_ext/new_a_runtime_lite/derive.py",
+      "size": 3229,
+      "sha256": "7240b2c16eb331b0b3516976031e8a5ae2f7db5e59f440c097824ee7aa70a845",
+      "executable": false
+    },
+    {
+      "path": "tools/sched_ext/new_a_runtime_lite/llama_new_a_runtime_lite.bpf.c",
+      "size": 11519,
+      "sha256": "f069ef2034f09e0120c9128f9df6d0f5f31add36e33c198a7833be41f0f5ee6f",
+      "executable": false
+    },
+    {
+      "path": "tools/sched_ext/new_a_runtime_lite/original-research-pins.json",
+      "size": 1240,
+      "sha256": "8d1ca8a41e914b83a3bb771dd68820441e9f87d66555b928506b2b41289e8c51",
+      "executable": false
+    },
+    {
+      "path": "tools/sched_ext/new_a_runtime_lite/prepare_study.py",
+      "size": 763,
+      "sha256": "a4cb880cb94273c0c85729a65dbe782a8fd4e723862900abd3251d0058f6152a",
+      "executable": false
+    },
+    {
+      "path": "tools/sched_ext/new_a_runtime_lite/reference-sources.json",
+      "size": 1353,
+      "sha256": "20ee36f13e0cbccc2e1726fad842e03d0844a1bced15d2196682a4706cae3d75",
+      "executable": false
+    },
+    {
+      "path": "tools/sched_ext/new_a_runtime_lite/test_runtime_lite.py",
+      "size": 12511,
+      "sha256": "a0dd454d100d3429539ef20b3aa565ca276d86c9119e7e6a5658755b96599f1f",
+      "executable": false
+    },
+    {
+      "path": "tools/sched_ext/new_a_runtime_lite/validation.py",
+      "size": 4343,
+      "sha256": "527b02d1b3f7507fa881194878ed1c0ecc492ac4a7822dd964b69c66146a1f7f",
+      "executable": false
+    },
+    {
       "path": "tools/sched_ext/support/build_static.py",
       "size": 905,
       "sha256": "8a5c927d856dbb677c765fe9f323a8e4c55e99c6723be78fec5aa0fceb91a859",
@@ -739,5 +871,12 @@
       "sha256": "e60522cf8c4f8c78eaaa8361ed1eddd614e973a23b3b34378e45fa4a9a98a098",
       "executable": false
     }
-  ]
+  ],
+  "research_update": {
+    "asymmetric_confirmation": "PARTIAL_SUCCESS_CONFIGURATION_GAIN",
+    "scheduler_superiority": "NOT_PROVEN",
+    "runtime_lite": "EXPERIMENTAL_INCONCLUSIVE_NOT_SELECTED",
+    "original_E_policy": "UNCHANGED",
+    "raw_private_corpus": "NOT_PUBLISHED"
+  }
 }
