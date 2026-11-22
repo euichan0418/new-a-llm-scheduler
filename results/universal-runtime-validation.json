@@ -1,0 +1,66 @@
+{
+  "status": "STATIC_AND_NONPRIVILEGED_PASS",
+  "runtime": "UNIVERSAL_RESEARCH",
+  "new_tests": 53,
+  "existing_tests": 130,
+  "total_tests": 183,
+  "build": {
+    "kernel": "7.0.0-43-generic",
+    "bpf_compile": "PASS",
+    "native_compile": "PASS",
+    "btf_kfunc_signatures": "PASS",
+    "partial_ops_flags": 8,
+    "unchanged_e_full_executable_sections": true,
+    "unchanged_e_full_relocations": true
+  },
+  "local_configuration": {
+    "cpu": "Intel Core i5-1240P",
+    "compute": 4,
+    "batch": 8,
+    "http": 2,
+    "affinity_cpus": [
+      0,
+      2,
+      4,
+      6,
+      8,
+      9,
+      10,
+      11
+    ],
+    "scope": "READ_ONLY_CONFIGURATION_ONLY",
+    "performance_validated": false
+  },
+  "cpu_range": {
+    "min_id": 0,
+    "max_id": 1023,
+    "max_possible_count": 1024,
+    "mask_representation": "16_UINT64_WORDS_AND_CPU_ID_BITMAPS",
+    "sparse_cpu_above_63": "SYNTHETIC_PASS"
+  },
+  "preservation": {
+    "original_policy": true,
+    "portable_defaults": true,
+    "old_guard": true,
+    "hybrid_detector": true,
+    "lite_and_observer_research": true,
+    "historical_results": true
+  },
+  "actual_verifier": "NOT_RUN",
+  "actual_attach": "NOT_RUN",
+  "functional": "RUNTIME_FUNCTIONAL_NOT_RUN",
+  "team_cpu": "TEAM_CPU_RUNTIME_NOT_TESTED",
+  "amd_runtime": "AMD_RUNTIME_NOT_TESTED",
+  "performance": "NOT_RUN",
+  "new_host_profile": "DEFERRED_UNTIL_ACTUAL_HOST_POWER_PREFLIGHT",
+  "strict_acceptance": "FAILED",
+  "safety_verdict": "FAIL",
+  "overhead_review": "OVERHEAD_REVIEW_REQUIRED",
+  "thermal_limit_c": 85,
+  "limitations": [
+    "Static BTF compatibility on the local kernel is not actual verifier success.",
+    "AMD desktop AC/Turbo/thermal interfaces may block admission and require host-specific review.",
+    "New adapter monitoring overhead and historical performance equivalence are not measured.",
+    "Synthetic CPU support does not establish hardware runtime compatibility."
+  ]
+}

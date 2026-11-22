@@ -14,7 +14,7 @@ Portable runtime performance equivalence: NOT ESTABLISHED
 최신 공유 내용은 [feature/new-a-48-research-update](https://github.com/euichan0418/new-a-llm-scheduler/tree/feature/new-a-48-research-update)에서 검토한다. main은 팀원 검토·Merge 전까지 기존 상태다.
 
 ```bash
-git clone --branch feature/new-a-48-research-update https://github.com/euichan0418/new-a-llm-scheduler.git
+git clone --branch feature/new-a-universal-runtime https://github.com/euichan0418/new-a-llm-scheduler.git
 cd new-a-llm-scheduler
 ```
 
@@ -69,3 +69,11 @@ RAPL ON 평균 Package Energy는 E8-MIX251.465J, E4-MIX265.199J, E4-P266.014J다
 ## 실험적 Intel Hybrid 자동 구성
 
 명시적 성능 후보 생성기와 [사용 방법](docs/hybrid-auto-configuration.md), [팀원 P6+E8 계획](docs/team-p6e8-experiment.md)을 추가했다. 가용 물리 P 수로 Compute를 정하고 E 절반을 Batch/Affinity에 추가한다. 기존 Portable 기본값과 E FULL은 변경하지 않았다. P6+E8의 6/10은 성능 미검증이며 팀원 PC의 CPU 번호/SMT/캐시 구조를 직접 탐지해야 한다. `make test-hybrid`는 비특권 검사다. 기존 고정-host Guard의 별도 adapter와 새 Host/Baseline/Audit/Clean 없이는 실제 실행할 수 없다. `TEAM_CPU_RUNTIME_NOT_TESTED`.
+
+## Experimental universal runtime / 범용 실행 연결
+
+[범용 Runtime](docs/universal-runtime.md) · [Intel/i7-12700H](docs/intel-hybrid-runtime.md) · [AMD](docs/amd-runtime.md) · [Guard와 안전성](docs/runtime-safety-and-validation.md)
+
+`tools/sched_ext/new_a_universal_runtime/` connects verified CPU topology proposals to an independent dynamic FULL Guard/loader. Original NEW_A E FULL BPF, Portable defaults, Runtime Lite/PID Lite and observer research are unchanged. Intel Hybrid uses dynamic P/E/SMT tiers; homogeneous Intel/AMD uses physical representatives before SMT. Unknown types are blocked. CPU IDs 0..1023, including sparse IDs above63, have explicit bounds.
+
+정적 빌드·모의 테스트만 완료했다. 새 범용 객체의 실제 verifier/attach/기능/성능은 **NOT_RUN**이다. `RUNTIME_FUNCTIONAL_NOT_RUN`, `TEAM_CPU_RUNTIME_NOT_TESTED`, `AMD_RUNTIME_NOT_TESTED`이며 기존 `STRICT_ACCEPTANCE=FAILED`, `safety_verdict=FAIL`, `OVERHEAD_REVIEW_REQUIRED`를 유지한다. 설정 성공이 실행 승인이나 다른 CPU에서의 성능 증거는 아니다. 팀원 PC마다 새 Host/Baseline과 Audit/Clean 증거를 요구한다. 일반 사용자 준비는 `make test`와 문서의 read-only CLI를 사용한다. 실제 권한 실행은 별도 사용자 승인 후에만 가능하다.

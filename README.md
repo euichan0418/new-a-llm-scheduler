@@ -19,7 +19,7 @@ Scheduler superiority over Linux under the same thread/affinity configuration ha
 The 4/8 research update was merged into main. A separate [experimental Hybrid auto-configuration branch](https://github.com/euichan0418/new-a-llm-scheduler/tree/feature/new-a-hybrid-auto-config) adds read-only topology proposals; it does not change the selected E FULL policy or Portable defaults.
 
 ```bash
-git clone --branch feature/new-a-48-research-update https://github.com/euichan0418/new-a-llm-scheduler.git
+git clone --branch feature/new-a-universal-runtime https://github.com/euichan0418/new-a-llm-scheduler.git
 cd new-a-llm-scheduler
 ```
 
@@ -191,3 +191,11 @@ Build/tests/configuration generation are separate from kernel functional admissi
 [Usage and detection](docs/hybrid-auto-configuration.md) | [Team P6+E8 plan](docs/team-p6e8-experiment.md). Explicit opt-in CLI: `tools/sched_ext/new_a_hybrid/new-a-topology-config`. Verified P/E types and available physical cores yield Compute=P, Batch=P+floor(E/2), HTTP=2, with one P representative plus selected E-cores. This reproduces the tested i5 configuration when its full mask is available and proposes **unmeasured** P6+E8 -> 6/10 with P6+E4. Compact/spread L2 placements are hypotheses.
 
 Run `make test-hybrid` without sudo. Configuration validation is distinct from runtime admission. The existing fixed-host Guard/runtime requires a separate new-host adapter and fresh Audit/Clean before any team-machine BPF/LLM experiments. **TEAM_CPU_RUNTIME_NOT_TESTED.** Homogeneous Intel/AMD retain physical-core-count proposals; ambiguous types are rejected. No new scheduler or performance measurement is included.
+
+## Experimental universal runtime / 범용 실행 연결
+
+[범용 Runtime](docs/universal-runtime.md) · [Intel/i7-12700H](docs/intel-hybrid-runtime.md) · [AMD](docs/amd-runtime.md) · [Guard와 안전성](docs/runtime-safety-and-validation.md)
+
+`tools/sched_ext/new_a_universal_runtime/` connects verified CPU topology proposals to an independent dynamic FULL Guard/loader. Original NEW_A E FULL BPF, Portable defaults, Runtime Lite/PID Lite and observer research are unchanged. Intel Hybrid uses dynamic P/E/SMT tiers; homogeneous Intel/AMD uses physical representatives before SMT. Unknown types are blocked. CPU IDs 0..1023, including sparse IDs above63, have explicit bounds.
+
+정적 빌드·모의 테스트만 완료했다. 새 범용 객체의 실제 verifier/attach/기능/성능은 **NOT_RUN**이다. `RUNTIME_FUNCTIONAL_NOT_RUN`, `TEAM_CPU_RUNTIME_NOT_TESTED`, `AMD_RUNTIME_NOT_TESTED`이며 기존 `STRICT_ACCEPTANCE=FAILED`, `safety_verdict=FAIL`, `OVERHEAD_REVIEW_REQUIRED`를 유지한다. 설정 성공이 실행 승인이나 다른 CPU에서의 성능 증거는 아니다. 팀원 PC마다 새 Host/Baseline과 Audit/Clean 증거를 요구한다. 일반 사용자 준비는 `make test`와 문서의 read-only CLI를 사용한다. 실제 권한 실행은 별도 사용자 승인 후에만 가능하다.
