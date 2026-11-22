@@ -65,3 +65,7 @@ RAPL ON 평균 Package Energy는 E8-MIX251.465J, E4-MIX265.199J, E4-P266.014J다
 실제 연구 실행기는 기존 Frozen·모델·원시 요청·Host Profile·Git 참조·strict 실패 증거를 요구한다. 이 저장소에 모델·바이너리·개인 Host 정보·대형 로그는 포함하지 않았다. 새 clone만으로 완전한 추론 실험을 실행할 수 있다고 주장하지 않는다. 다른 Intel·AMD의 실제 BPF·추론·성능은 NOT_TESTED다.
 
 기존 live-affinity Mask 오류로 strict/safety 실패가 남아 있다. 고정 Affinity 기능 검증의 성공이 이를 해결하지 않는다. [안전성 상세](docs/SAFETY.md), [재현 조건](docs/REPRODUCIBILITY.md), [라이선스](docs/LICENSES.md)를 함께 읽어야 한다.
+
+## 실험적 Intel Hybrid 자동 구성
+
+명시적 성능 후보 생성기와 [사용 방법](docs/hybrid-auto-configuration.md), [팀원 P6+E8 계획](docs/team-p6e8-experiment.md)을 추가했다. 가용 물리 P 수로 Compute를 정하고 E 절반을 Batch/Affinity에 추가한다. 기존 Portable 기본값과 E FULL은 변경하지 않았다. P6+E8의 6/10은 성능 미검증이며 팀원 PC의 CPU 번호/SMT/캐시 구조를 직접 탐지해야 한다. `make test-hybrid`는 비특권 검사다. 기존 고정-host Guard의 별도 adapter와 새 Host/Baseline/Audit/Clean 없이는 실제 실행할 수 없다. `TEAM_CPU_RUNTIME_NOT_TESTED`.
