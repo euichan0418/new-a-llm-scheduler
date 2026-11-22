@@ -16,7 +16,7 @@ Scheduler superiority over Linux under the same thread/affinity configuration ha
 
 ## Current research snapshot
 
-Review branch: [feature/new-a-48-research-update](https://github.com/euichan0418/new-a-llm-scheduler/tree/feature/new-a-48-research-update). This update does not change main before team review.
+The 4/8 research update was merged into main. A separate [experimental Hybrid auto-configuration branch](https://github.com/euichan0418/new-a-llm-scheduler/tree/feature/new-a-hybrid-auto-config) adds read-only topology proposals; it does not change the selected E FULL policy or Portable defaults.
 
 ```bash
 git clone --branch feature/new-a-48-research-update https://github.com/euichan0418/new-a-llm-scheduler.git
@@ -185,3 +185,9 @@ Scheduler/support source retains its GPL-2.0 notices and upstream copyrights. Th
 Build/tests/configuration generation are separate from kernel functional admission and performance acquisition. Existing research runners fail closed without their sealed local inputs. Reboot, CPU hotplug, affinity, kernel/BTF or power changes require revalidation. No automatic retry, global SCHED_EXT switch, SMT disable or power change is provided.
 
 [Reproducibility procedure](docs/REPRODUCIBILITY.md) | [Public file manifest](PUBLICATION_MANIFEST.json)
+
+## Experimental Hybrid performance proposals
+
+[Usage and detection](docs/hybrid-auto-configuration.md) | [Team P6+E8 plan](docs/team-p6e8-experiment.md). Explicit opt-in CLI: `tools/sched_ext/new_a_hybrid/new-a-topology-config`. Verified P/E types and available physical cores yield Compute=P, Batch=P+floor(E/2), HTTP=2, with one P representative plus selected E-cores. This reproduces the tested i5 configuration when its full mask is available and proposes **unmeasured** P6+E8 -> 6/10 with P6+E4. Compact/spread L2 placements are hypotheses.
+
+Run `make test-hybrid` without sudo. Configuration validation is distinct from runtime admission. The existing fixed-host Guard/runtime requires a separate new-host adapter and fresh Audit/Clean before any team-machine BPF/LLM experiments. **TEAM_CPU_RUNTIME_NOT_TESTED.** Homogeneous Intel/AMD retain physical-core-count proposals; ambiguous types are rejected. No new scheduler or performance measurement is included.

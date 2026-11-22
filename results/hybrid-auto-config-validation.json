@@ -1,0 +1,72 @@
+{
+  "schema": 1,
+  "scope": "CONFIGURATION_GENERATOR_AND_NONPRIVILEGED_TESTS_ONLY",
+  "test_suites": {
+    "hybrid": 48,
+    "runtime_lite_existing": 14,
+    "portable_existing": 51,
+    "portable_runtime_existing": 17
+  },
+  "total_tests": 130,
+  "status": "PASS",
+  "synthetic_topologies": [
+    "P4E8",
+    "P6E8",
+    "P8E8",
+    "P8E16",
+    "P2E8",
+    "Intel_homogeneous_8C16T",
+    "AMD_homogeneous_8C16T",
+    "SMT_disabled",
+    "offline",
+    "cpuset_limited",
+    "sibling_only",
+    "noncontiguous_ids",
+    "L2_groups",
+    "NUMA_packages",
+    "unknown_type",
+    "AMD_heterogeneous"
+  ],
+  "local_hardware_detection": {
+    "cpu": "Intel Core i5-1240P",
+    "p_cores": 4,
+    "e_cores": 8,
+    "logical_online": 16,
+    "compute": 4,
+    "batch": 8,
+    "http": 2,
+    "affinity_cpus": [
+      0,
+      2,
+      4,
+      6,
+      8,
+      9,
+      10,
+      11
+    ],
+    "selected_e_l2_shared_cpus": [
+      8,
+      9,
+      10,
+      11
+    ],
+    "configuration_validation": "PASS",
+    "performance": "NOT_RUN"
+  },
+  "team_p6e8": "SYNTHETIC_CONFIGURATION_TESTS_ONLY",
+  "team_cpu_runtime": "TEAM_CPU_RUNTIME_NOT_TESTED",
+  "performance_validated": false,
+  "actual_bpf_attach": "NOT_RUN",
+  "actual_inference": "NOT_RUN",
+  "unchanged": [
+    "NEW_A_E_FULL",
+    "PORTABLE_DEFAULTS",
+    "RUNTIME_LITE",
+    "EXISTING_RESEARCH_NUMERIC_TABLES"
+  ],
+  "existing_runtime_restriction": "Fixed-i5 Guard/runtime is NOT a supported P6E8 runner; separate adapter and Audit/Clean required",
+  "strict_acceptance": "FAILED",
+  "safety_verdict": "FAIL",
+  "overhead_review": "OVERHEAD_REVIEW_REQUIRED"
+}

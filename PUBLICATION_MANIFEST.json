@@ -39,8 +39,8 @@
     },
     {
       "path": "Makefile",
-      "size": 1248,
-      "sha256": "2dc1b57b04e26c2adffe3b0ed8764fc297e48bcfa4031dd6c9a64c4927447481",
+      "size": 1442,
+      "sha256": "8360bd6f0e5cd805417dbc2134500acd244db08b9e94fbd3644fbb6519da1110",
       "executable": false
     },
     {
@@ -51,20 +51,20 @@
     },
     {
       "path": "PUBLICATION_PROVENANCE.json",
-      "size": 51275,
-      "sha256": "53d81709433b28f5b97d30bc1f16b095dfb699572d56c74a5d4aaab521359915",
+      "size": 54284,
+      "sha256": "e94dc4119ed73059c33dd8b6ac31e72774da2d1cc2810d975588a73f5774516b",
       "executable": false
     },
     {
       "path": "README.ko.md",
-      "size": 5923,
-      "sha256": "7b02ac02f5f7fb5b884c83ab16b50f08ce00d437d7eec75e7876974c5b02b768",
+      "size": 6576,
+      "sha256": "4fdfa12123c0516396383e2b97ab137d5509ccc111528fdccaa202558354344b",
       "executable": false
     },
     {
       "path": "README.md",
-      "size": 14757,
-      "sha256": "58f32b7857566026374f61e1b3f314b8f453c4785e2350d2405023341a86784e",
+      "size": 15829,
+      "sha256": "8d8f56e73d2e2ef32ef4fae60116ff6e0c17e37912921f51a55ab2a2ff342789",
       "executable": false
     },
     {
@@ -83,6 +83,12 @@
       "path": "docs/SAFETY.md",
       "size": 2587,
       "sha256": "f81b59f2d7ed78e1c1468455f52b0d207792bf61f41116438f53364adefc8c15",
+      "executable": false
+    },
+    {
+      "path": "docs/hybrid-auto-configuration.md",
+      "size": 9434,
+      "sha256": "586e0a215f06663f1121cf9aacd8a42df7976816edbc4237e04fbc7ce44653e1",
       "executable": false
     },
     {
@@ -107,6 +113,12 @@
       "path": "docs/research/runtime-lite.md",
       "size": 5885,
       "sha256": "f38c510c48b73014d8187395b2f4c617c81ff8dc336a0ed94c18c6ccac3052f6",
+      "executable": false
+    },
+    {
+      "path": "docs/team-p6e8-experiment.md",
+      "size": 6347,
+      "sha256": "e7a69df35065ca608cb0519f6f066f0c948c7e97ddbf15d0800039fe0a988752",
       "executable": false
     },
     {
@@ -137,6 +149,12 @@
       "path": "results/benchmarks.json",
       "size": 36620,
       "sha256": "f09a8addefdbd4080d6ca215782c754f0a40a134fd68a5385db373805c4dd749",
+      "executable": false
+    },
+    {
+      "path": "results/hybrid-auto-config-validation.json",
+      "size": 1615,
+      "sha256": "cea19c85831c01dd11b69ddedee07c25e70a09891e191ba70dc6888cb3c7858a",
       "executable": false
     },
     {
@@ -650,6 +668,42 @@
       "executable": false
     },
     {
+      "path": "tools/sched_ext/new_a_hybrid/README.md",
+      "size": 1024,
+      "sha256": "4121924b3a295a957bcb4ce991458088e23f0a58c1aa02ccf6f60e40e4f77dab",
+      "executable": false
+    },
+    {
+      "path": "tools/sched_ext/new_a_hybrid/build_probe.py",
+      "size": 1849,
+      "sha256": "4874b47fa0f2f27524ee4d49231849c5a4ade87bfa2af7c82379cae93cef3b99",
+      "executable": false
+    },
+    {
+      "path": "tools/sched_ext/new_a_hybrid/collect.py",
+      "size": 9593,
+      "sha256": "cfeb5985c2cf893eacccecec488abb3d5ba297b2b9b76fcba9f38507bebbfb92",
+      "executable": false
+    },
+    {
+      "path": "tools/sched_ext/new_a_hybrid/new-a-topology-config",
+      "size": 3959,
+      "sha256": "2d0060cb1933ff532286e665a929b9bdc874cb19c20bb46f97baeadddb5a7ab1",
+      "executable": true
+    },
+    {
+      "path": "tools/sched_ext/new_a_hybrid/profiles.py",
+      "size": 12607,
+      "sha256": "fcdcad4c952d7e9e4a1bb91a8e1e704edb871cd9378f2b5473f8ee3e7a853572",
+      "executable": false
+    },
+    {
+      "path": "tools/sched_ext/new_a_hybrid/test_hybrid.py",
+      "size": 14716,
+      "sha256": "00ab4999ab85219e0d0adfef878d1ecf0115502b2c5d99a959680fdd07e0cf19",
+      "executable": false
+    },
+    {
       "path": "tools/sched_ext/new_a_portable/README.md",
       "size": 273,
       "sha256": "d664019dfcc9f2a47712b7dd8b3c503c2cbda2f0b3840f5a8140e428cdbe99ab",
@@ -878,5 +932,11 @@
     "runtime_lite": "EXPERIMENTAL_INCONCLUSIVE_NOT_SELECTED",
     "original_E_policy": "UNCHANGED",
     "raw_private_corpus": "NOT_PUBLISHED"
+  },
+  "hybrid_auto_configuration": {
+    "mode": "EXPERIMENTAL_OPT_IN_CONFIGURATION_ONLY",
+    "p6e8_performance": "NOT_TESTED",
+    "portable_defaults": "UNCHANGED",
+    "scheduler_policy": "UNCHANGED"
   }
 }
