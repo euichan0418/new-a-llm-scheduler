@@ -39,32 +39,32 @@
     },
     {
       "path": "Makefile",
-      "size": 1442,
-      "sha256": "8360bd6f0e5cd805417dbc2134500acd244db08b9e94fbd3644fbb6519da1110",
+      "size": 2015,
+      "sha256": "0df8e6a370ba59c2bd5df4f7dc413d34ac90216aa47bcf7a4942f175061d3625",
       "executable": false
     },
     {
       "path": "NOTICE",
-      "size": 802,
-      "sha256": "0de3e3a8a4833cb94162a078261040c272400ae723fc2fc22c89a0c669f90c59",
+      "size": 951,
+      "sha256": "1f988ca67d0eea91c22a9d42b9704b5573675e9c8599fb6ff0fc34f730381ca5",
       "executable": false
     },
     {
       "path": "PUBLICATION_PROVENANCE.json",
-      "size": 54284,
-      "sha256": "e94dc4119ed73059c33dd8b6ac31e72774da2d1cc2810d975588a73f5774516b",
+      "size": 60005,
+      "sha256": "4cd8b3c1bb016209f98574c98a8197df49673694403b9ae141884bae75ae1afb",
       "executable": false
     },
     {
       "path": "README.ko.md",
-      "size": 6576,
-      "sha256": "4fdfa12123c0516396383e2b97ab137d5509ccc111528fdccaa202558354344b",
+      "size": 7895,
+      "sha256": "14610465529f15c7f4a91ae0ea9b752b1f5d53bb7ecf2fc1e075700d62cb1815",
       "executable": false
     },
     {
       "path": "README.md",
-      "size": 15829,
-      "sha256": "8d8f56e73d2e2ef32ef4fae60116ff6e0c17e37912921f51a55ab2a2ff342789",
+      "size": 17148,
+      "sha256": "8cf24450df371aa1c41ab71c7c6c16820b6ba14407b4715d4472550de4245bcc",
       "executable": false
     },
     {
@@ -86,9 +86,21 @@
       "executable": false
     },
     {
+      "path": "docs/amd-runtime.md",
+      "size": 2585,
+      "sha256": "7d4ef21ce2e820c4247fbcd0f530e6c77a0b6bfe92471f9ae9785117e422c04e",
+      "executable": false
+    },
+    {
       "path": "docs/hybrid-auto-configuration.md",
       "size": 9434,
       "sha256": "586e0a215f06663f1121cf9aacd8a42df7976816edbc4237e04fbc7ce44653e1",
+      "executable": false
+    },
+    {
+      "path": "docs/intel-hybrid-runtime.md",
+      "size": 2688,
+      "sha256": "4ca9548a6bb6499d0710577ec0f0cb545bc22ef1743c26d45963f16ed907c46f",
       "executable": false
     },
     {
@@ -116,15 +128,33 @@
       "executable": false
     },
     {
+      "path": "docs/runtime-safety-and-validation.md",
+      "size": 5259,
+      "sha256": "658d14e386c92b2f3c92d683ba4802aad6a7055e9eeade6160b667c91bdb1662",
+      "executable": false
+    },
+    {
       "path": "docs/team-p6e8-experiment.md",
       "size": 6347,
       "sha256": "e7a69df35065ca608cb0519f6f066f0c948c7e97ddbf15d0800039fe0a988752",
       "executable": false
     },
     {
+      "path": "docs/universal-runtime.md",
+      "size": 8894,
+      "sha256": "49424bf4e658f1839edfffba3f433d35c7997a4ad07440f2568e93e803aaac11",
+      "executable": false
+    },
+    {
       "path": "examples/server-setup.example.json",
       "size": 808,
       "sha256": "b90717d641771cb16dc5c125e1fbd2b56696d5b85e9a54773958c13ee3e76247",
+      "executable": false
+    },
+    {
+      "path": "examples/universal-setup.example.json",
+      "size": 1136,
+      "sha256": "472ee3f22b57e62ce8a2d887d7e94be9c8cb6e9da45256fff5fc0724dfa5c744",
       "executable": false
     },
     {
@@ -179,6 +209,12 @@
       "path": "results/runtime-lite-summary.json",
       "size": 17136,
       "sha256": "0bec32251d578f61dab6aeca633c3af33d84aa92f8ada234bff8f787cae59b54",
+      "executable": false
+    },
+    {
+      "path": "results/universal-runtime-validation.json",
+      "size": 1930,
+      "sha256": "910886eaef0a4b63f9d5d078d78ed32e599997cfc6fcc99184e8b5feb75fe6ef",
       "executable": false
     },
     {
@@ -899,6 +935,84 @@
       "path": "tools/sched_ext/new_a_runtime_lite/validation.py",
       "size": 4343,
       "sha256": "527b02d1b3f7507fa881194878ed1c0ecc492ac4a7822dd964b69c66146a1f7f",
+      "executable": false
+    },
+    {
+      "path": "tools/sched_ext/new_a_universal_runtime/build.py",
+      "size": 7105,
+      "sha256": "634c02fe56e1da96b65a21faa8ddfa0bb4997069215635ceb2cc964770a050de",
+      "executable": false
+    },
+    {
+      "path": "tools/sched_ext/new_a_universal_runtime/contracts.py",
+      "size": 11551,
+      "sha256": "b77048786f982b802478624c88ed531b88e100c4b1977b63d3b7417630097ac7",
+      "executable": false
+    },
+    {
+      "path": "tools/sched_ext/new_a_universal_runtime/controller.py",
+      "size": 7289,
+      "sha256": "372b7267a8ed72d426d5910902538f4f31f1a3cf4c0b88f12ed3744c77313dd4",
+      "executable": false
+    },
+    {
+      "path": "tools/sched_ext/new_a_universal_runtime/derive.py",
+      "size": 3824,
+      "sha256": "ad865215bae06c3dc3b930a2e486aaec82dde0c0c332522a777253de143fa395",
+      "executable": false
+    },
+    {
+      "path": "tools/sched_ext/new_a_universal_runtime/evidence.py",
+      "size": 14347,
+      "sha256": "a0c41969844597fa5388e52cc5e27ef45818fe987b406a932b013948fd9cf1fa",
+      "executable": false
+    },
+    {
+      "path": "tools/sched_ext/new_a_universal_runtime/guard_domain.h",
+      "size": 4069,
+      "sha256": "31bbeb4d129e2d23e8bd5d586f2c2ef8012a5b4ffea9ce6001a866e58fb811a0",
+      "executable": false
+    },
+    {
+      "path": "tools/sched_ext/new_a_universal_runtime/identity.h",
+      "size": 2802,
+      "sha256": "a789c5c39b1e4e9e52b49229830d54ea43e3369fffe28a239d1614cb72b69ea1",
+      "executable": false
+    },
+    {
+      "path": "tools/sched_ext/new_a_universal_runtime/runner.py",
+      "size": 19109,
+      "sha256": "d5f680b7109e8425269f5e65f8d1e889e035ca6a16ff1127af7315ce65ffed8d",
+      "executable": false
+    },
+    {
+      "path": "tools/sched_ext/new_a_universal_runtime/runtime.py",
+      "size": 4554,
+      "sha256": "900169acc3fef76ddbceb63d4aa82434acafd96dfe8fb81164b3d1c518191be4",
+      "executable": false
+    },
+    {
+      "path": "tools/sched_ext/new_a_universal_runtime/runtime_core.py",
+      "size": 3528,
+      "sha256": "dc084b21bd076abdf0caab3a42e90b03f1ff2e217d416e393e832c12a1635a24",
+      "executable": false
+    },
+    {
+      "path": "tools/sched_ext/new_a_universal_runtime/test_cleanup.py",
+      "size": 4340,
+      "sha256": "6cac44c36a96d113c15331a1182de87ed4d28eef2e5afbfb70a9c85590b694cb",
+      "executable": false
+    },
+    {
+      "path": "tools/sched_ext/new_a_universal_runtime/test_raw.py",
+      "size": 9005,
+      "sha256": "82ea24fed4bad64287c21e2f98b99276f1080ae5ab52176b227f4e2a7fc28462",
+      "executable": false
+    },
+    {
+      "path": "tools/sched_ext/new_a_universal_runtime/test_universal.py",
+      "size": 21467,
+      "sha256": "89a5755fc678a94eaf540823d8e1ad3fe8178bcffd1f69a0e9f18db96f5d1f01",
       "executable": false
     },
     {

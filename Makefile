@@ -1,10 +1,10 @@
 # SPDX-License-Identifier: GPL-2.0
 PYTHON ?= python3
-.PHONY: help test test-hybrid test-lite build build-lite check
+.PHONY: help test test-hybrid test-lite test-universal build build-lite build-universal check
 help:
 	@echo "make test | make build NEW_BUILD=/new/output | make build-lite NEW_BUILD=/new/external/output | make check"
 	@echo "Research prototype. No automatic BPF loading or inference."
-test:
+test: test-universal
 	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B tools/sched_ext/new_a_hybrid/test_hybrid.py
 	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B tools/sched_ext/new_a_runtime_lite/test_runtime_lite.py
 	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B tools/sched_ext/new_a_portable/test_portable.py
@@ -24,3 +24,11 @@ build-lite:
 
 test-hybrid:
 	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B tools/sched_ext/new_a_hybrid/test_hybrid.py
+
+test-universal:
+	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B tools/sched_ext/new_a_universal_runtime/test_universal.py
+	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B tools/sched_ext/new_a_universal_runtime/test_raw.py
+	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B tools/sched_ext/new_a_universal_runtime/test_cleanup.py
+build-universal:
+	@test -n "$(NEW_BUILD)" || { echo "Set NEW_BUILD to a new external directory" >&2; exit 2; }
+	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B tools/sched_ext/new_a_universal_runtime/build.py --output "$(NEW_BUILD)"

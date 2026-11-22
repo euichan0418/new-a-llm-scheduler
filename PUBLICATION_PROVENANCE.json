@@ -4,7 +4,8 @@
   "notes": [
     "Public build helpers were relocated/extracted from historical candidate directories; no candidate BPF policy is selected.",
     "The portable static builder additionally compiles the unchanged selected-child helper after matching-kernel UAPI validation.",
-    "Original guarded-loader monitor instrumentation is retained; no diagnostic reduction."
+    "Original guarded-loader monitor instrumentation is retained; no diagnostic reduction.",
+    "Universal runtime adds independent loader/monitor binding and dynamic raw verification; original E FULL source is unchanged. Actual universal functional and performance validation NOT_RUN."
   ],
   "files": [
     {
@@ -39,27 +40,27 @@
     },
     {
       "path": "Makefile",
-      "release_sha256": "8360bd6f0e5cd805417dbc2134500acd244db08b9e94fbd3644fbb6519da1110",
-      "source": "hybrid-auto-configuration-research",
-      "kind": "NEW_CONFIGURATION_TOOL_TEST_OR_DOCUMENTATION_NO_POLICY_CHANGE"
+      "source": "universal-runtime-independent-research",
+      "kind": "DYNAMIC_FULL_GUARD_ADAPTER_TEST_OR_DOCUMENTATION",
+      "release_sha256": "0df8e6a370ba59c2bd5df4f7dc413d34ac90216aa47bcf7a4942f175061d3625"
     },
     {
       "path": "NOTICE",
-      "release_sha256": "0de3e3a8a4833cb94162a078261040c272400ae723fc2fc22c89a0c669f90c59",
-      "source": "research-update-publication",
-      "kind": "PUBLIC_DOCUMENTATION_OR_RECALCULATION_TOOL"
+      "source": "universal-runtime-independent-research",
+      "kind": "DYNAMIC_FULL_GUARD_ADAPTER_TEST_OR_DOCUMENTATION",
+      "release_sha256": "1f988ca67d0eea91c22a9d42b9704b5573675e9c8599fb6ff0fc34f730381ca5"
     },
     {
       "path": "README.ko.md",
-      "release_sha256": "4fdfa12123c0516396383e2b97ab137d5509ccc111528fdccaa202558354344b",
-      "source": "hybrid-auto-configuration-research",
-      "kind": "NEW_CONFIGURATION_TOOL_TEST_OR_DOCUMENTATION_NO_POLICY_CHANGE"
+      "source": "universal-runtime-independent-research",
+      "kind": "DYNAMIC_FULL_GUARD_ADAPTER_TEST_OR_DOCUMENTATION",
+      "release_sha256": "14610465529f15c7f4a91ae0ea9b752b1f5d53bb7ecf2fc1e075700d62cb1815"
     },
     {
       "path": "README.md",
-      "release_sha256": "8d8f56e73d2e2ef32ef4fae60116ff6e0c17e37912921f51a55ab2a2ff342789",
-      "source": "hybrid-auto-configuration-research",
-      "kind": "NEW_CONFIGURATION_TOOL_TEST_OR_DOCUMENTATION_NO_POLICY_CHANGE"
+      "source": "universal-runtime-independent-research",
+      "kind": "DYNAMIC_FULL_GUARD_ADAPTER_TEST_OR_DOCUMENTATION",
+      "release_sha256": "8cf24450df371aa1c41ab71c7c6c16820b6ba14407b4715d4472550de4245bcc"
     },
     {
       "path": "docs/LICENSES.md",
@@ -80,10 +81,22 @@
       "kind": "PUBLIC_DOCUMENTATION_OR_RECALCULATION_TOOL"
     },
     {
+      "path": "docs/amd-runtime.md",
+      "source": "universal-runtime-independent-research",
+      "kind": "DYNAMIC_FULL_GUARD_ADAPTER_TEST_OR_DOCUMENTATION",
+      "release_sha256": "7d4ef21ce2e820c4247fbcd0f530e6c77a0b6bfe92471f9ae9785117e422c04e"
+    },
+    {
       "path": "docs/hybrid-auto-configuration.md",
       "release_sha256": "586e0a215f06663f1121cf9aacd8a42df7976816edbc4237e04fbc7ce44653e1",
       "source": "hybrid-auto-configuration-research",
       "kind": "NEW_CONFIGURATION_TOOL_TEST_OR_DOCUMENTATION_NO_POLICY_CHANGE"
+    },
+    {
+      "path": "docs/intel-hybrid-runtime.md",
+      "source": "universal-runtime-independent-research",
+      "kind": "DYNAMIC_FULL_GUARD_ADAPTER_TEST_OR_DOCUMENTATION",
+      "release_sha256": "4ca9548a6bb6499d0710577ec0f0cb545bc22ef1743c26d45963f16ed907c46f"
     },
     {
       "path": "docs/research/asymmetric-threads.md",
@@ -110,16 +123,34 @@
       "kind": "PUBLIC_DOCUMENTATION_OR_RECALCULATION_TOOL"
     },
     {
+      "path": "docs/runtime-safety-and-validation.md",
+      "source": "universal-runtime-independent-research",
+      "kind": "DYNAMIC_FULL_GUARD_ADAPTER_TEST_OR_DOCUMENTATION",
+      "release_sha256": "658d14e386c92b2f3c92d683ba4802aad6a7055e9eeade6160b667c91bdb1662"
+    },
+    {
       "path": "docs/team-p6e8-experiment.md",
       "release_sha256": "e7a69df35065ca608cb0519f6f066f0c948c7e97ddbf15d0800039fe0a988752",
       "source": "hybrid-auto-configuration-research",
       "kind": "NEW_CONFIGURATION_TOOL_TEST_OR_DOCUMENTATION_NO_POLICY_CHANGE"
     },
     {
+      "path": "docs/universal-runtime.md",
+      "source": "universal-runtime-independent-research",
+      "kind": "DYNAMIC_FULL_GUARD_ADAPTER_TEST_OR_DOCUMENTATION",
+      "release_sha256": "49424bf4e658f1839edfffba3f433d35c7997a4ad07440f2568e93e803aaac11"
+    },
+    {
       "path": "examples/server-setup.example.json",
       "release_sha256": "b90717d641771cb16dc5c125e1fbd2b56696d5b85e9a54773958c13ee3e76247",
       "source": "research-update-publication",
       "kind": "PUBLIC_DOCUMENTATION_OR_RECALCULATION_TOOL"
+    },
+    {
+      "path": "examples/universal-setup.example.json",
+      "source": "universal-runtime-independent-research",
+      "kind": "DYNAMIC_FULL_GUARD_ADAPTER_TEST_OR_DOCUMENTATION",
+      "release_sha256": "472ee3f22b57e62ce8a2d887d7e94be9c8cb6e9da45256fff5fc0724dfa5c744"
     },
     {
       "path": "ggml/include/ggml.h",
@@ -175,6 +206,12 @@
       "release_sha256": "0bec32251d578f61dab6aeca633c3af33d84aa92f8ada234bff8f787cae59b54",
       "source": "verified-private-research-numeric-export",
       "kind": "NUMERIC_ALLOWLIST_EXPORT_OR_RECALCULATION"
+    },
+    {
+      "path": "results/universal-runtime-validation.json",
+      "source": "universal-runtime-independent-research",
+      "kind": "DYNAMIC_FULL_GUARD_ADAPTER_TEST_OR_DOCUMENTATION",
+      "release_sha256": "910886eaef0a4b63f9d5d078d78ed32e599997cfc6fcc99184e8b5feb75fe6ef"
     },
     {
       "path": "scripts/summarize_research.py",
@@ -1003,6 +1040,84 @@
       "source": "research-source/tools/sched_ext/new_a_runtime_lite/validation.py",
       "source_sha256": "527b02d1b3f7507fa881194878ed1c0ecc492ac4a7822dd964b69c66146a1f7f",
       "kind": "EXACT_RESEARCH_COPY"
+    },
+    {
+      "path": "tools/sched_ext/new_a_universal_runtime/build.py",
+      "source": "universal-runtime-independent-research",
+      "kind": "DYNAMIC_FULL_GUARD_ADAPTER_TEST_OR_DOCUMENTATION",
+      "release_sha256": "634c02fe56e1da96b65a21faa8ddfa0bb4997069215635ceb2cc964770a050de"
+    },
+    {
+      "path": "tools/sched_ext/new_a_universal_runtime/contracts.py",
+      "source": "universal-runtime-independent-research",
+      "kind": "DYNAMIC_FULL_GUARD_ADAPTER_TEST_OR_DOCUMENTATION",
+      "release_sha256": "b77048786f982b802478624c88ed531b88e100c4b1977b63d3b7417630097ac7"
+    },
+    {
+      "path": "tools/sched_ext/new_a_universal_runtime/controller.py",
+      "source": "universal-runtime-independent-research",
+      "kind": "DYNAMIC_FULL_GUARD_ADAPTER_TEST_OR_DOCUMENTATION",
+      "release_sha256": "372b7267a8ed72d426d5910902538f4f31f1a3cf4c0b88f12ed3744c77313dd4"
+    },
+    {
+      "path": "tools/sched_ext/new_a_universal_runtime/derive.py",
+      "source": "universal-runtime-independent-research",
+      "kind": "DYNAMIC_FULL_GUARD_ADAPTER_TEST_OR_DOCUMENTATION",
+      "release_sha256": "ad865215bae06c3dc3b930a2e486aaec82dde0c0c332522a777253de143fa395"
+    },
+    {
+      "path": "tools/sched_ext/new_a_universal_runtime/evidence.py",
+      "source": "universal-runtime-independent-research",
+      "kind": "DYNAMIC_FULL_GUARD_ADAPTER_TEST_OR_DOCUMENTATION",
+      "release_sha256": "a0c41969844597fa5388e52cc5e27ef45818fe987b406a932b013948fd9cf1fa"
+    },
+    {
+      "path": "tools/sched_ext/new_a_universal_runtime/guard_domain.h",
+      "source": "universal-runtime-independent-research",
+      "kind": "DYNAMIC_FULL_GUARD_ADAPTER_TEST_OR_DOCUMENTATION",
+      "release_sha256": "31bbeb4d129e2d23e8bd5d586f2c2ef8012a5b4ffea9ce6001a866e58fb811a0"
+    },
+    {
+      "path": "tools/sched_ext/new_a_universal_runtime/identity.h",
+      "source": "universal-runtime-independent-research",
+      "kind": "DYNAMIC_FULL_GUARD_ADAPTER_TEST_OR_DOCUMENTATION",
+      "release_sha256": "a789c5c39b1e4e9e52b49229830d54ea43e3369fffe28a239d1614cb72b69ea1"
+    },
+    {
+      "path": "tools/sched_ext/new_a_universal_runtime/runner.py",
+      "source": "universal-runtime-independent-research",
+      "kind": "DYNAMIC_FULL_GUARD_ADAPTER_TEST_OR_DOCUMENTATION",
+      "release_sha256": "d5f680b7109e8425269f5e65f8d1e889e035ca6a16ff1127af7315ce65ffed8d"
+    },
+    {
+      "path": "tools/sched_ext/new_a_universal_runtime/runtime.py",
+      "source": "universal-runtime-independent-research",
+      "kind": "DYNAMIC_FULL_GUARD_ADAPTER_TEST_OR_DOCUMENTATION",
+      "release_sha256": "900169acc3fef76ddbceb63d4aa82434acafd96dfe8fb81164b3d1c518191be4"
+    },
+    {
+      "path": "tools/sched_ext/new_a_universal_runtime/runtime_core.py",
+      "source": "universal-runtime-independent-research",
+      "kind": "DYNAMIC_FULL_GUARD_ADAPTER_TEST_OR_DOCUMENTATION",
+      "release_sha256": "dc084b21bd076abdf0caab3a42e90b03f1ff2e217d416e393e832c12a1635a24"
+    },
+    {
+      "path": "tools/sched_ext/new_a_universal_runtime/test_cleanup.py",
+      "source": "universal-runtime-independent-research",
+      "kind": "DYNAMIC_FULL_GUARD_ADAPTER_TEST_OR_DOCUMENTATION",
+      "release_sha256": "6cac44c36a96d113c15331a1182de87ed4d28eef2e5afbfb70a9c85590b694cb"
+    },
+    {
+      "path": "tools/sched_ext/new_a_universal_runtime/test_raw.py",
+      "source": "universal-runtime-independent-research",
+      "kind": "DYNAMIC_FULL_GUARD_ADAPTER_TEST_OR_DOCUMENTATION",
+      "release_sha256": "82ea24fed4bad64287c21e2f98b99276f1080ae5ab52176b227f4e2a7fc28462"
+    },
+    {
+      "path": "tools/sched_ext/new_a_universal_runtime/test_universal.py",
+      "source": "universal-runtime-independent-research",
+      "kind": "DYNAMIC_FULL_GUARD_ADAPTER_TEST_OR_DOCUMENTATION",
+      "release_sha256": "89a5755fc678a94eaf540823d8e1ad3fe8178bcffd1f69a0e9f18db96f5d1f01"
     },
     {
       "path": "tools/sched_ext/support/build_static.py",
