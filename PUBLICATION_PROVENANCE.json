@@ -192,7 +192,7 @@
     },
     {
       "path": "results/autotune-bootstrap-validation.json",
-      "release_sha256": "ea062184436f6caaf9d4f4c013e7223e6aab76c9e8f53c6b423149d541ac3e60",
+      "release_sha256": "28db4a7715e7f40d921319653353844ae360cb6193400f92e962cc1b603e5f2b",
       "source": "GITHUB_PINNED_AUTOTUNE_BOOTSTRAP",
       "kind": "SOURCE_BUILD_DOWNLOAD_AND_RESEARCH_CONFIGURATION_ONLY"
     },

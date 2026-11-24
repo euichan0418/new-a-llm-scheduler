@@ -9,7 +9,8 @@
     "source_clean": true,
     "version_help_elf_phase_symbol": "PASS_ACTUAL",
     "libraries": "ALL_7_PROJECT_DSOS_PRESENT_AND_LIBGOMP_RESOLVED",
-    "historical_byte_identity": false
+    "historical_byte_identity": false,
+    "actual_build_cache_input_output_revalidation": "PASS"
   },
   "model": {
     "metadata_api": "PASS_SIZE_AND_LFS_SHA256_MATCH_HISTORICAL_MODEL",
@@ -32,5 +33,8 @@
   "strict_acceptance": "FAILED",
   "safety_verdict": "FAIL",
   "overhead_review": "OVERHEAD_REVIEW_REQUIRED",
-  "blank_clone_bootstrap": "TO_BE_CHECKED_AFTER_PUSH"
+  "blank_clone_bootstrap": "PASS_CHECK_ONLY_FROM_FRESH_GITHUB_CLONE",
+  "blank_clone_tests": 319,
+  "blank_clone_cpu_plan": "PASS_REAL_I5_1240P_COMPUTE4_BATCH8_P4_E4",
+  "blank_clone_full_prepare": "NOT_RUN_LOCAL_FREE_SPACE_BELOW_6GIB"
 }
