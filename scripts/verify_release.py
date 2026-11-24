@@ -25,7 +25,7 @@ def sha(p):return hashlib.sha256(p.read_bytes()).hexdigest()
 def check():
     errors=[];paths=[]
     for p in sorted(ROOT.rglob('*')):
-        if '.git'in p.relative_to(ROOT).parts:continue
+        if '.git'in p.relative_to(ROOT).parts or p.relative_to(ROOT).parts[0]=='.autotune-work':continue
         if not p.is_file()and not p.is_symlink():continue
         name=p.relative_to(ROOT).as_posix();paths.append(name)
         if p.is_symlink():errors.append((name,'symlink'));continue

@@ -13,3 +13,6 @@ benchmark-results/
 *-local.json
 server-setup.local.json
 configuration.local/
+
+# Private bootstrap engines, models and evidence.
+/.autotune-work/

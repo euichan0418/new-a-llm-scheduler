@@ -5,7 +5,8 @@
     "Public build helpers were relocated/extracted from historical candidate directories; no candidate BPF policy is selected.",
     "The portable static builder additionally compiles the unchanged selected-child helper after matching-kernel UAPI validation.",
     "Original guarded-loader monitor instrumentation is retained; no diagnostic reduction.",
-    "Universal runtime adds independent loader/monitor binding and dynamic raw verification; original E FULL source is unchanged. Actual universal functional and performance validation NOT_RUN."
+    "Universal runtime adds independent loader/monitor binding and dynamic raw verification; original E FULL source is unchanged. Actual universal functional and performance validation NOT_RUN.",
+    "GitHub bootstrap fetches a pinned historical engine revision and exact licensed GGUF; no BPF auto attach or historical byte/performance equivalence claim."
   ],
   "files": [
     {
@@ -16,9 +17,9 @@
     },
     {
       "path": ".gitignore",
-      "release_sha256": "ac2386cfffd5fcbee14d3f93d1fe4a46643757e8b982f7a049d6ec7310fbc025",
-      "source": "research-update-publication",
-      "kind": "PUBLIC_DOCUMENTATION_OR_RECALCULATION_TOOL"
+      "release_sha256": "537e8b49780e6a7b70ef92c212c9c58166722b3c42136a4ffda2df0110b26d45",
+      "source": "GITHUB_PINNED_AUTOTUNE_BOOTSTRAP",
+      "kind": "SOURCE_BUILD_DOWNLOAD_AND_RESEARCH_CONFIGURATION_ONLY"
     },
     {
       "path": "LICENSE",
@@ -40,9 +41,9 @@
     },
     {
       "path": "Makefile",
-      "source": "universal-runtime-independent-research",
-      "kind": "DYNAMIC_FULL_GUARD_ADAPTER_TEST_OR_DOCUMENTATION",
-      "release_sha256": "0df8e6a370ba59c2bd5df4f7dc413d34ac90216aa47bcf7a4942f175061d3625"
+      "release_sha256": "fc0a87d5d1b16964c6b06f5e3e9d8e926f876879c75c68ef40a23f51a057f073",
+      "source": "GITHUB_PINNED_AUTOTUNE_BOOTSTRAP",
+      "kind": "SOURCE_BUILD_DOWNLOAD_AND_RESEARCH_CONFIGURATION_ONLY"
     },
     {
       "path": "NOTICE",
@@ -52,15 +53,21 @@
     },
     {
       "path": "README.ko.md",
-      "source": "universal-runtime-independent-research",
-      "kind": "DYNAMIC_FULL_GUARD_ADAPTER_TEST_OR_DOCUMENTATION",
-      "release_sha256": "14610465529f15c7f4a91ae0ea9b752b1f5d53bb7ecf2fc1e075700d62cb1815"
+      "release_sha256": "2c904f9fc71ca73379a9f43486fb3f9dbe4d3e728f188e3ffd207c52647853c7",
+      "source": "GITHUB_PINNED_AUTOTUNE_BOOTSTRAP",
+      "kind": "SOURCE_BUILD_DOWNLOAD_AND_RESEARCH_CONFIGURATION_ONLY"
     },
     {
       "path": "README.md",
-      "source": "universal-runtime-independent-research",
-      "kind": "DYNAMIC_FULL_GUARD_ADAPTER_TEST_OR_DOCUMENTATION",
-      "release_sha256": "8cf24450df371aa1c41ab71c7c6c16820b6ba14407b4715d4472550de4245bcc"
+      "release_sha256": "0a6bea64916cfebfdf460032116f71b72e4dc1008eda27946fa692f49ffbdd67",
+      "source": "GITHUB_PINNED_AUTOTUNE_BOOTSTRAP",
+      "kind": "SOURCE_BUILD_DOWNLOAD_AND_RESEARCH_CONFIGURATION_ONLY"
+    },
+    {
+      "path": "config/autotune-provision.json",
+      "release_sha256": "f66009d10f649a677c18eefab754c3b1d153045fb29abc1894ec30d504ad6c75",
+      "source": "GITHUB_PINNED_AUTOTUNE_BOOTSTRAP",
+      "kind": "SOURCE_BUILD_DOWNLOAD_AND_RESEARCH_CONFIGURATION_ONLY"
     },
     {
       "path": "docs/LICENSES.md",
@@ -85,6 +92,18 @@
       "source": "universal-runtime-independent-research",
       "kind": "DYNAMIC_FULL_GUARD_ADAPTER_TEST_OR_DOCUMENTATION",
       "release_sha256": "7d4ef21ce2e820c4247fbcd0f530e6c77a0b6bfe92471f9ae9785117e422c04e"
+    },
+    {
+      "path": "docs/autotune-bootstrap.ko.md",
+      "release_sha256": "3983a6df8799224c8b5075de616d70d5686dccf97dac16c8132a8bdf387e79ef",
+      "source": "GITHUB_PINNED_AUTOTUNE_BOOTSTRAP",
+      "kind": "SOURCE_BUILD_DOWNLOAD_AND_RESEARCH_CONFIGURATION_ONLY"
+    },
+    {
+      "path": "docs/frozen-engine-reproduction.md",
+      "release_sha256": "ad82cbd961084e614a87dc7fe5a136b195f7d4a3e7486aef8f42e13c057f9d14",
+      "source": "GITHUB_PINNED_AUTOTUNE_BOOTSTRAP",
+      "kind": "SOURCE_BUILD_DOWNLOAD_AND_RESEARCH_CONFIGURATION_ONLY"
     },
     {
       "path": "docs/hybrid-auto-configuration.md",
@@ -172,6 +191,12 @@
       "kind": "NUMERIC_ALLOWLIST_EXPORT_OR_RECALCULATION"
     },
     {
+      "path": "results/autotune-bootstrap-validation.json",
+      "release_sha256": "ea062184436f6caaf9d4f4c013e7223e6aab76c9e8f53c6b423149d541ac3e60",
+      "source": "GITHUB_PINNED_AUTOTUNE_BOOTSTRAP",
+      "kind": "SOURCE_BUILD_DOWNLOAD_AND_RESEARCH_CONFIGURATION_ONLY"
+    },
+    {
       "path": "results/benchmarks.json",
       "release_sha256": "f09a8addefdbd4080d6ca215782c754f0a40a134fd68a5385db373805c4dd749",
       "source": "verified-private-research-numeric-export",
@@ -214,6 +239,12 @@
       "release_sha256": "910886eaef0a4b63f9d5d078d78ed32e599997cfc6fcc99184e8b5feb75fe6ef"
     },
     {
+      "path": "scripts/autotune-bootstrap.sh",
+      "release_sha256": "66e066babc71bb9e0cd1ce869ca45a8e55ec481ea9c23e17aff94b52d4c9e4cc",
+      "source": "GITHUB_PINNED_AUTOTUNE_BOOTSTRAP",
+      "kind": "SOURCE_BUILD_DOWNLOAD_AND_RESEARCH_CONFIGURATION_ONLY"
+    },
+    {
       "path": "scripts/summarize_research.py",
       "release_sha256": "f7888538d563077c7811fe6ea54221a9fd1f6dfee06c2907373cc0aa06663f02",
       "source": "research-update-publication",
@@ -221,9 +252,9 @@
     },
     {
       "path": "scripts/verify_release.py",
-      "release_sha256": "57ee276afac944cca8d92226981daae9d2dd73726154ebed024f77a3941abb50",
-      "source": "research-update-publication",
-      "kind": "PUBLIC_DOCUMENTATION_OR_RECALCULATION_TOOL"
+      "release_sha256": "8be6c6cb34f4c4a8e2c5690588da9ffc4259a3965dcd7ebf3c538c860936dd37",
+      "source": "GITHUB_PINNED_AUTOTUNE_BOOTSTRAP",
+      "kind": "SOURCE_BUILD_DOWNLOAD_AND_RESEARCH_CONFIGURATION_ONLY"
     },
     {
       "path": "tools/sched_ext/bench/analysis.py",
@@ -624,6 +655,60 @@
       "release_sha256": "2841d6a10682a29058ba073862354ee9a109b62f4d4380801a4ac373370aa027"
     },
     {
+      "path": "tools/sched_ext/new_a_bootstrap/auto_assets.py",
+      "release_sha256": "718472e34a37a3f89b84768660b738741c632f0c0f635b2064741e81e5b9073c",
+      "source": "GITHUB_PINNED_AUTOTUNE_BOOTSTRAP",
+      "kind": "SOURCE_BUILD_DOWNLOAD_AND_RESEARCH_CONFIGURATION_ONLY"
+    },
+    {
+      "path": "tools/sched_ext/new_a_bootstrap/auto_run.py",
+      "release_sha256": "1701d0389f152dc28deb9306aefaec4dc15d8b4da1dae641faf6015c5c9420d9",
+      "source": "GITHUB_PINNED_AUTOTUNE_BOOTSTRAP",
+      "kind": "SOURCE_BUILD_DOWNLOAD_AND_RESEARCH_CONFIGURATION_ONLY"
+    },
+    {
+      "path": "tools/sched_ext/new_a_bootstrap/auto_system.py",
+      "release_sha256": "1bf966e6bcae7d7a8d860b79f7b0d05619ef5acfdbee40e0696d7bcc37ca0b4b",
+      "source": "GITHUB_PINNED_AUTOTUNE_BOOTSTRAP",
+      "kind": "SOURCE_BUILD_DOWNLOAD_AND_RESEARCH_CONFIGURATION_ONLY"
+    },
+    {
+      "path": "tools/sched_ext/new_a_bootstrap/bootstrap.py",
+      "release_sha256": "52c2ff92026e31fb96d169946db6d5d93d10113aae86a1b05faa5cc7c03fb4db",
+      "source": "GITHUB_PINNED_AUTOTUNE_BOOTSTRAP",
+      "kind": "SOURCE_BUILD_DOWNLOAD_AND_RESEARCH_CONFIGURATION_ONLY"
+    },
+    {
+      "path": "tools/sched_ext/new_a_bootstrap/package_driver.py",
+      "release_sha256": "d683b94d32f149ab27115e552fda16600ebfb9060140b983e39a7726afaa3046",
+      "source": "GITHUB_PINNED_AUTOTUNE_BOOTSTRAP",
+      "kind": "SOURCE_BUILD_DOWNLOAD_AND_RESEARCH_CONFIGURATION_ONLY"
+    },
+    {
+      "path": "tools/sched_ext/new_a_bootstrap/provision.py",
+      "release_sha256": "09a9c50fa6a49dc8a541ea38e58f698c3008bcb1a877ccac30a628851fa3f1a9",
+      "source": "GITHUB_PINNED_AUTOTUNE_BOOTSTRAP",
+      "kind": "SOURCE_BUILD_DOWNLOAD_AND_RESEARCH_CONFIGURATION_ONLY"
+    },
+    {
+      "path": "tools/sched_ext/new_a_bootstrap/test_auto.py",
+      "release_sha256": "99c7834008a8dc38f290b3fe66a945441a1ea4cbc9ba1ef40977f78863ee430d",
+      "source": "GITHUB_PINNED_AUTOTUNE_BOOTSTRAP",
+      "kind": "SOURCE_BUILD_DOWNLOAD_AND_RESEARCH_CONFIGURATION_ONLY"
+    },
+    {
+      "path": "tools/sched_ext/new_a_bootstrap/test_package.py",
+      "release_sha256": "3391da97e72086808bab253c626aadf88f798201ed43c95e03649104d8b95efb",
+      "source": "GITHUB_PINNED_AUTOTUNE_BOOTSTRAP",
+      "kind": "SOURCE_BUILD_DOWNLOAD_AND_RESEARCH_CONFIGURATION_ONLY"
+    },
+    {
+      "path": "tools/sched_ext/new_a_bootstrap/test_provision.py",
+      "release_sha256": "e6d3a15e5547c6314a3db87dc3ae9af3e264a55f58a65d0db48829e2a7e7e1e2",
+      "source": "GITHUB_PINNED_AUTOTUNE_BOOTSTRAP",
+      "kind": "SOURCE_BUILD_DOWNLOAD_AND_RESEARCH_CONFIGURATION_ONLY"
+    },
+    {
       "path": "tools/sched_ext/new_a_final/README.md",
       "release_sha256": "f52599870612e08493d9195a8ed73ff5c0c972f7e9f80f0596e21a814335a6f0",
       "source": "research-update-publication",
@@ -811,6 +896,42 @@
       "release_sha256": "00ab4999ab85219e0d0adfef878d1ecf0115502b2c5d99a959680fdd07e0cf19",
       "source": "hybrid-auto-configuration-research",
       "kind": "NEW_CONFIGURATION_TOOL_TEST_OR_DOCUMENTATION_NO_POLICY_CHANGE"
+    },
+    {
+      "path": "tools/sched_ext/new_a_hybrid_autotune/README.md",
+      "release_sha256": "dce7622fa11dbc7b2c307fc8e957463557f987d4556f1f6d33bd3dcb63c7153c",
+      "source": "GITHUB_PINNED_AUTOTUNE_BOOTSTRAP",
+      "kind": "SOURCE_BUILD_DOWNLOAD_AND_RESEARCH_CONFIGURATION_ONLY"
+    },
+    {
+      "path": "tools/sched_ext/new_a_hybrid_autotune/autotune.py",
+      "release_sha256": "d79002efa27aacbaa6918d8025936945ce38f741f762d388911ccb9a168abe54",
+      "source": "GITHUB_PINNED_AUTOTUNE_BOOTSTRAP",
+      "kind": "SOURCE_BUILD_DOWNLOAD_AND_RESEARCH_CONFIGURATION_ONLY"
+    },
+    {
+      "path": "tools/sched_ext/new_a_hybrid_autotune/backend.py",
+      "release_sha256": "42d09d4b3ad2713020c609126bf63cd823b23d9b7d34e4d46b5d68dc53a46afc",
+      "source": "GITHUB_PINNED_AUTOTUNE_BOOTSTRAP",
+      "kind": "SOURCE_BUILD_DOWNLOAD_AND_RESEARCH_CONFIGURATION_ONLY"
+    },
+    {
+      "path": "tools/sched_ext/new_a_hybrid_autotune/experiment.py",
+      "release_sha256": "f3ea126d7fe63ac64f8346b94f2ca95d0bc70d4c761af5abb9a17fe5c2fdacce",
+      "source": "GITHUB_PINNED_AUTOTUNE_BOOTSTRAP",
+      "kind": "SOURCE_BUILD_DOWNLOAD_AND_RESEARCH_CONFIGURATION_ONLY"
+    },
+    {
+      "path": "tools/sched_ext/new_a_hybrid_autotune/planning.py",
+      "release_sha256": "c279d24d59f4baeb91276663bf4b6fbff98045d15263ac576063ff21522a5a1e",
+      "source": "GITHUB_PINNED_AUTOTUNE_BOOTSTRAP",
+      "kind": "SOURCE_BUILD_DOWNLOAD_AND_RESEARCH_CONFIGURATION_ONLY"
+    },
+    {
+      "path": "tools/sched_ext/new_a_hybrid_autotune/test_autotune.py",
+      "release_sha256": "b3d42d6517d6b4af08e9c6ab11355d2cccb3cb17952041b541dd4d1ddb0434c0",
+      "source": "GITHUB_PINNED_AUTOTUNE_BOOTSTRAP",
+      "kind": "SOURCE_BUILD_DOWNLOAD_AND_RESEARCH_CONFIGURATION_ONLY"
     },
     {
       "path": "tools/sched_ext/new_a_portable/README.md",

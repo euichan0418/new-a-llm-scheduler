@@ -1,0 +1,36 @@
+{
+  "status": "STATIC_AND_NONPRIVILEGED_VALIDATION_PASS_FULL_EXPERIMENT_NOT_RUN",
+  "nonprivileged_tests": 319,
+  "engine_source": {
+    "repository": "codinghuman0/llama-scheduler-base",
+    "commit": "c8b9d61d12b4997d902a03e5dc55a185d18c3bc9",
+    "remote_retrieval": "PASS_FRESH_SPARSE_CHECKOUT",
+    "build": "PASS_ACTUAL_SERIAL_BUILD_FROM_REMOTE_FETCHED_PINNED_SOURCE",
+    "source_clean": true,
+    "version_help_elf_phase_symbol": "PASS_ACTUAL",
+    "libraries": "ALL_7_PROJECT_DSOS_PRESENT_AND_LIBGOMP_RESOLVED",
+    "historical_byte_identity": false
+  },
+  "model": {
+    "metadata_api": "PASS_SIZE_AND_LFS_SHA256_MATCH_HISTORICAL_MODEL",
+    "pinned_download_url_head": "PASS_HTTP_200_SIZE_1117321312",
+    "actual_full_download": "NOT_RUN_DISK_RESERVE",
+    "local_existing_model_not_used_for_bootstrap_validation": true,
+    "license": "APACHE_2_QUANTIZER_CARD_MIT_UPSTREAM_WITH_QWEN_ATTRIBUTION",
+    "full_transfer_hash_verification": "NOT_RUN_LOCAL_DISK_RESERVE;_MOCK_TRANSFER_TESTS_PASS"
+  },
+  "actual_model_loading": "NOT_RUN",
+  "actual_inference": "NOT_RUN",
+  "actual_performance": "NOT_RUN",
+  "actual_bpf_attach": "NOT_RUN",
+  "actual_system_install": "NOT_RUN",
+  "actual_power_change": "NOT_RUN",
+  "team_cpu_runtime": "NOT_TESTED",
+  "minimum_free_bytes": 6442450944,
+  "default_policy": "P_PLUS_FLOOR_E_HALF_COMPACT_NO_SMT",
+  "default_scheduler": "linux",
+  "strict_acceptance": "FAILED",
+  "safety_verdict": "FAIL",
+  "overhead_review": "OVERHEAD_REVIEW_REQUIRED",
+  "blank_clone_bootstrap": "TO_BE_CHECKED_AFTER_PUSH"
+}

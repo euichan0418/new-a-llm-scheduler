@@ -4,7 +4,7 @@ PYTHON ?= python3
 help:
 	@echo "make test | make build NEW_BUILD=/new/output | make build-lite NEW_BUILD=/new/external/output | make check"
 	@echo "Research prototype. No automatic BPF loading or inference."
-test: test-universal
+test: test-universal test-autotune test-bootstrap
 	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B tools/sched_ext/new_a_hybrid/test_hybrid.py
 	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B tools/sched_ext/new_a_runtime_lite/test_runtime_lite.py
 	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B tools/sched_ext/new_a_portable/test_portable.py
@@ -32,3 +32,13 @@ test-universal:
 build-universal:
 	@test -n "$(NEW_BUILD)" || { echo "Set NEW_BUILD to a new external directory" >&2; exit 2; }
 	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B tools/sched_ext/new_a_universal_runtime/build.py --output "$(NEW_BUILD)"
+
+.PHONY: test-autotune
+test-autotune:
+	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B tools/sched_ext/new_a_hybrid_autotune/test_autotune.py
+
+.PHONY: test-bootstrap
+test-bootstrap:
+	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B tools/sched_ext/new_a_bootstrap/test_package.py
+	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B tools/sched_ext/new_a_bootstrap/test_auto.py
+	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B tools/sched_ext/new_a_bootstrap/test_provision.py

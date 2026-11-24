@@ -15,8 +15,8 @@
     },
     {
       "path": ".gitignore",
-      "size": 148,
-      "sha256": "ac2386cfffd5fcbee14d3f93d1fe4a46643757e8b982f7a049d6ec7310fbc025",
+      "size": 216,
+      "sha256": "537e8b49780e6a7b70ef92c212c9c58166722b3c42136a4ffda2df0110b26d45",
       "executable": false
     },
     {
@@ -39,8 +39,8 @@
     },
     {
       "path": "Makefile",
-      "size": 2015,
-      "sha256": "0df8e6a370ba59c2bd5df4f7dc413d34ac90216aa47bcf7a4942f175061d3625",
+      "size": 2480,
+      "sha256": "fc0a87d5d1b16964c6b06f5e3e9d8e926f876879c75c68ef40a23f51a057f073",
       "executable": false
     },
     {
@@ -51,20 +51,26 @@
     },
     {
       "path": "PUBLICATION_PROVENANCE.json",
-      "size": 60005,
-      "sha256": "4cd8b3c1bb016209f98574c98a8197df49673694403b9ae141884bae75ae1afb",
+      "size": 65970,
+      "sha256": "bbe19ce257dcf05814466340360495d8afa98add4e58fab8aa4733cdbd188c79",
       "executable": false
     },
     {
       "path": "README.ko.md",
-      "size": 7895,
-      "sha256": "14610465529f15c7f4a91ae0ea9b752b1f5d53bb7ecf2fc1e075700d62cb1815",
+      "size": 8675,
+      "sha256": "2c904f9fc71ca73379a9f43486fb3f9dbe4d3e728f188e3ffd207c52647853c7",
       "executable": false
     },
     {
       "path": "README.md",
-      "size": 17148,
-      "sha256": "8cf24450df371aa1c41ab71c7c6c16820b6ba14407b4715d4472550de4245bcc",
+      "size": 17928,
+      "sha256": "0a6bea64916cfebfdf460032116f71b72e4dc1008eda27946fa692f49ffbdd67",
+      "executable": false
+    },
+    {
+      "path": "config/autotune-provision.json",
+      "size": 2870,
+      "sha256": "f66009d10f649a677c18eefab754c3b1d153045fb29abc1894ec30d504ad6c75",
       "executable": false
     },
     {
@@ -89,6 +95,18 @@
       "path": "docs/amd-runtime.md",
       "size": 2585,
       "sha256": "7d4ef21ce2e820c4247fbcd0f530e6c77a0b6bfe92471f9ae9785117e422c04e",
+      "executable": false
+    },
+    {
+      "path": "docs/autotune-bootstrap.ko.md",
+      "size": 9619,
+      "sha256": "3983a6df8799224c8b5075de616d70d5686dccf97dac16c8132a8bdf387e79ef",
+      "executable": false
+    },
+    {
+      "path": "docs/frozen-engine-reproduction.md",
+      "size": 2513,
+      "sha256": "ad82cbd961084e614a87dc7fe5a136b195f7d4a3e7486aef8f42e13c057f9d14",
       "executable": false
     },
     {
@@ -176,6 +194,12 @@
       "executable": false
     },
     {
+      "path": "results/autotune-bootstrap-validation.json",
+      "size": 1550,
+      "sha256": "ea062184436f6caaf9d4f4c013e7223e6aab76c9e8f53c6b423149d541ac3e60",
+      "executable": false
+    },
+    {
       "path": "results/benchmarks.json",
       "size": 36620,
       "sha256": "f09a8addefdbd4080d6ca215782c754f0a40a134fd68a5385db373805c4dd749",
@@ -218,6 +242,12 @@
       "executable": false
     },
     {
+      "path": "scripts/autotune-bootstrap.sh",
+      "size": 2794,
+      "sha256": "66e066babc71bb9e0cd1ce869ca45a8e55ec481ea9c23e17aff94b52d4c9e4cc",
+      "executable": true
+    },
+    {
       "path": "scripts/summarize_research.py",
       "size": 5695,
       "sha256": "f7888538d563077c7811fe6ea54221a9fd1f6dfee06c2907373cc0aa06663f02",
@@ -225,8 +255,8 @@
     },
     {
       "path": "scripts/verify_release.py",
-      "size": 3069,
-      "sha256": "57ee276afac944cca8d92226981daae9d2dd73726154ebed024f77a3941abb50",
+      "size": 3119,
+      "sha256": "8be6c6cb34f4c4a8e2c5690588da9ffc4259a3965dcd7ebf3c538c860936dd37",
       "executable": false
     },
     {
@@ -572,6 +602,60 @@
       "executable": false
     },
     {
+      "path": "tools/sched_ext/new_a_bootstrap/auto_assets.py",
+      "size": 8423,
+      "sha256": "718472e34a37a3f89b84768660b738741c632f0c0f635b2064741e81e5b9073c",
+      "executable": false
+    },
+    {
+      "path": "tools/sched_ext/new_a_bootstrap/auto_run.py",
+      "size": 10035,
+      "sha256": "1701d0389f152dc28deb9306aefaec4dc15d8b4da1dae641faf6015c5c9420d9",
+      "executable": false
+    },
+    {
+      "path": "tools/sched_ext/new_a_bootstrap/auto_system.py",
+      "size": 12033,
+      "sha256": "1bf966e6bcae7d7a8d860b79f7b0d05619ef5acfdbee40e0696d7bcc37ca0b4b",
+      "executable": false
+    },
+    {
+      "path": "tools/sched_ext/new_a_bootstrap/bootstrap.py",
+      "size": 9186,
+      "sha256": "52c2ff92026e31fb96d169946db6d5d93d10113aae86a1b05faa5cc7c03fb4db",
+      "executable": false
+    },
+    {
+      "path": "tools/sched_ext/new_a_bootstrap/package_driver.py",
+      "size": 13432,
+      "sha256": "d683b94d32f149ab27115e552fda16600ebfb9060140b983e39a7726afaa3046",
+      "executable": false
+    },
+    {
+      "path": "tools/sched_ext/new_a_bootstrap/provision.py",
+      "size": 9246,
+      "sha256": "09a9c50fa6a49dc8a541ea38e58f698c3008bcb1a877ccac30a628851fa3f1a9",
+      "executable": false
+    },
+    {
+      "path": "tools/sched_ext/new_a_bootstrap/test_auto.py",
+      "size": 17367,
+      "sha256": "99c7834008a8dc38f290b3fe66a945441a1ea4cbc9ba1ef40977f78863ee430d",
+      "executable": false
+    },
+    {
+      "path": "tools/sched_ext/new_a_bootstrap/test_package.py",
+      "size": 8563,
+      "sha256": "3391da97e72086808bab253c626aadf88f798201ed43c95e03649104d8b95efb",
+      "executable": false
+    },
+    {
+      "path": "tools/sched_ext/new_a_bootstrap/test_provision.py",
+      "size": 8821,
+      "sha256": "e6d3a15e5547c6314a3db87dc3ae9af3e264a55f58a65d0db48829e2a7e7e1e2",
+      "executable": false
+    },
+    {
       "path": "tools/sched_ext/new_a_final/README.md",
       "size": 272,
       "sha256": "f52599870612e08493d9195a8ed73ff5c0c972f7e9f80f0596e21a814335a6f0",
@@ -737,6 +821,42 @@
       "path": "tools/sched_ext/new_a_hybrid/test_hybrid.py",
       "size": 14716,
       "sha256": "00ab4999ab85219e0d0adfef878d1ecf0115502b2c5d99a959680fdd07e0cf19",
+      "executable": false
+    },
+    {
+      "path": "tools/sched_ext/new_a_hybrid_autotune/README.md",
+      "size": 13942,
+      "sha256": "dce7622fa11dbc7b2c307fc8e957463557f987d4556f1f6d33bd3dcb63c7153c",
+      "executable": false
+    },
+    {
+      "path": "tools/sched_ext/new_a_hybrid_autotune/autotune.py",
+      "size": 10308,
+      "sha256": "d79002efa27aacbaa6918d8025936945ce38f741f762d388911ccb9a168abe54",
+      "executable": false
+    },
+    {
+      "path": "tools/sched_ext/new_a_hybrid_autotune/backend.py",
+      "size": 12166,
+      "sha256": "42d09d4b3ad2713020c609126bf63cd823b23d9b7d34e4d46b5d68dc53a46afc",
+      "executable": false
+    },
+    {
+      "path": "tools/sched_ext/new_a_hybrid_autotune/experiment.py",
+      "size": 10733,
+      "sha256": "f3ea126d7fe63ac64f8346b94f2ca95d0bc70d4c761af5abb9a17fe5c2fdacce",
+      "executable": false
+    },
+    {
+      "path": "tools/sched_ext/new_a_hybrid_autotune/planning.py",
+      "size": 8818,
+      "sha256": "c279d24d59f4baeb91276663bf4b6fbff98045d15263ac576063ff21522a5a1e",
+      "executable": false
+    },
+    {
+      "path": "tools/sched_ext/new_a_hybrid_autotune/test_autotune.py",
+      "size": 22943,
+      "sha256": "b3d42d6517d6b4af08e9c6ab11355d2cccb3cb17952041b541dd4d1ddb0434c0",
       "executable": false
     },
     {
