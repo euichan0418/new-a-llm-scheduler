@@ -1,5 +1,6 @@
 # SPDX-License-Identifier: GPL-2.0
 """Automatic Linux configuration experiments; explicit approvals, no BPF auto attach."""
+from contextlib import contextmanager
 import fcntl
 import json
 import os
@@ -21,6 +22,19 @@ def quiet(module):
         require(module.b.contracts.scheduler_state()=='disabled','sched_ext active')
         module.b.controller.foreign_processes();return True
     except (OSError,ValueError):return False
+
+
+@contextmanager
+def preparation_signals():
+    previous={}
+    def stop(sig,frame):
+        for item in [signal.SIGINT,signal.SIGTERM,signal.SIGHUP]:signal.signal(item,signal.SIG_IGN)
+        raise KeyboardInterrupt('Signal '+str(sig)+'; preserve evidence and restore power after cleanup')
+    try:
+        for sig in [signal.SIGINT,signal.SIGTERM,signal.SIGHUP]:previous[sig]=signal.signal(sig,stop)
+        yield
+    finally:
+        for sig,handler in previous.items():signal.signal(sig,handler)
 
 
 def child(command):
@@ -54,6 +68,9 @@ def restore_only(driver,journal):
     fd=os.open(Path('/tmp')/('new-a-universal-'+str(os.getuid())+'.lock'),os.O_CREAT|os.O_RDWR|os.O_NOFOLLOW,0o600)
     try:
         require(os.fstat(fd).st_uid==os.getuid(),'Foreign runtime lock');fcntl.flock(fd,fcntl.LOCK_EX|fcntl.LOCK_NB)
+        if json.loads(path.read_text()).get('schema')!=2:
+            system.pending_recovery(path,lambda:quiet(module))
+            print('수동 복구 상태 검증/새 기준선 승인만 기록했습니다. 과거 실패 저널은 보존했습니다.');return 0
         system.restore(path,lambda:quiet(module),reauthenticate=True)
     finally:os.close(fd)
     print('원래 전원 설정 복원 완료: '+str(path));return 0
@@ -68,7 +85,7 @@ def run(driver,*,check=False,search_roots=None,guard_fd=None):
     if not check:
         for journal in results.glob('auto-*/environment.private.json'):
             value=json.loads(journal.read_text())
-            require(not value.get('attempted')or value['status']=='RESTORED','PENDING_ENVIRONMENT_RESTORE: '+str(journal)+'; run the restore-environment.sh in that directory before a new auto run')
+            if value.get('attempted')and value['status']!='RESTORED':system.pending_recovery(journal,lambda:quiet(driver.engine()))
     session=results/('auto-'+time.strftime('%Y%m%dT%H%M%SZ',time.gmtime())+'-'+uuid.uuid4().hex[:8]);session.mkdir(mode=0o700)
     print('AUTO_RESULT_DIRECTORY='+str(session),flush=True)
     state=dict(status='PREPARING',scheduler='linux',bpf_attach='NOT_RUN',inference='NOT_RUN',session=str(session),automatic_retry=False)
@@ -103,6 +120,7 @@ def run(driver,*,check=False,search_roots=None,guard_fd=None):
         # Permission to run this Linux batch is separate from system preparation consent.
         system.consent('Linux 기본 스케줄러에서 Auto-Tuning을 실행합니다. NEW_A BPF를 attach하지 않습니다.\nCPU: '+str(detection['summary'])+'\n기본 구성: '+str(default)+'\n최대160서버 세션/7200초, 후보별 독립 서버/워밍업2/측정1, 2블록 선별 후 필요할 때 독립6블록 확증.\nSTRICT_ACCEPTANCE=FAILED / safety_verdict=FAIL / OVERHEAD_REVIEW_REQUIRED를 유지합니다.\n실패 자동 재시도·인증 갱신은 없으며 결과를 보존하고 중단합니다.')
         system.save(session/'experiment-consent.private.json',dict(approved=True,scheduler='linux',default=default,maximum_sessions=160,maximum_seconds=7200,automatic_retry=False))
+        require(quiet(module),'CLEANUP_NOT_VERIFIED before power apply')
         system.apply(changes,journal)
         output=session/'tuning';state['tuning_output']=str(output)
         arguments=['--server',compatible['server'],'--server-sha256',next(r['sha256']for r in selection['artifacts']if r['role']=='server'),'--model',selection['model'],'--model-sha256',pins['model']['sha256'],'--library-dir',str(staged),'--marker-elf',compatible['marker'],'--output',str(output),'--execute','--acknowledge-existing-safety-fail']
@@ -122,7 +140,7 @@ def run(driver,*,check=False,search_roots=None,guard_fd=None):
             try:
                 if guard_fd is not None:fcntl.flock(guard_fd,fcntl.LOCK_EX|fcntl.LOCK_NB)
                 system.restore(journal,lambda:module is not None and quiet(module))
-            except (OSError,ValueError,KeyError,subprocess.SubprocessError)as error:
+            except (OSError,ValueError,KeyError,subprocess.SubprocessError,KeyboardInterrupt)as error:
                 restore_error=str(error);state['restore_error']=restore_error;state['status']='ENVIRONMENT_RESTORE_REQUIRED'
                 print('복원 미완료. 새 실험 금지. 정리 확인 후 실행: bash '+shlex.quote(str(session/'restore-environment.sh')),file=sys.stderr)
         report(session,state)
@@ -138,5 +156,6 @@ def locked_run(driver,check=False):
     try:
         require(os.fstat(fd).st_uid==os.getuid()and os.fstat(guard).st_uid==os.getuid(),'Foreign runtime lock')
         fcntl.flock(fd,fcntl.LOCK_EX|fcntl.LOCK_NB);fcntl.flock(guard,fcntl.LOCK_EX|fcntl.LOCK_NB)
-        return run(driver,guard_fd=guard)
+        with preparation_signals():
+            return run(driver,guard_fd=guard)
     finally:os.close(guard);os.close(fd)

@@ -4,7 +4,7 @@ PYTHON ?= python3
 help:
 	@echo "make test | make build NEW_BUILD=/new/output | make build-lite NEW_BUILD=/new/external/output | make check"
 	@echo "Research prototype. No automatic BPF loading or inference."
-test: test-universal test-autotune test-bootstrap
+test: test-universal test-autotune test-bootstrap test-power-state
 	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B tools/sched_ext/new_a_hybrid/test_hybrid.py
 	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B tools/sched_ext/new_a_runtime_lite/test_runtime_lite.py
 	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B tools/sched_ext/new_a_portable/test_portable.py
@@ -42,3 +42,7 @@ test-bootstrap:
 	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B tools/sched_ext/new_a_bootstrap/test_package.py
 	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B tools/sched_ext/new_a_bootstrap/test_auto.py
 	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B tools/sched_ext/new_a_bootstrap/test_provision.py
+
+.PHONY: test-power-state
+test-power-state:
+	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B tools/sched_ext/new_a_bootstrap/test_power_state.py

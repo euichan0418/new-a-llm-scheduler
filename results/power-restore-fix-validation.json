@@ -1,0 +1,23 @@
+{
+  "status": "POWER_RESTORE_V2_STATIC_AND_MOCK_VALIDATION",
+  "new_power_tests": 41,
+  "other_nonprivileged_tests": 320,
+  "total_tests": 361,
+  "reported_issue": "PPD_PROFILE_RESTORE_BEFORE_HWP_GOVERNOR_UNLOCK",
+  "cause_evidence": "USER_ERROR_PLUS_CODE_ORDER_KERNEL_CONTRACT_AND_MOCK_REPRODUCTION",
+  "team_full_raw_log_access": "NOT_AVAILABLE_IN_DEVELOPMENT",
+  "journal_schema": 2,
+  "original_epp_required": true,
+  "driver_mode_switch": false,
+  "daemon_service_stop_restart": false,
+  "legacy_failure_bytes_preserved": true,
+  "manual_recovery": "SEPARATE_USER_APPROVED_BASELINE_ATTESTATION_NOT_HISTORICAL_PASS",
+  "actual_power_write": "NOT_RUN",
+  "actual_sudo": "NOT_RUN",
+  "actual_team_runtime": "NOT_RUN",
+  "actual_bpf_attach": "NOT_RUN",
+  "actual_inference_performance": "NOT_RUN",
+  "strict_acceptance": "FAILED",
+  "safety_verdict": "FAIL",
+  "overhead_review": "OVERHEAD_REVIEW_REQUIRED"
+}

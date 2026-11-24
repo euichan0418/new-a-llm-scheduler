@@ -2,6 +2,7 @@
 """Automatic discovery/preparation tests; all privileged operations are mocked."""
 import json
 import os
+import subprocess
 from pathlib import Path
 import struct
 import sys
@@ -12,6 +13,7 @@ from unittest.mock import patch,Mock
 sys.dont_write_bytecode=True
 sys.path.insert(0,str(Path(__file__).resolve().parent))
 import auto_assets as a,auto_system as s,auto_run as run,package_driver as driver
+from test_power_state import FakePower,trial
 
 
 def fixture(root):
@@ -104,33 +106,44 @@ class PowerAndApproval(unittest.TestCase):
                 with self.assertRaisesRegex(ValueError,'canonical'):s.write_setting(dict(kind='sysfs',path=str(p)),'1',Path(tmp)/'log')
                 root.assert_not_called()
     def test_consent_decline_changes_nothing(self):
-        with tempfile.TemporaryDirectory()as tmp,patch.object(s,'authenticate')as auth,patch.object(s,'write_setting')as write:
-            with self.assertRaisesRegex(ValueError,'DECLINED'):s.apply([dict(kind='profile',before='balanced',after='performance')],Path(tmp)/'j',approve=Mock(side_effect=ValueError('DECLINED')))
-            auth.assert_not_called();write.assert_not_called()
+        f=FakePower(1)
+        with tempfile.TemporaryDirectory()as tmp,f.patched(),patch.object(s,'authenticate')as auth:
+            with self.assertRaisesRegex(ValueError,'DECLINED'):s.apply(s.power_plan(),Path(tmp)/'j',approve=Mock(side_effect=ValueError('DECLINED')))
+            auth.assert_not_called();self.assertEqual(f.trace,[])
+
     def test_auth_failure_does_not_write(self):
-        with tempfile.TemporaryDirectory()as tmp,patch.object(s,'authenticate',side_effect=ValueError('AUTH_EXPIRED')),patch.object(s,'write_setting')as write:
-            with self.assertRaisesRegex(ValueError,'AUTH_EXPIRED'):s.apply([dict(kind='profile',before='balanced',after='performance')],Path(tmp)/'j',approve=Mock())
-            write.assert_not_called()
+        f=FakePower(1)
+        with tempfile.TemporaryDirectory()as tmp,f.patched(),patch.object(s,'authenticate',side_effect=ValueError('AUTH_EXPIRED')):
+            with self.assertRaisesRegex(ValueError,'AUTH_EXPIRED'):s.apply(s.power_plan(),Path(tmp)/'j',approve=Mock())
+            self.assertEqual(f.trace,[])
+
     def test_partial_change_attempt_logged_before_write(self):
-        with tempfile.TemporaryDirectory()as tmp,patch.object(s,'authenticate'),patch.object(s,'write_setting',side_effect=ValueError('failed write')):
-            j=Path(tmp)/'j'
-            with self.assertRaises(ValueError):s.apply([dict(kind='profile',before='balanced',after='performance')],j,approve=Mock())
-            self.assertEqual(json.loads(j.read_text())['attempted'],[0])
-    def test_restore_profile_first_then_governors(self):
+        f=FakePower(1)
+        with tempfile.TemporaryDirectory()as tmp,f.patched():
+            j=Path(tmp)/'j';rows=s.power_plan();f.fail=lambda key,value:True
+            with self.assertRaises(ValueError):s.apply(rows,j,approve=Mock())
+            self.assertEqual(json.loads(j.read_text())['attempted'],list(range(len(rows))))
+
+    def test_legacy_restore_cannot_guess_missing_epp(self):
         with tempfile.TemporaryDirectory()as tmp,patch.object(s,'write_setting')as write:
-            j=Path(tmp)/'j';changes=[dict(kind='profile',before='balanced',after='performance'),dict(kind='sysfs',path='/sys/devices/system/cpu/cpufreq/policy0/scaling_governor',before='powersave',after='performance')]
-            s.save(j,dict(schema=1,changes=changes,attempted=[0,1],restored=[],status='APPLIED'));s.restore(j,lambda:True)
-            self.assertEqual([c.args[0]['kind']for c in write.call_args_list],['profile','sysfs']);self.assertEqual(json.loads(j.read_text())['status'],'RESTORED')
+            j=Path(tmp)/'j';changes=[dict(kind='profile',before='balanced',after='performance')]
+            s.save(j,dict(schema=1,changes=changes,attempted=[0],restored=[],status='APPLIED'));raw=j.read_bytes()
+            with self.assertRaisesRegex(ValueError,'LEGACY_EPP_BASELINE_UNKNOWN'):s.restore(j,lambda:True)
+            write.assert_not_called();self.assertEqual(j.read_bytes(),raw)
+
     def test_cleanup_unknown_blocks_restore(self):
         with tempfile.TemporaryDirectory()as tmp,patch.object(s,'write_setting')as write:
             j=Path(tmp)/'j';s.save(j,dict(schema=1,changes=[dict(kind='profile',before='balanced',after='performance')],attempted=[0],restored=[],status='APPLIED'))
             with self.assertRaisesRegex(ValueError,'CLEANUP_NOT_VERIFIED'):s.restore(j,lambda:False)
             write.assert_not_called()
     def test_restore_auth_expiry_is_not_success(self):
-        with tempfile.TemporaryDirectory()as tmp,patch.object(s,'write_setting',side_effect=ValueError('AUTH_EXPIRED')):
-            j=Path(tmp)/'j';s.save(j,dict(schema=1,changes=[dict(kind='profile',before='balanced',after='performance')],attempted=[0],restored=[],status='APPLIED'))
-            with self.assertRaisesRegex(ValueError,'RESTORE_REQUIRED'):s.restore(j,lambda:True)
+        f=FakePower(1)
+        with tempfile.TemporaryDirectory()as tmp,f.patched():
+            j=trial(f,tmp)
+            with patch.object(s,'write_setting',side_effect=ValueError('sudo: a password is required')):
+                with self.assertRaises(ValueError):s.restore(j,lambda:True)
             self.assertEqual(json.loads(j.read_text())['status'],'RESTORE_REQUIRED')
+
     def test_no_changes_need_no_auth(self):
         with tempfile.TemporaryDirectory()as tmp,patch.object(s,'authenticate')as auth:
             j=Path(tmp)/'j';s.apply([],j);s.restore(j,lambda:False);auth.assert_not_called()
@@ -139,6 +152,12 @@ class PowerAndApproval(unittest.TestCase):
             log=Path(tmp)/'log'
             with self.assertRaisesRegex(ValueError,'PRIVILEGED_PREPARATION_FAILED'):s.root_command(['/usr/bin/tee','/approved/path'],log,data='1\n')
             self.assertEqual(call.call_args.args[0][:3],['/usr/bin/sudo','-N','-n']);self.assertIn('password is required',log.read_text())
+    def test_privileged_timeout_preserves_unknown_exit_and_raw_output(self):
+        with tempfile.TemporaryDirectory()as tmp,patch.object(s.subprocess,'run',side_effect=subprocess.TimeoutExpired(['SYNTHETIC'],30,output='PARTIAL_OUT',stderr='PARTIAL_ERROR')):
+            log=Path(tmp)/'log'
+            with self.assertRaises(subprocess.TimeoutExpired):s.root_command(['/usr/bin/tee','/approved/path'],log,data='1\n',timeout=30)
+            rows=[json.loads(x)for x in log.read_text().splitlines()]
+            self.assertEqual(rows[-1]['stage'],'NOT_VERIFIED');self.assertIsNone(rows[-1]['returncode']);self.assertEqual(rows[-1]['stderr'],'PARTIAL_ERROR')
     def test_apt_invalid_package_name_rejected_before_privilege(self):
         with tempfile.TemporaryDirectory()as tmp,patch.object(s,'authenticate')as auth:
             with self.assertRaises(ValueError):s.install(['bad;command'],tmp)
@@ -174,7 +193,7 @@ class AutoExecution(unittest.TestCase):
     def test_existing_pending_restore_blocks_new_experiment(self):
         with tempfile.TemporaryDirectory()as tmp:
             root=Path(tmp)/'package';root.mkdir();folder=root.parent/'new-a-autotune-results/auto-old';folder.mkdir(parents=True);(folder/'environment.private.json').write_text(json.dumps(dict(attempted=[0],status='APPLIED')));d=SimpleNamespace(ROOT=root,nearest=driver.nearest,RESERVE=driver.RESERVE)
-            with patch.object(os,'isatty',return_value=True),patch.object(a,'discover')as discover:
+            with patch.object(os,'isatty',return_value=True),patch.object(a,'discover')as discover,patch.object(s,'pending_recovery',side_effect=ValueError('PENDING_ENVIRONMENT_RESTORE')):
                 with self.assertRaisesRegex(ValueError,'PENDING_ENVIRONMENT_RESTORE'):run.run(d)
                 discover.assert_not_called()
     def test_full_auto_handoff_and_restore_with_mocked_experiment(self):
@@ -185,12 +204,13 @@ class AutoExecution(unittest.TestCase):
                 module=SimpleNamespace(b=b,p=SimpleNamespace(default=Mock(return_value=dict(compute_threads=4,batch_threads=8))))
                 def action(mode,argv,module):return SimpleNamespace(output=Path(argv[argv.index('--output')+1])),['SYNTHETIC_NO_SERVER_EXECUTION']
                 d=SimpleNamespace(ROOT=root,nearest=driver.nearest,RESERVE=driver.RESERVE,engine=Mock(return_value=module),action=action,dependencies=Mock(return_value={}),admission_record=Mock(),verify=Mock(return_value={}))
-                with patch.object(os,'isatty',return_value=True),patch.object(s,'missing_packages',return_value=[]),patch.object(s,'install'),patch.object(a,'validate_elf',return_value=dict(server=str(root/'llama-server'),marker=str(root/'libfixture.so'))),patch.object(s,'consent'),patch.object(s,'power_plan',return_value=[dict(kind='profile',before='balanced',after='performance')]),patch.object(s,'snapshot',return_value=dict(sysfs={},profile=None)),patch.object(s,'preregister'),patch.object(s,'authenticate'),patch.object(s,'write_setting')as write,patch.object(run,'child',return_value=code,side_effect=KeyboardInterrupt()if code=='interrupt'else None):
+                fake=FakePower(2)
+                with fake.patched(),patch.object(os,'isatty',return_value=True),patch.object(s,'missing_packages',return_value=[]),patch.object(s,'install'),patch.object(a,'validate_elf',return_value=dict(server=str(root/'llama-server'),marker=str(root/'libfixture.so'))),patch.object(s,'consent'),patch.object(run,'child',return_value=code,side_effect=KeyboardInterrupt()if code=='interrupt'else None):
                     if code==0:self.assertEqual(run.run(d,search_roots=[root]),0)
                     else:
                         with self.assertRaises((ValueError,KeyboardInterrupt)):run.run(d,search_roots=[root])
                     journals=list(root.parent.glob('new-a-autotune-results/auto-*/environment.private.json'))
-                    self.assertEqual(json.loads(journals[0].read_text())['status'],'RESTORED');self.assertEqual([c.args[1]for c in write.call_args_list],['performance','balanced'])
+                    self.assertEqual(json.loads(journals[0].read_text())['status'],'RESTORED');self.assertEqual([value for key,value,_ in fake.trace if key=='profile'],['performance','balanced'])
     def test_quiet_requires_scheduler_and_no_foreign_processes(self):
         b=SimpleNamespace(contracts=SimpleNamespace(scheduler_state=Mock(return_value='disabled')),controller=SimpleNamespace(foreign_processes=Mock()))
         self.assertTrue(run.quiet(SimpleNamespace(b=b)));b.contracts.scheduler_state.return_value='enabled';self.assertFalse(run.quiet(SimpleNamespace(b=b)))

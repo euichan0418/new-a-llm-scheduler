@@ -39,8 +39,8 @@
     },
     {
       "path": "Makefile",
-      "size": 2480,
-      "sha256": "fc0a87d5d1b16964c6b06f5e3e9d8e926f876879c75c68ef40a23f51a057f073",
+      "size": 2633,
+      "sha256": "2bc44fdd3088bc8d3da64f12840b6bdef0c60628e3e3936786f0be5941a09fb8",
       "executable": false
     },
     {
@@ -51,20 +51,20 @@
     },
     {
       "path": "PUBLICATION_PROVENANCE.json",
-      "size": 65970,
-      "sha256": "147c6d356b47b8314f10a39c7bb8c60fe7f1b6e286682daf761d0e02290cc5a1",
+      "size": 67004,
+      "sha256": "49e4ffb85823194e2569115bbe5d4469618647d80585462170447e83687bb040",
       "executable": false
     },
     {
       "path": "README.ko.md",
-      "size": 8675,
-      "sha256": "2c904f9fc71ca73379a9f43486fb3f9dbe4d3e728f188e3ffd207c52647853c7",
+      "size": 8842,
+      "sha256": "0662e470b18e0892e6afb93915b417fb95b606176cc78f4ae6c72a9e07d8cbc9",
       "executable": false
     },
     {
       "path": "README.md",
-      "size": 17928,
-      "sha256": "0a6bea64916cfebfdf460032116f71b72e4dc1008eda27946fa692f49ffbdd67",
+      "size": 18095,
+      "sha256": "a02d5ce59d1b2d3b08f8551d3eadcb58d495c7ee3558195e57e397b2556fb7ad",
       "executable": false
     },
     {
@@ -99,8 +99,8 @@
     },
     {
       "path": "docs/autotune-bootstrap.ko.md",
-      "size": 9619,
-      "sha256": "3983a6df8799224c8b5075de616d70d5686dccf97dac16c8132a8bdf387e79ef",
+      "size": 9879,
+      "sha256": "2758627e6b394eea10276edd18e4e6b770bed9ad6fa65f653bce39bbbd427dfa",
       "executable": false
     },
     {
@@ -119,6 +119,12 @@
       "path": "docs/intel-hybrid-runtime.md",
       "size": 2688,
       "sha256": "4ca9548a6bb6499d0710577ec0f0cb545bc22ef1743c26d45963f16ed907c46f",
+      "executable": false
+    },
+    {
+      "path": "docs/power-restore.ko.md",
+      "size": 6916,
+      "sha256": "e7e7046087649c4f638c7ad969802c2180c2b790bb24e945b770d976bf8166a1",
       "executable": false
     },
     {
@@ -209,6 +215,12 @@
       "path": "results/hybrid-auto-config-validation.json",
       "size": 1615,
       "sha256": "cea19c85831c01dd11b69ddedee07c25e70a09891e191ba70dc6888cb3c7858a",
+      "executable": false
+    },
+    {
+      "path": "results/power-restore-fix-validation.json",
+      "size": 910,
+      "sha256": "709f7a564cc792d57a7e132ab9cd042f1b2ef51561bf9706db9c353d8261cbcf",
       "executable": false
     },
     {
@@ -609,26 +621,32 @@
     },
     {
       "path": "tools/sched_ext/new_a_bootstrap/auto_run.py",
-      "size": 10035,
-      "sha256": "1701d0389f152dc28deb9306aefaec4dc15d8b4da1dae641faf6015c5c9420d9",
+      "size": 10906,
+      "sha256": "0534e7fc76819c6cf7e638b3a6e8b78bda715fce17b65d0daba027defc607379",
       "executable": false
     },
     {
       "path": "tools/sched_ext/new_a_bootstrap/auto_system.py",
-      "size": 12033,
-      "sha256": "1bf966e6bcae7d7a8d860b79f7b0d05619ef5acfdbee40e0696d7bcc37ca0b4b",
+      "size": 8358,
+      "sha256": "45dce72e33707dbb48a5f2a881a48bc20ed366d16226c2ab6112ddeaa553fba6",
       "executable": false
     },
     {
       "path": "tools/sched_ext/new_a_bootstrap/bootstrap.py",
-      "size": 9186,
-      "sha256": "52c2ff92026e31fb96d169946db6d5d93d10113aae86a1b05faa5cc7c03fb4db",
+      "size": 9790,
+      "sha256": "ab24a38d4c0a9e2d7eae5c1342567ab6c39ab133dbeb9e19239050b2b8c2a413",
       "executable": false
     },
     {
       "path": "tools/sched_ext/new_a_bootstrap/package_driver.py",
       "size": 13432,
       "sha256": "d683b94d32f149ab27115e552fda16600ebfb9060140b983e39a7726afaa3046",
+      "executable": false
+    },
+    {
+      "path": "tools/sched_ext/new_a_bootstrap/power_state.py",
+      "size": 14231,
+      "sha256": "a3c1421eb04d32d392775e390087dba30d9285b9a5c8174ecb7501adca7e465b",
       "executable": false
     },
     {
@@ -639,14 +657,20 @@
     },
     {
       "path": "tools/sched_ext/new_a_bootstrap/test_auto.py",
-      "size": 17367,
-      "sha256": "99c7834008a8dc38f290b3fe66a945441a1ea4cbc9ba1ef40977f78863ee430d",
+      "size": 17625,
+      "sha256": "138555ea11a4352e7a839ef29afa1876bfdd6a78d94ed811726e3bd9fbaf9de3",
       "executable": false
     },
     {
       "path": "tools/sched_ext/new_a_bootstrap/test_package.py",
       "size": 8563,
       "sha256": "3391da97e72086808bab253c626aadf88f798201ed43c95e03649104d8b95efb",
+      "executable": false
+    },
+    {
+      "path": "tools/sched_ext/new_a_bootstrap/test_power_state.py",
+      "size": 21796,
+      "sha256": "b5ef15314e7b2a38d918764fc1f6c8a7a56cbffd14f88a0058acae571a160e8e",
       "executable": false
     },
     {

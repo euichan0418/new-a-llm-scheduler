@@ -2,6 +2,8 @@
 
 ## GitHub Intel Hybrid Auto-Tuning
 
+Intel HWP Governor/EPP 충돌을 피하는 전원 복원 v2와 기존 실패의 수동 복구 확인은 [복원 안내](docs/power-restore.ko.md)를 참고하세요.
+
 기존 Frozen/모델이 없는 PC의 고정 소스 빌드·정확한 GGUF 다운로드·Linux 설정 탐색 진입점은 [한국어 bootstrap 안내](docs/autotune-bootstrap.ko.md)를 참고하세요. `bash scripts/autotune-bootstrap.sh --auto`를 사용하며 설치/준비/전원/실험은 명시적 승인을 요구합니다. 기존 FULL 정책과 전역 안전성 FAIL은 유지하고 BPF를 자동 attach하지 않습니다. 실제 검증 범위와 NOT_RUN 항목은 [검증 요약](results/autotune-bootstrap-validation.json)에 구분합니다.
 
 ```bash

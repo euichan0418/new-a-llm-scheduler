@@ -1,5 +1,8 @@
 # GitHub에서 시작하는 Intel Hybrid Auto-Tuning
 
+전원 복원에서 intel_pstate EPP busy 오류가 있었다면 [전원 적용·복원 v2 및 수동 복구 안내](power-restore.ko.md)를 먼저 확인한다. 원본 실패는 보존하고, 새 실행에서 수동 복구 상태를 별도로 승인한다.
+
+
 기존 NEW_A/Frozen/모델/라이브러리가 없는 PC를 위한 소스 기반 준비 경로다. 기본은 **Linux 기본 스케줄러의 실행 구성 탐색**이며 NEW_A BPF를 자동 attach하지 않는다.
 
 ```bash

@@ -36,9 +36,16 @@ def authenticate():
 
 def root_command(argv, log, *, data=None, timeout=900):
     command=['/usr/bin/sudo','-N','-n',*argv]
-    result=subprocess.run(command,input=data,text=True,capture_output=True,timeout=timeout)
-    with Path(log).open('a')as f:f.write(json.dumps(dict(argv=command,returncode=result.returncode,stdout=result.stdout,stderr=result.stderr),ensure_ascii=False)+'\n')
-    Path(log).chmod(0o600)
+    def record(value):
+        with Path(log).open('a')as f:f.write(json.dumps(dict(argv=command,**value),ensure_ascii=False)+'\n')
+        Path(log).chmod(0o600)
+    record(dict(stage='STARTED',returncode=None))
+    try:result=subprocess.run(command,input=data,text=True,capture_output=True,timeout=timeout)
+    except BaseException as error:
+        def text(value):return value.decode(errors='replace')if isinstance(value,bytes)else(value or'')
+        record(dict(stage='NOT_VERIFIED',returncode=None,error=type(error).__name__+': '+str(error),stdout=text(getattr(error,'stdout',None)),stderr=text(getattr(error,'stderr',None))))
+        raise
+    record(dict(stage='FINISHED',returncode=result.returncode,stdout=result.stdout,stderr=result.stderr))
     require(result.returncode==0,'PRIVILEGED_PREPARATION_FAILED: '+result.stderr[-1000:])
 
 
@@ -93,43 +100,24 @@ def allowed_setting(path,value):
     if path=='/sys/devices/system/cpu/intel_pstate/no_turbo':return value in ['0','1']
     if path=='/sys/devices/system/cpu/cpufreq/boost':return value in ['0','1']
     if re.fullmatch(r'/sys/devices/system/cpu/cpufreq/policy\d+/scaling_governor',path):return value in ['performance','powersave','schedutil','ondemand','conservative','userspace']
+    if re.fullmatch(r'/sys/devices/system/cpu/cpufreq/policy\d+/energy_performance_preference',path):return value in ['default','performance','balance_performance','balance_power','power']or(bool(re.fullmatch(r'[0-9]{1,3}',value))and 0<=int(value)<=255)
     return False
 
 
 def snapshot():
-    values={}
-    candidates=[Path('/sys/devices/system/cpu/intel_pstate/no_turbo'),Path('/sys/devices/system/cpu/cpufreq/boost'),*Path('/sys/devices/system/cpu').glob('cpu*/cpufreq/scaling_governor')]
-    for p in candidates:
-        if p.is_file():
-            path=str(p.resolve());value=p.read_text().strip()
-            if allowed_setting(path,value):values[path]=value
-    profile=None
-    if Path('/usr/bin/powerprofilesctl').is_file():
-        try:profile=subprocess.check_output(['/usr/bin/powerprofilesctl','get'],text=True,stderr=subprocess.DEVNULL,timeout=10).strip()
-        except (OSError,subprocess.SubprocessError):pass
-    return dict(sysfs=values,profile=profile,package_installation_not_automatically_rolled_back=True)
+    import power_state
+    return power_state.capture()
 
 
 def power_plan(original=None):
-    changes=[];original=original or dict(sysfs={},profile=None)
-    turbo=Path('/sys/devices/system/cpu/intel_pstate/no_turbo');target='1'
-    if not turbo.is_file():turbo=Path('/sys/devices/system/cpu/cpufreq/boost');target='0'
-    require(turbo.is_file(),'TURBO_CONTROL_NOT_VERIFIED; no alternate kernel interface guessed')
-    paths=[turbo,*sorted({p.resolve()for p in Path('/sys/devices/system/cpu').glob('cpu*/cpufreq/scaling_governor')})]
-    require(len(paths)>1,'Governor interfaces missing')
-    for path in paths:
-        before=original['sysfs'].get(str(path.resolve()),path.read_text().strip());after=target if path==turbo else'performance'
-        require(allowed_setting(path,before)and allowed_setting(path,after),'Unsupported reversible power setting: '+str(path))
-        if path!=turbo:require('performance'in path.with_name('scaling_available_governors').read_text().split(),'performance governor unavailable')
-        changes.append(dict(kind='sysfs',path=str(path.resolve()),before=before,after=after))
-    command='/usr/bin/powerprofilesctl'
-    require(Path(command).is_file(),'System powerprofilesctl required')
-    current_profile=subprocess.check_output([command,'get'],text=True,timeout=10).strip()
-    before=original.get('profile')or current_profile
-    require(before in ['performance','balanced','power-saver'],'Original power profile not restorable by this tool')
-    if before!='performance'or current_profile!='performance':changes.insert(0,dict(kind='profile',before=before,after='performance'))
-    actual_mismatch=current_profile!='performance'or any(Path(r['path']).read_text().strip()!=r['after']for r in changes if r['kind']=='sysfs')
-    return changes if actual_mismatch or any(r['before']!=r['after']for r in changes)else []
+    import power_state
+    return power_state.plan(original)
+
+
+def read_setting(row):
+    if row['kind']=='profile':return subprocess.check_output(['/usr/bin/powerprofilesctl','get'],text=True,timeout=10).strip()
+    require(str(Path(row['path']).resolve())==row['path'],'Unapproved canonical power path')
+    return Path(row['path']).read_text().strip()
 
 
 def write_setting(row,value,log):
@@ -143,43 +131,20 @@ def write_setting(row,value,log):
 
 
 def preregister(changes,journal):
-    affected=[]
-    for i,row in enumerate(changes):
-        current=subprocess.check_output(['/usr/bin/powerprofilesctl','get'],text=True,timeout=10).strip()if row['kind']=='profile'else Path(row['path']).read_text().strip()
-        if current!=row['before']:affected.append(i)
-    save(journal,dict(schema=1,changes=changes,attempted=affected,restored=[],status='INSTALL_SIDE_EFFECTS'if affected else'NOT_APPLIED',automatic_credentials_refresh=False))
+    import power_state
+    return power_state.preregister(changes,journal)
 
 
-def apply(changes, journal, approve=None):
-    approve=approve or consent
-    state=json.loads(Path(journal).read_text())if Path(journal).exists()else dict(schema=1,changes=changes,attempted=[],restored=[],status='NOT_APPLIED',automatic_credentials_refresh=False)
-    require(state['changes']==changes,'Environment plan changed after registration');save(journal,state)
-    if not changes:return state
-    approve('실험용 전원 설정 변경 및 종료 후 복원 계획:\n'+json.dumps(changes,ensure_ascii=False,indent=2)+'\nAC/온도/커널 검사는 우회하지 않습니다. 인증이 만료되면 복원도 중단될 수 있으며 복구 명령을 제공합니다.')
-    state['user_approved']=True;save(journal,state)
-    authenticate()
-    for i,row in enumerate(changes):
-        if i not in state['attempted']:state['attempted'].append(i)
-        state['status']='APPLYING';save(journal,state)
-        write_setting(row,row['after'],Path(journal).with_suffix('.commands.private.jsonl'))
-    state['status']='APPLIED';save(journal,state);return state
+def apply(changes,journal,approve=None):
+    import power_state
+    return power_state.apply(changes,journal,approve)
 
 
-def restore(journal, quiet, *, reauthenticate=False, approve=None):
-    approve=approve or consent
-    journal=Path(journal);state=json.loads(journal.read_text())
-    require(state.get('schema')==1 and isinstance(state['changes'],list),'Invalid power journal')
-    if not state['attempted']or state['status']=='RESTORED':return
-    require(quiet(),'CLEANUP_NOT_VERIFIED: power restoration deferred until server/loader cleanup is confirmed')
-    if reauthenticate:
-        approve('기록된 원래 전원 설정 복원만 승인합니다. 추론/재시도는 하지 않습니다.');authenticate()
-    errors=[]
-    order=[i for i in state['attempted']if state['changes'][i]['kind']=='profile']+[i for i in reversed(state['attempted'])if state['changes'][i]['kind']!='profile']
-    for i in order:
-        if i in state['restored']:continue
-        row=state['changes'][i]
-        try:
-            write_setting(row,row['before'],journal.with_suffix('.restore.private.jsonl'));state['restored'].append(i);save(journal,state)
-        except (ValueError,OSError,subprocess.SubprocessError)as error:errors.append(str(error))
-    state['status']='RESTORE_REQUIRED'if errors else'RESTORED';state['restore_errors']=errors;save(journal,state)
-    require(not errors,'ENVIRONMENT_RESTORE_REQUIRED: '+str(errors))
+def restore(journal,quiet,*,reauthenticate=False,approve=None):
+    import power_state
+    return power_state.restore(journal,quiet,reauthenticate,approve)
+
+
+def pending_recovery(journal,quiet,*,readonly=False,approve=None):
+    import power_state
+    return power_state.pending(journal,quiet,readonly=readonly,approve=approve)

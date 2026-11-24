@@ -6,7 +6,8 @@
     "The portable static builder additionally compiles the unchanged selected-child helper after matching-kernel UAPI validation.",
     "Original guarded-loader monitor instrumentation is retained; no diagnostic reduction.",
     "Universal runtime adds independent loader/monitor binding and dynamic raw verification; original E FULL source is unchanged. Actual universal functional and performance validation NOT_RUN.",
-    "GitHub bootstrap fetches a pinned historical engine revision and exact licensed GGUF; no BPF auto attach or historical byte/performance equivalence claim."
+    "GitHub bootstrap fetches a pinned historical engine revision and exact licensed GGUF; no BPF auto attach or historical byte/performance equivalence claim.",
+    "Intel HWP restoration uses powersave bridge, exact EPP baseline and full readback; historical failure evidence stays unchanged. Actual power writes and performance NOT_RUN."
   ],
   "files": [
     {
@@ -41,9 +42,9 @@
     },
     {
       "path": "Makefile",
-      "release_sha256": "fc0a87d5d1b16964c6b06f5e3e9d8e926f876879c75c68ef40a23f51a057f073",
-      "source": "GITHUB_PINNED_AUTOTUNE_BOOTSTRAP",
-      "kind": "SOURCE_BUILD_DOWNLOAD_AND_RESEARCH_CONFIGURATION_ONLY"
+      "source": "INTEL_HWP_POWER_RESTORE_V2",
+      "kind": "POWER_PREPARATION_AND_RECOVERY_ONLY",
+      "release_sha256": "2bc44fdd3088bc8d3da64f12840b6bdef0c60628e3e3936786f0be5941a09fb8"
     },
     {
       "path": "NOTICE",
@@ -53,15 +54,15 @@
     },
     {
       "path": "README.ko.md",
-      "release_sha256": "2c904f9fc71ca73379a9f43486fb3f9dbe4d3e728f188e3ffd207c52647853c7",
-      "source": "GITHUB_PINNED_AUTOTUNE_BOOTSTRAP",
-      "kind": "SOURCE_BUILD_DOWNLOAD_AND_RESEARCH_CONFIGURATION_ONLY"
+      "source": "INTEL_HWP_POWER_RESTORE_V2",
+      "kind": "POWER_PREPARATION_AND_RECOVERY_ONLY",
+      "release_sha256": "0662e470b18e0892e6afb93915b417fb95b606176cc78f4ae6c72a9e07d8cbc9"
     },
     {
       "path": "README.md",
-      "release_sha256": "0a6bea64916cfebfdf460032116f71b72e4dc1008eda27946fa692f49ffbdd67",
-      "source": "GITHUB_PINNED_AUTOTUNE_BOOTSTRAP",
-      "kind": "SOURCE_BUILD_DOWNLOAD_AND_RESEARCH_CONFIGURATION_ONLY"
+      "source": "INTEL_HWP_POWER_RESTORE_V2",
+      "kind": "POWER_PREPARATION_AND_RECOVERY_ONLY",
+      "release_sha256": "a02d5ce59d1b2d3b08f8551d3eadcb58d495c7ee3558195e57e397b2556fb7ad"
     },
     {
       "path": "config/autotune-provision.json",
@@ -95,9 +96,9 @@
     },
     {
       "path": "docs/autotune-bootstrap.ko.md",
-      "release_sha256": "3983a6df8799224c8b5075de616d70d5686dccf97dac16c8132a8bdf387e79ef",
-      "source": "GITHUB_PINNED_AUTOTUNE_BOOTSTRAP",
-      "kind": "SOURCE_BUILD_DOWNLOAD_AND_RESEARCH_CONFIGURATION_ONLY"
+      "source": "INTEL_HWP_POWER_RESTORE_V2",
+      "kind": "POWER_PREPARATION_AND_RECOVERY_ONLY",
+      "release_sha256": "2758627e6b394eea10276edd18e4e6b770bed9ad6fa65f653bce39bbbd427dfa"
     },
     {
       "path": "docs/frozen-engine-reproduction.md",
@@ -116,6 +117,12 @@
       "source": "universal-runtime-independent-research",
       "kind": "DYNAMIC_FULL_GUARD_ADAPTER_TEST_OR_DOCUMENTATION",
       "release_sha256": "4ca9548a6bb6499d0710577ec0f0cb545bc22ef1743c26d45963f16ed907c46f"
+    },
+    {
+      "path": "docs/power-restore.ko.md",
+      "source": "INTEL_HWP_POWER_RESTORE_V2",
+      "kind": "POWER_PREPARATION_AND_RECOVERY_ONLY",
+      "release_sha256": "e7e7046087649c4f638c7ad969802c2180c2b790bb24e945b770d976bf8166a1"
     },
     {
       "path": "docs/research/asymmetric-threads.md",
@@ -207,6 +214,12 @@
       "release_sha256": "cea19c85831c01dd11b69ddedee07c25e70a09891e191ba70dc6888cb3c7858a",
       "source": "hybrid-auto-configuration-research",
       "kind": "NEW_CONFIGURATION_TOOL_TEST_OR_DOCUMENTATION_NO_POLICY_CHANGE"
+    },
+    {
+      "path": "results/power-restore-fix-validation.json",
+      "source": "INTEL_HWP_POWER_RESTORE_V2",
+      "kind": "POWER_PREPARATION_AND_RECOVERY_ONLY",
+      "release_sha256": "709f7a564cc792d57a7e132ab9cd042f1b2ef51561bf9706db9c353d8261cbcf"
     },
     {
       "path": "results/release-validation.json",
@@ -662,27 +675,33 @@
     },
     {
       "path": "tools/sched_ext/new_a_bootstrap/auto_run.py",
-      "release_sha256": "1701d0389f152dc28deb9306aefaec4dc15d8b4da1dae641faf6015c5c9420d9",
-      "source": "GITHUB_PINNED_AUTOTUNE_BOOTSTRAP",
-      "kind": "SOURCE_BUILD_DOWNLOAD_AND_RESEARCH_CONFIGURATION_ONLY"
+      "source": "INTEL_HWP_POWER_RESTORE_V2",
+      "kind": "POWER_PREPARATION_AND_RECOVERY_ONLY",
+      "release_sha256": "0534e7fc76819c6cf7e638b3a6e8b78bda715fce17b65d0daba027defc607379"
     },
     {
       "path": "tools/sched_ext/new_a_bootstrap/auto_system.py",
-      "release_sha256": "1bf966e6bcae7d7a8d860b79f7b0d05619ef5acfdbee40e0696d7bcc37ca0b4b",
-      "source": "GITHUB_PINNED_AUTOTUNE_BOOTSTRAP",
-      "kind": "SOURCE_BUILD_DOWNLOAD_AND_RESEARCH_CONFIGURATION_ONLY"
+      "source": "INTEL_HWP_POWER_RESTORE_V2",
+      "kind": "POWER_PREPARATION_AND_RECOVERY_ONLY",
+      "release_sha256": "45dce72e33707dbb48a5f2a881a48bc20ed366d16226c2ab6112ddeaa553fba6"
     },
     {
       "path": "tools/sched_ext/new_a_bootstrap/bootstrap.py",
-      "release_sha256": "52c2ff92026e31fb96d169946db6d5d93d10113aae86a1b05faa5cc7c03fb4db",
-      "source": "GITHUB_PINNED_AUTOTUNE_BOOTSTRAP",
-      "kind": "SOURCE_BUILD_DOWNLOAD_AND_RESEARCH_CONFIGURATION_ONLY"
+      "source": "INTEL_HWP_POWER_RESTORE_V2",
+      "kind": "POWER_PREPARATION_AND_RECOVERY_ONLY",
+      "release_sha256": "ab24a38d4c0a9e2d7eae5c1342567ab6c39ab133dbeb9e19239050b2b8c2a413"
     },
     {
       "path": "tools/sched_ext/new_a_bootstrap/package_driver.py",
       "release_sha256": "d683b94d32f149ab27115e552fda16600ebfb9060140b983e39a7726afaa3046",
       "source": "GITHUB_PINNED_AUTOTUNE_BOOTSTRAP",
       "kind": "SOURCE_BUILD_DOWNLOAD_AND_RESEARCH_CONFIGURATION_ONLY"
+    },
+    {
+      "path": "tools/sched_ext/new_a_bootstrap/power_state.py",
+      "source": "INTEL_HWP_POWER_RESTORE_V2",
+      "kind": "POWER_PREPARATION_AND_RECOVERY_ONLY",
+      "release_sha256": "a3c1421eb04d32d392775e390087dba30d9285b9a5c8174ecb7501adca7e465b"
     },
     {
       "path": "tools/sched_ext/new_a_bootstrap/provision.py",
@@ -692,15 +711,21 @@
     },
     {
       "path": "tools/sched_ext/new_a_bootstrap/test_auto.py",
-      "release_sha256": "99c7834008a8dc38f290b3fe66a945441a1ea4cbc9ba1ef40977f78863ee430d",
-      "source": "GITHUB_PINNED_AUTOTUNE_BOOTSTRAP",
-      "kind": "SOURCE_BUILD_DOWNLOAD_AND_RESEARCH_CONFIGURATION_ONLY"
+      "source": "INTEL_HWP_POWER_RESTORE_V2",
+      "kind": "POWER_PREPARATION_AND_RECOVERY_ONLY",
+      "release_sha256": "138555ea11a4352e7a839ef29afa1876bfdd6a78d94ed811726e3bd9fbaf9de3"
     },
     {
       "path": "tools/sched_ext/new_a_bootstrap/test_package.py",
       "release_sha256": "3391da97e72086808bab253c626aadf88f798201ed43c95e03649104d8b95efb",
       "source": "GITHUB_PINNED_AUTOTUNE_BOOTSTRAP",
       "kind": "SOURCE_BUILD_DOWNLOAD_AND_RESEARCH_CONFIGURATION_ONLY"
+    },
+    {
+      "path": "tools/sched_ext/new_a_bootstrap/test_power_state.py",
+      "source": "INTEL_HWP_POWER_RESTORE_V2",
+      "kind": "POWER_PREPARATION_AND_RECOVERY_ONLY",
+      "release_sha256": "b5ef15314e7b2a38d918764fc1f6c8a7a56cbffd14f88a0058acae571a160e8e"
     },
     {
       "path": "tools/sched_ext/new_a_bootstrap/test_provision.py",
