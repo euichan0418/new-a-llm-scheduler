@@ -23,7 +23,7 @@ HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[2]
 RUNTIME = ROOT
 RESERVE = 512 * 1024 * 1024
-TOOLS = ['cc', 'clang', 'bpftool', 'readelf', 'nm', 'powerprofilesctl']
+TOOLS = ['cc', 'clang', 'bpftool', 'readelf', 'nm']
 FIXED = ['/usr/bin/sudo', '/usr/bin/taskset', '/usr/bin/timeout']
 
 
@@ -132,8 +132,8 @@ def dependencies(args, full=True, module=None):
             done = subprocess.run(command,input=source,text=True,capture_output=True,timeout=30)
             require(done.returncode == 0, 'Compile dependency probe failed: '+command[0]+'\n'+done.stderr[-3000:])
     module = module or engine()
-    conditions = module.b.contracts.power()  # AC/Turbo/governors/profile/thermal, read-only.
-    result.update(kernel=platform.release(),power_conditions_verified=True,temperature_c=max(conditions['temperatures_c']),btf_readable=True,
+    conditions = module.b.contracts.thermal()  # Thermal safety only; power controls are not read.
+    result.update(kernel=platform.release(),power_management=module.b.contracts.UNMANAGED_POWER,temperature_c=max(conditions['temperatures_c']),btf_readable=True,
                   actual_kfunc_signatures='DEFERRED_TO_FULL_STATIC_BUILD',actual_verifier='NOT_RUN')
     return result
 
@@ -183,10 +183,34 @@ def main(argv=None):
     group.add_argument('--restore-environment',type=Path)
     group.add_argument('--prepare-only',action='store_true')
     group.add_argument('--check-bootstrap',action='store_true')
+    group.add_argument('--audit-campaign',type=Path)
+    group.add_argument('--resume-campaign',type=Path)
+    parser.add_argument('--resume-auth',action='store_true')
+    parser.add_argument('--resume-interference',action='store_true')
     parser.add_argument('--workspace',type=Path)
     parsed,rest = parser.parse_known_args(argv)
     mode = next((name for name in ['check','plan','analyze','prepare-new-a','functional','self-test','verify-only','auto','auto-check']if getattr(parsed,name.replace('-','_'))), 'run')
     integrity = verify();print(json.dumps(integrity),flush=True)
+    if parsed.audit_campaign is not None or parsed.resume_campaign is not None:
+        require(not rest,'Unexpected resume/audit arguments')
+        import resume_campaign
+        driver=sys.modules.get(__name__)or SimpleNamespace(**globals())
+        if parsed.audit_campaign is not None:
+            print(json.dumps(resume_campaign.audit(driver,parsed.audit_campaign),indent=2,ensure_ascii=False));return 0
+        import fcntl
+        import auto_run
+        lock=Path('/tmp')/('new-a-universal-'+str(os.getuid())+'.lock')
+        fd=os.open(lock,os.O_CREAT|os.O_RDWR|os.O_NOFOLLOW,0o600)
+        try:
+            require(os.fstat(fd).st_uid==os.getuid(),'Foreign runtime lock')
+            fcntl.flock(fd,fcntl.LOCK_EX|fcntl.LOCK_NB)
+            command=resume_campaign.run(driver,parsed.resume_campaign,resume_auth=parsed.resume_auth,resume_interference=parsed.resume_interference)
+            # Child autotune takes the same lock and performs final fresh checks.
+            fcntl.flock(fd,fcntl.LOCK_UN)
+            return auto_run.child(command)
+        finally:os.close(fd)
+    if parsed.resume_auth:rest.append('--resume-auth')
+    if parsed.resume_interference:rest.append('--resume-interference')
     if parsed.restore_environment is not None or mode in ['auto','auto-check']or parsed.prepare_only or parsed.check_bootstrap:
         require(not rest, '--auto/--auto-check use automatic paths and fixed Linux policy; extra engine arguments are not accepted')
         sys.path.insert(0,str(HERE))

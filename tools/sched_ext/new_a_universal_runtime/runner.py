@@ -13,13 +13,33 @@ import subprocess
 import threading
 import time
 import uuid
+from contextlib import contextmanager
+from contextvars import ContextVar
 from runtime_core import HERE, LABELS, collect, read, save, sha, digest, require, space, guard_bytes, ticks, module
 import contracts
 import evidence
 import process_cpu
+import boundary_auth
+import interference
 
 
-class AuthRequired(ValueError):pass
+class AuthRequired(boundary_auth.CredentialExpired):pass
+
+
+AUTH_EXECUTION=ContextVar('new_a_auth_execution',default=None)
+
+
+@contextmanager
+def auth_context(auth):
+    token=AUTH_EXECUTION.set(dict(auth=auth,active=False)if auth is not None else None)
+    try:yield
+    finally:AUTH_EXECUTION.reset(token)
+
+
+def privileged_gate(label):
+    context=AUTH_EXECUTION.get()
+    if context is not None:context['auth'].before_privileged(label,active=context['active'])
+    return context
 
 
 def normal_identity(pid):
@@ -55,15 +75,30 @@ def metric_snapshot(pid):
 
 
 def root_command(argv,path):
-    result=subprocess.run(['/usr/bin/sudo','-N','-n',*map(str,argv)],capture_output=True,text=True,timeout=20,env=dict(os.environ,LC_ALL='C'))
-    save(path,dict(argv=['sudo','-N','-n',*map(str,argv)],returncode=result.returncode,stdout=result.stdout,stderr=result.stderr))
-    if result.returncode and 'sudo:' in result.stderr and 'a password is required' in result.stderr:raise AuthRequired('SUDO_AUTH_REQUIRED_OR_EXPIRED; actual operation NOT_VERIFIED')
+    path=Path(path);context=privileged_gate(path.name);attempts=[]
+    try:
+        for attempt in range(2):
+            result=subprocess.run(['/usr/bin/sudo','-N','-n',*map(str,argv)],capture_output=True,text=True,timeout=20,env=dict(os.environ,LC_ALL='C',LANG='C'))
+            record=dict(argv=['sudo','-N','-n',*map(str,argv)],returncode=result.returncode,stdout=result.stdout,stderr=result.stderr)
+            attempts.append(record)
+            save(path.with_name(path.stem+'-auth-attempt-'+str(attempt+1)+path.suffix),record)
+            expired=result.returncode and 'sudo:' in result.stderr and 'a password is required' in result.stderr
+            if not expired:break
+            if context is None or context['active'] or attempt:raise AuthRequired('SUDO_AUTH_REQUIRED_OR_EXPIRED; actual operation NOT_VERIFIED; no retry')
+            context['auth'].command_auth_failure(path.name,active=False)
+            privileged_gate(path.name)
+    finally:
+        if attempts:save(path,dict(attempts[-1],authentication_attempts=attempts))
     require(result.returncode==0,'Privileged command failed: '+result.stderr)
     return result.stdout
 
 
 def root_process(argv,**kwargs):
-    return subprocess.Popen(['/usr/bin/sudo','-N','-n','/usr/bin/timeout','--signal=TERM','--kill-after=10s','360s',*map(str,argv)],**kwargs)
+    context=privileged_gate('root_process: '+str(argv))
+    kwargs.setdefault('env',dict(os.environ,LC_ALL='C',LANG='C'))
+    process=subprocess.Popen(['/usr/bin/sudo','-N','-n','/usr/bin/timeout','--signal=TERM','--kill-after=10s','360s',*map(str,argv)],**kwargs)
+    if context is not None:context['active']=True
+    return process
 
 
 def taskset(cpus):return ['/usr/bin/taskset','-c',','.join(map(str,cpus))]
@@ -135,11 +170,14 @@ def acquire_session(campaign,root,path,slot):
     require(state()=='disabled','Foreign sched_ext scheduler active')
     build=campaign['build'];selected=campaign['domain']['selected'];hk=campaign['domain']['housekeeping']
     logs=[];watch=loader=process=None;server=None;server_pidfd=None;cleanup_errors=[];failure=None;last_sample=0;attached=False
-    start_throttle=contracts.throttle_counts();deadline=time.monotonic()+300
+    start_throttle=contracts.throttle_counts();deadline=time.monotonic()+300;phase='BEFORE_RESOURCES'
+    observer=interference.Sampler(campaign['interference_contract'])if 'interference_contract'in campaign else None
     socket='@new-a-universal-'+uuid.uuid4().hex
     def log(name):
         f=(path/name).open('xb');logs.append(f);return f
     def stats(when):
+        nonlocal phase
+        phase='STATS_'+when.upper()
         import sys
         sys.path.insert(0,str(HERE.parent/'new_a_portable_runtime'));import stats_off
         if slot['policy']=='E':
@@ -162,7 +200,7 @@ def acquire_session(campaign,root,path,slot):
         else:require(state()=='disabled','Foreign sched_ext activated during Linux session')
         if process is not None:require(process.poll() is None,'Server/child launcher unexpectedly exited')
         if not force and time.monotonic()-last_sample<1:return
-        current=contracts.power();require(contracts.power_binding(current)==campaign['host']['power_binding'],'Power binding changed')
+        current=contracts.conditions(campaign)
         require(current['throttle_counts']==start_throttle,'Thermal throttle count increment')
         online=collect.portable.cpulist(Path('/sys/devices/system/cpu/online').read_text());allowed=sorted(os.sched_getaffinity(0))
         require(online==campaign['domain']['online'] and allowed==campaign['domain']['allowed'],'Online/allowed changed')
@@ -170,15 +208,21 @@ def acquire_session(campaign,root,path,slot):
         require(Path('/proc/sys/kernel/bpf_stats_enabled').read_text().strip()=='0','BPF statistics enabled')
         rows=tasks(server['pid'],server) if server else []
         if server:require(ticks(server['pid'])==server['starttime'],'Target PID reused')
-        with (path/'monitor.jsonl').open('a') as f:f.write(json.dumps(dict(monotonic_ns=time.monotonic_ns(),power_binding=contracts.power_binding(current),max_temperature_c=max(current['temperatures_c']),throttle_unchanged=True,online=online,allowed=allowed,stats_sysctl=0,tasks=rows,uid=os.getuid()))+'\n')
+        power_fields=dict(power_management=contracts.UNMANAGED_POWER)if contracts.unmanaged(campaign)else dict(power_binding=contracts.power_binding(current))
+        noise=observer.sample(selected,exclude=[os.getpid(),*([process.pid]if process else[]),*([server['pid']]if server else[])])if observer else None
+        noise_fields=dict(interference=noise)if observer else {}
+        with (path/'monitor.jsonl').open('a') as f:f.write(json.dumps(dict(monotonic_ns=time.monotonic_ns(),**power_fields,**noise_fields,max_temperature_c=max(current['temperatures_c']),throttle_unchanged=True,online=online,allowed=allowed,stats_sysctl=0,tasks=rows,uid=os.getuid()))+'\n')
+        if noise is not None and noise['contaminated']:raise interference.InterferenceDetected('CPU_INTERFERENCE_DETECTED; excluded measurement, cleanup required')
         last_sample=time.monotonic()
     try:
         # This check precedes resources; it never refreshes credentials.
         root_command(['true'],path/'cached-auth-command.json')
         save(path/'slot.json',slot)
+        phase='KERNEL_WATCH_START'
         watch=root_process(taskset(hk)+[build['helpers']['kernel-watch']['path']],stdin=subprocess.PIPE,stdout=subprocess.PIPE,stderr=log('kernel-watch.stderr.log'))
         ready,_,_=select.select([watch.stdout],[],[],8);require(ready and watch.stdout.readline()==b'READY\n','Kernel watch READY missing')
         if slot['policy']=='E':
+            phase='LOADER_ATTACH'
             guard_path=path/'guard.bin';guard_path.write_bytes(guard_bytes(campaign['domain']));guard_path.chmod(0o400)
             argv=taskset(hk)+[build['loader']['path'],'--guard-config',str(guard_path),'--topology',str(root/'topology.bin'),'--diagnostics-output',str(path/'scheduler-stats.json'),'--phase-uid',str(os.getuid()),'--phase-register-socket',socket,'--server-exe',campaign['baseline']['server_argv'][0],'--marker-elf',campaign['baseline']['marker']]
             save(path/'loader-command.json',argv)
@@ -187,6 +231,7 @@ def acquire_session(campaign,root,path,slot):
             while state()!='enabled' or 'FULL_GUARD_MONITOR_READY' not in (path/'loader.log').read_text():
                 require(loader.poll() is None and time.monotonic()<until,'Verifier/attach failed or timed out');monitor();time.sleep(.05)
             attached=True
+        phase='SERVER_START'
         argv=list(campaign['baseline']['server_argv']);env=dict(campaign['baseline']['server_env'],OMP_DISPLAY_AFFINITY='TRUE' if slot['audit'] else 'FALSE')
         child_argv=[build['child']['path'],'--phase-register-socket',socket,'--',*argv] if loader else argv
         save(path/'server-command.json',dict(argv=child_argv,environment=env,affinity=selected))
@@ -213,16 +258,19 @@ def acquire_session(campaign,root,path,slot):
             require(time.monotonic()<until,'Frozen HTTP health deadline exceeded');time.sleep(.1)
         save(path/'thread-contract.json',validate_live(server['pid'],campaign,slot['audit']))
         stats('attached')
-        for role in ['warmup-1','warmup-2']:request(campaign,path,role,monitor)
+        for role in ['warmup-1','warmup-2']:
+            phase=role.upper();request(campaign,path,role,monitor)
         save(path/'mapping-proof.json',mapping(server['pid'],campaign));stats('before-measured')
         save(path/'metrics-before.json',metric_snapshot(server['pid']))
-        request(campaign,path,'measured',monitor,cpu_target=server)
+        phase='MEASURED_REQUEST';request(campaign,path,'measured',monitor,cpu_target=server)
         save(path/'metrics-after.json',metric_snapshot(server['pid']))
         require(mapping(server['pid'],campaign)['files']==read(path/'mapping-proof.json')['files'],'Executable mappings changed during request')
         require(validate_live(server['pid'],campaign,slot['audit'])==read(path/'thread-contract.json'),'Thread contract changed')
         stats('after-measured');monitor(force=True)
     except BaseException as error:
         failure=error
+        if isinstance(error,boundary_auth.CredentialExpired)and not isinstance(error,AuthRequired):
+            save(path/'credential-gate-failure.json',dict(kind='SUDO_AUTH_REQUIRED_OR_EXPIRED',phase=phase,operation_started=False,error=str(error)))
     finally:
         # Stop normal-user targets first. The root loader follows the existing pidfd lifecycle.
         try:
@@ -269,12 +317,12 @@ def acquire_session(campaign,root,path,slot):
         if state()!='disabled':cleanup_errors.append('sched_ext not disabled')
         save(path/'cleanup.json',dict(status='FAIL' if cleanup_errors else 'PASS',errors=cleanup_errors,sched_ext=state(),server_exited=process is None or process.poll() is not None,loader_exited=loader is None or loader.poll() is not None))
     if failure or cleanup_errors:
-        auth_error=isinstance(failure,AuthRequired) or any(p.read_text().strip()=='sudo: a password is required' for p in path.glob('*.log') if 'stderr' in p.name or p.name=='loader.log')
-        kind='SUDO_AUTH_REQUIRED_OR_EXPIRED' if auth_error else 'PROCESS_CPU_CLOCK_FAILURE' if isinstance(failure,process_cpu.ProcessCPUError) and not cleanup_errors else 'SESSION_OR_CLEANUP_FAILURE'
-        save(path/'failure.json',dict(kind=kind,error=str(failure),cleanup_errors=cleanup_errors,automatic_retry=False))
+        auth_error=isinstance(failure,boundary_auth.CredentialExpired) or any(p.read_text().strip()=='sudo: a password is required' for p in path.glob('*.log') if 'stderr' in p.name or p.name=='loader.log')
+        kind='SUDO_AUTH_REQUIRED_OR_EXPIRED' if auth_error else 'CPU_INTERFERENCE_DETECTED'if isinstance(failure,interference.InterferenceDetected)else 'PROCESS_CPU_CLOCK_FAILURE' if isinstance(failure,process_cpu.ProcessCPUError) and not cleanup_errors else 'SESSION_OR_CLEANUP_FAILURE'
+        save(path/'failure.json',dict(kind=kind,error=str(failure),phase=phase,cleanup_errors=cleanup_errors,automatic_retry=False))
         raise ValueError('Session failed; no next session: '+str(failure or cleanup_errors))
     files={str(p.relative_to(path)):sha(p) for p in path.rglob('*') if p.is_file()}
-    proof=dict(status='COMPLETE',campaign_id=campaign['id'],stage=slot['stage'],slot=slot,files=files,contract_binding=digest({k:campaign[k] for k in ['id','host','domain','baseline']}),**LABELS)
+    proof=dict(status='COMPLETE',campaign_id=campaign['id'],stage=slot['stage'],slot=slot,files=files,contract_binding=contracts.evidence_binding(campaign),**LABELS)
     try:value=evidence.verify_session(path,campaign,slot['stage'],slot,prospective=proof)
     except BaseException as error:
         save(path/'failure.json',dict(kind='RAW_VALIDATION_FAILURE',error=str(error),automatic_retry=False));raise

@@ -9,7 +9,8 @@
     "GitHub bootstrap fetches a pinned historical engine revision and exact licensed GGUF; no BPF auto attach or historical byte/performance equivalence claim.",
     "Intel HWP restoration uses powersave bridge, exact EPP baseline and full readback; historical failure evidence stays unchanged. Actual power writes and performance NOT_RUN.",
     "Process CPU clock uses libc with pidfd/starttime and proc crosschecks. Existing policy and performance field meanings are unchanged; actual LLM/BPF NOT_RUN.",
-    "Foreground boundary reauthentication requires quiet host and revalidated completed raw; no keepalive or failed session retry. Existing experiment limits, metrics and E FULL policy are unchanged."
+    "Foreground boundary reauthentication requires quiet host and revalidated completed raw; no keepalive or failed session retry. Existing experiment limits, metrics and E FULL policy are unchanged.",
+    "Unmanaged-power autotuning, foreground authentication, sealed checkpoint resume and development snapshots; actual sudo/BPF/long-running inference NOT_RUN."
   ],
   "files": [
     {
@@ -23,6 +24,12 @@
       "release_sha256": "537e8b49780e6a7b70ef92c212c9c58166722b3c42136a4ffda2df0110b26d45",
       "source": "GITHUB_PINNED_AUTOTUNE_BOOTSTRAP",
       "kind": "SOURCE_BUILD_DOWNLOAD_AND_RESEARCH_CONFIGURATION_ONLY"
+    },
+    {
+      "path": "AUTOTUNE_AUTH_POWER_ISOLATION_HANDOFF.md",
+      "source": "AUTOTUNE_AUTH_POWER_ISOLATION_PUBLICATION",
+      "kind": "REVIEWED_RUNTIME_TOOL_TEST_OR_DOCUMENTATION",
+      "release_sha256": "31c889fe27cd462ba61d2088957cb540bc8506de3a21d2610daeffeed5f1e53d"
     },
     {
       "path": "LICENSE",
@@ -44,9 +51,16 @@
     },
     {
       "path": "Makefile",
-      "source": "FOREGROUND_BOUNDARY_USER_REAUTH",
-      "kind": "AUTHENTICATION_BOUNDARY_ONLY_EXPERIMENT_AND_POLICY_UNCHANGED",
-      "release_sha256": "3f5a94cd537a08308a86902ddb2abe73952c4e1e69d360293bb343448b865c9c"
+      "source": "AUTOTUNE_AUTH_POWER_ISOLATION_PUBLICATION",
+      "kind": "REVIEWED_RUNTIME_TOOL_TEST_OR_DOCUMENTATION",
+      "release_sha256": "ed1d14a3f9c92e5fe5504dea5c43c1588282c3a84f2b5d6b44ecbb57697c7dd9",
+      "previous_releases": [
+        {
+          "source": "FOREGROUND_BOUNDARY_USER_REAUTH",
+          "kind": "AUTHENTICATION_BOUNDARY_ONLY_EXPERIMENT_AND_POLICY_UNCHANGED",
+          "release_sha256": "3f5a94cd537a08308a86902ddb2abe73952c4e1e69d360293bb343448b865c9c"
+        }
+      ]
     },
     {
       "path": "NOTICE",
@@ -56,15 +70,39 @@
     },
     {
       "path": "README.ko.md",
-      "source": "FOREGROUND_BOUNDARY_USER_REAUTH",
-      "kind": "AUTHENTICATION_BOUNDARY_ONLY_EXPERIMENT_AND_POLICY_UNCHANGED",
-      "release_sha256": "6a3fea2c437640a646f223f48e9c603f826d91940415fcab854ba90be0f8a55d"
+      "source": "AUTOTUNE_AUTH_POWER_ISOLATION_PUBLICATION",
+      "kind": "REVIEWED_RUNTIME_TOOL_TEST_OR_DOCUMENTATION",
+      "release_sha256": "495fdd093eeac10816d4af7324ff93f0ab668412fc69b171281664e92b7d17af",
+      "previous_releases": [
+        {
+          "source": "FOREGROUND_BOUNDARY_USER_REAUTH",
+          "kind": "AUTHENTICATION_BOUNDARY_ONLY_EXPERIMENT_AND_POLICY_UNCHANGED",
+          "release_sha256": "6a3fea2c437640a646f223f48e9c603f826d91940415fcab854ba90be0f8a55d"
+        },
+        {
+          "source": "AUTOTUNE_AUTH_POWER_ISOLATION_PUBLICATION",
+          "kind": "REVIEWED_RUNTIME_TOOL_TEST_OR_DOCUMENTATION",
+          "release_sha256": "b22e934228c8bf38c9c87873ed2493c4443b1ce9d1f27257f5a32fdb4fc6e144"
+        }
+      ]
     },
     {
       "path": "README.md",
-      "source": "FOREGROUND_BOUNDARY_USER_REAUTH",
-      "kind": "AUTHENTICATION_BOUNDARY_ONLY_EXPERIMENT_AND_POLICY_UNCHANGED",
-      "release_sha256": "9d5d22962099634dcf83755637d58f80b188502f852dfd0adcd55d6ae0f2d1b7"
+      "source": "AUTOTUNE_AUTH_POWER_ISOLATION_PUBLICATION",
+      "kind": "REVIEWED_RUNTIME_TOOL_TEST_OR_DOCUMENTATION",
+      "release_sha256": "3efec55ab1fe1cbf449c11450fa3242660537ab97738f3195d44c59e62994f13",
+      "previous_releases": [
+        {
+          "source": "FOREGROUND_BOUNDARY_USER_REAUTH",
+          "kind": "AUTHENTICATION_BOUNDARY_ONLY_EXPERIMENT_AND_POLICY_UNCHANGED",
+          "release_sha256": "9d5d22962099634dcf83755637d58f80b188502f852dfd0adcd55d6ae0f2d1b7"
+        },
+        {
+          "source": "AUTOTUNE_AUTH_POWER_ISOLATION_PUBLICATION",
+          "kind": "REVIEWED_RUNTIME_TOOL_TEST_OR_DOCUMENTATION",
+          "release_sha256": "22c8ee656b43d0e1fc1dcd884ba85186978d992fa4a91be642763a19c5ff4610"
+        }
+      ]
     },
     {
       "path": "config/autotune-provision.json",
@@ -97,16 +135,52 @@
       "release_sha256": "7d4ef21ce2e820c4247fbcd0f530e6c77a0b6bfe92471f9ae9785117e422c04e"
     },
     {
+      "path": "docs/autotune-auth-power-isolation-report.ko.md",
+      "source": "AUTOTUNE_AUTH_POWER_ISOLATION_PUBLICATION",
+      "kind": "REVIEWED_RUNTIME_TOOL_TEST_OR_DOCUMENTATION",
+      "release_sha256": "23b29ddb76e475d1d8a9e1d5461ce210bbefc6d73f181781a4ad3ef6eae9f912"
+    },
+    {
       "path": "docs/autotune-bootstrap.ko.md",
-      "source": "FOREGROUND_BOUNDARY_USER_REAUTH",
-      "kind": "AUTHENTICATION_BOUNDARY_ONLY_EXPERIMENT_AND_POLICY_UNCHANGED",
-      "release_sha256": "52e520cdb5364b29eea15538762c4f0efe0129b6de0b3feadacffe1f9f77eb78"
+      "source": "AUTOTUNE_AUTH_POWER_ISOLATION_PUBLICATION",
+      "kind": "REVIEWED_RUNTIME_TOOL_TEST_OR_DOCUMENTATION",
+      "release_sha256": "f8cf601c1d2023bde12622ed93f96f2ed3d5587bd6349584f4e6f7f1de3eb570",
+      "previous_releases": [
+        {
+          "source": "FOREGROUND_BOUNDARY_USER_REAUTH",
+          "kind": "AUTHENTICATION_BOUNDARY_ONLY_EXPERIMENT_AND_POLICY_UNCHANGED",
+          "release_sha256": "52e520cdb5364b29eea15538762c4f0efe0129b6de0b3feadacffe1f9f77eb78"
+        },
+        {
+          "source": "AUTOTUNE_AUTH_POWER_ISOLATION_PUBLICATION",
+          "kind": "REVIEWED_RUNTIME_TOOL_TEST_OR_DOCUMENTATION",
+          "release_sha256": "f2d995f3e4657f65a80e4a274eece152b0e8ca236bfe2288b92e8d993418e6e4"
+        }
+      ]
     },
     {
       "path": "docs/boundary-auth.ko.md",
-      "source": "FOREGROUND_BOUNDARY_USER_REAUTH",
-      "kind": "AUTHENTICATION_BOUNDARY_ONLY_EXPERIMENT_AND_POLICY_UNCHANGED",
-      "release_sha256": "f11812763eea8099dbc8fd21ded8c40061a9b1694447ab52cb86a684173b015f"
+      "source": "AUTOTUNE_AUTH_POWER_ISOLATION_PUBLICATION",
+      "kind": "REVIEWED_RUNTIME_TOOL_TEST_OR_DOCUMENTATION",
+      "release_sha256": "bd30047cd8c19e24d0754e53f38fdba4606ea86d6fce2971d57014e80baa6c7e",
+      "previous_releases": [
+        {
+          "source": "FOREGROUND_BOUNDARY_USER_REAUTH",
+          "kind": "AUTHENTICATION_BOUNDARY_ONLY_EXPERIMENT_AND_POLICY_UNCHANGED",
+          "release_sha256": "f11812763eea8099dbc8fd21ded8c40061a9b1694447ab52cb86a684173b015f"
+        },
+        {
+          "source": "AUTOTUNE_AUTH_POWER_ISOLATION_PUBLICATION",
+          "kind": "REVIEWED_RUNTIME_TOOL_TEST_OR_DOCUMENTATION",
+          "release_sha256": "eddca7dcc4442e9d08c3845bdfa68eef7f95d4fa901bb953b2d9ea7b8987d182"
+        }
+      ]
+    },
+    {
+      "path": "docs/concurrent-autotune.ko.md",
+      "source": "AUTOTUNE_AUTH_POWER_ISOLATION_PUBLICATION",
+      "kind": "REVIEWED_RUNTIME_TOOL_TEST_OR_DOCUMENTATION",
+      "release_sha256": "8ee56785f147a22a9898c2cecf858c9413bd8c3290b5ee4af73301b30bd8a6b3"
     },
     {
       "path": "docs/frozen-engine-reproduction.md",
@@ -212,6 +286,19 @@
       "kind": "NUMERIC_ALLOWLIST_EXPORT_OR_RECALCULATION"
     },
     {
+      "path": "results/autotune-auth-power-isolation-validation.json",
+      "source": "AUTOTUNE_AUTH_POWER_ISOLATION_PUBLICATION",
+      "kind": "REVIEWED_RUNTIME_TOOL_TEST_OR_DOCUMENTATION",
+      "release_sha256": "7acd359e2b55206464b6016d7d560d7188d4c648ad33914b77dde718de58ee8b",
+      "previous_releases": [
+        {
+          "source": "AUTOTUNE_AUTH_POWER_ISOLATION_PUBLICATION",
+          "kind": "REVIEWED_RUNTIME_TOOL_TEST_OR_DOCUMENTATION",
+          "release_sha256": "e926c81ed6f023517906b6d592b9f9aaf1d516d4c671c8f099f1724c410c748d"
+        }
+      ]
+    },
+    {
       "path": "results/autotune-bootstrap-validation.json",
       "release_sha256": "28db4a7715e7f40d921319653353844ae360cb6193400f92e962cc1b603e5f2b",
       "source": "GITHUB_PINNED_AUTOTUNE_BOOTSTRAP",
@@ -279,9 +366,16 @@
     },
     {
       "path": "scripts/autotune-bootstrap.sh",
-      "release_sha256": "66e066babc71bb9e0cd1ce869ca45a8e55ec481ea9c23e17aff94b52d4c9e4cc",
-      "source": "GITHUB_PINNED_AUTOTUNE_BOOTSTRAP",
-      "kind": "SOURCE_BUILD_DOWNLOAD_AND_RESEARCH_CONFIGURATION_ONLY"
+      "source": "AUTOTUNE_AUTH_POWER_ISOLATION_PUBLICATION",
+      "kind": "REVIEWED_RUNTIME_TOOL_TEST_OR_DOCUMENTATION",
+      "release_sha256": "3e53909ee5a66a4fab14e1af80b440635d67a053fefb870a6213e795189ae9da",
+      "previous_releases": [
+        {
+          "release_sha256": "66e066babc71bb9e0cd1ce869ca45a8e55ec481ea9c23e17aff94b52d4c9e4cc",
+          "source": "GITHUB_PINNED_AUTOTUNE_BOOTSTRAP",
+          "kind": "SOURCE_BUILD_DOWNLOAD_AND_RESEARCH_CONFIGURATION_ONLY"
+        }
+      ]
     },
     {
       "path": "scripts/check-autotune-recovery.py",
@@ -294,6 +388,18 @@
       "release_sha256": "f7888538d563077c7811fe6ea54221a9fd1f6dfee06c2907373cc0aa06663f02",
       "source": "research-update-publication",
       "kind": "PUBLIC_DOCUMENTATION_OR_RECALCULATION_TOOL"
+    },
+    {
+      "path": "scripts/test_publication_manifest.py",
+      "source": "AUTOTUNE_AUTH_POWER_ISOLATION_PUBLICATION",
+      "kind": "REVIEWED_RUNTIME_TOOL_TEST_OR_DOCUMENTATION",
+      "release_sha256": "deeb855322e7badbb499905aa34802d75f2d2087099c9de37566c94e0029aa44"
+    },
+    {
+      "path": "scripts/update_publication_manifest.py",
+      "source": "AUTOTUNE_AUTH_POWER_ISOLATION_PUBLICATION",
+      "kind": "REVIEWED_RUNTIME_TOOL_TEST_OR_DOCUMENTATION",
+      "release_sha256": "46d3be6263bf35c564a9e6c736cb9611a8a6996bdc1af44e893e752f33cb0f11"
     },
     {
       "path": "scripts/verify_release.py",
@@ -707,27 +813,55 @@
     },
     {
       "path": "tools/sched_ext/new_a_bootstrap/auto_run.py",
-      "source": "FOREGROUND_BOUNDARY_USER_REAUTH",
-      "kind": "AUTHENTICATION_BOUNDARY_ONLY_EXPERIMENT_AND_POLICY_UNCHANGED",
-      "release_sha256": "996473c7929c8b12832feb749b24247926b3e742cb19ddcca0312e67df82461a"
+      "source": "AUTOTUNE_AUTH_POWER_ISOLATION_PUBLICATION",
+      "kind": "REVIEWED_RUNTIME_TOOL_TEST_OR_DOCUMENTATION",
+      "release_sha256": "207c4d633a58f93013c364cdcb848a0bc8818a4cfc65fc64ec342f61bd7a8186",
+      "previous_releases": [
+        {
+          "source": "FOREGROUND_BOUNDARY_USER_REAUTH",
+          "kind": "AUTHENTICATION_BOUNDARY_ONLY_EXPERIMENT_AND_POLICY_UNCHANGED",
+          "release_sha256": "996473c7929c8b12832feb749b24247926b3e742cb19ddcca0312e67df82461a"
+        }
+      ]
     },
     {
       "path": "tools/sched_ext/new_a_bootstrap/auto_system.py",
-      "source": "LIBC_EXTERNAL_PROCESS_CPU_CLOCK_FIX",
-      "kind": "REQUEST_CPU_CLOCK_AND_RECOVERY_EVIDENCE_ONLY",
-      "release_sha256": "5ee70df83636f79b14af45cea365e6a44c6026942bb56907403c943782bed8a0"
+      "source": "AUTOTUNE_AUTH_POWER_ISOLATION_PUBLICATION",
+      "kind": "REVIEWED_RUNTIME_TOOL_TEST_OR_DOCUMENTATION",
+      "release_sha256": "62d33257529a92702ee60ebc141fb3ffc55462410fa8cd989167613a818863aa",
+      "previous_releases": [
+        {
+          "source": "LIBC_EXTERNAL_PROCESS_CPU_CLOCK_FIX",
+          "kind": "REQUEST_CPU_CLOCK_AND_RECOVERY_EVIDENCE_ONLY",
+          "release_sha256": "5ee70df83636f79b14af45cea365e6a44c6026942bb56907403c943782bed8a0"
+        }
+      ]
     },
     {
       "path": "tools/sched_ext/new_a_bootstrap/bootstrap.py",
-      "source": "FOREGROUND_BOUNDARY_USER_REAUTH",
-      "kind": "AUTHENTICATION_BOUNDARY_ONLY_EXPERIMENT_AND_POLICY_UNCHANGED",
-      "release_sha256": "eadd45ef711f626e9411bb62cb0506d4019ab48eb46fb962405851565a10453c"
+      "source": "AUTOTUNE_AUTH_POWER_ISOLATION_PUBLICATION",
+      "kind": "REVIEWED_RUNTIME_TOOL_TEST_OR_DOCUMENTATION",
+      "release_sha256": "869b98b97755a5dcd2c81f28520c3a5c824266fa144578435b162a695c19b31b",
+      "previous_releases": [
+        {
+          "source": "FOREGROUND_BOUNDARY_USER_REAUTH",
+          "kind": "AUTHENTICATION_BOUNDARY_ONLY_EXPERIMENT_AND_POLICY_UNCHANGED",
+          "release_sha256": "eadd45ef711f626e9411bb62cb0506d4019ab48eb46fb962405851565a10453c"
+        }
+      ]
     },
     {
       "path": "tools/sched_ext/new_a_bootstrap/package_driver.py",
-      "release_sha256": "d683b94d32f149ab27115e552fda16600ebfb9060140b983e39a7726afaa3046",
-      "source": "GITHUB_PINNED_AUTOTUNE_BOOTSTRAP",
-      "kind": "SOURCE_BUILD_DOWNLOAD_AND_RESEARCH_CONFIGURATION_ONLY"
+      "source": "AUTOTUNE_AUTH_POWER_ISOLATION_PUBLICATION",
+      "kind": "REVIEWED_RUNTIME_TOOL_TEST_OR_DOCUMENTATION",
+      "release_sha256": "2bd9904431af9a418880c3b64c2604e1e8c339dc8cc2cc2bf39a01f756c4e5f3",
+      "previous_releases": [
+        {
+          "release_sha256": "d683b94d32f149ab27115e552fda16600ebfb9060140b983e39a7726afaa3046",
+          "source": "GITHUB_PINNED_AUTOTUNE_BOOTSTRAP",
+          "kind": "SOURCE_BUILD_DOWNLOAD_AND_RESEARCH_CONFIGURATION_ONLY"
+        }
+      ]
     },
     {
       "path": "tools/sched_ext/new_a_bootstrap/power_state.py",
@@ -737,15 +871,60 @@
     },
     {
       "path": "tools/sched_ext/new_a_bootstrap/provision.py",
-      "release_sha256": "09a9c50fa6a49dc8a541ea38e58f698c3008bcb1a877ccac30a628851fa3f1a9",
-      "source": "GITHUB_PINNED_AUTOTUNE_BOOTSTRAP",
-      "kind": "SOURCE_BUILD_DOWNLOAD_AND_RESEARCH_CONFIGURATION_ONLY"
+      "source": "AUTOTUNE_AUTH_POWER_ISOLATION_PUBLICATION",
+      "kind": "REVIEWED_RUNTIME_TOOL_TEST_OR_DOCUMENTATION",
+      "release_sha256": "c9adcb50e56487f2505314d74c7fa24408ebbfa7c7f4edb668cf32275c6ca7cd",
+      "previous_releases": [
+        {
+          "release_sha256": "09a9c50fa6a49dc8a541ea38e58f698c3008bcb1a877ccac30a628851fa3f1a9",
+          "source": "GITHUB_PINNED_AUTOTUNE_BOOTSTRAP",
+          "kind": "SOURCE_BUILD_DOWNLOAD_AND_RESEARCH_CONFIGURATION_ONLY"
+        }
+      ]
+    },
+    {
+      "path": "tools/sched_ext/new_a_bootstrap/resume_campaign.py",
+      "source": "AUTOTUNE_AUTH_POWER_ISOLATION_PUBLICATION",
+      "kind": "REVIEWED_RUNTIME_TOOL_TEST_OR_DOCUMENTATION",
+      "release_sha256": "b6265ee70f43b7d7cc2d974c457e81bc77112a3998a84fde4f248fcdbb86e722",
+      "previous_releases": [
+        {
+          "source": "AUTOTUNE_AUTH_POWER_ISOLATION_PUBLICATION",
+          "kind": "REVIEWED_RUNTIME_TOOL_TEST_OR_DOCUMENTATION",
+          "release_sha256": "da38c712d3e140132066870096b11b439eaea9914936bdafc963babf7037a6ac"
+        }
+      ]
+    },
+    {
+      "path": "tools/sched_ext/new_a_bootstrap/snapshot_launcher.py",
+      "source": "AUTOTUNE_AUTH_POWER_ISOLATION_PUBLICATION",
+      "kind": "REVIEWED_RUNTIME_TOOL_TEST_OR_DOCUMENTATION",
+      "release_sha256": "c9ba009a5f6ba1d2e339a5e39b3de1f200f773c96722885d95da2de71055879b"
+    },
+    {
+      "path": "tools/sched_ext/new_a_bootstrap/test_auth_unmanaged.py",
+      "source": "AUTOTUNE_AUTH_POWER_ISOLATION_PUBLICATION",
+      "kind": "REVIEWED_RUNTIME_TOOL_TEST_OR_DOCUMENTATION",
+      "release_sha256": "b7debc8d89eeaf27f2cf79d11375b19cdc97642eed46beb2a7183b1ba9f9c113"
     },
     {
       "path": "tools/sched_ext/new_a_bootstrap/test_auto.py",
-      "source": "LIBC_EXTERNAL_PROCESS_CPU_CLOCK_FIX",
-      "kind": "REQUEST_CPU_CLOCK_AND_RECOVERY_EVIDENCE_ONLY",
-      "release_sha256": "947b1d9298aa0c4c52bed2d0a425dfa70cc4eae2d0eefb904a1c41fe72f71ea5"
+      "source": "AUTOTUNE_AUTH_POWER_ISOLATION_PUBLICATION",
+      "kind": "REVIEWED_RUNTIME_TOOL_TEST_OR_DOCUMENTATION",
+      "release_sha256": "92669f91eece5ff3afb93b29dee5c2f00ee2a51b89a8e83bad16edd61a0a5c08",
+      "previous_releases": [
+        {
+          "source": "LIBC_EXTERNAL_PROCESS_CPU_CLOCK_FIX",
+          "kind": "REQUEST_CPU_CLOCK_AND_RECOVERY_EVIDENCE_ONLY",
+          "release_sha256": "947b1d9298aa0c4c52bed2d0a425dfa70cc4eae2d0eefb904a1c41fe72f71ea5"
+        }
+      ]
+    },
+    {
+      "path": "tools/sched_ext/new_a_bootstrap/test_concurrent.py",
+      "source": "AUTOTUNE_AUTH_POWER_ISOLATION_PUBLICATION",
+      "kind": "REVIEWED_RUNTIME_TOOL_TEST_OR_DOCUMENTATION",
+      "release_sha256": "9cd09e103521b5a64dfd3a82b26cdc8f87dd5925556d1a32153f030d94a772cb"
     },
     {
       "path": "tools/sched_ext/new_a_bootstrap/test_package.py",
@@ -761,15 +940,29 @@
     },
     {
       "path": "tools/sched_ext/new_a_bootstrap/test_provision.py",
-      "release_sha256": "e6d3a15e5547c6314a3db87dc3ae9af3e264a55f58a65d0db48829e2a7e7e1e2",
-      "source": "GITHUB_PINNED_AUTOTUNE_BOOTSTRAP",
-      "kind": "SOURCE_BUILD_DOWNLOAD_AND_RESEARCH_CONFIGURATION_ONLY"
+      "source": "AUTOTUNE_AUTH_POWER_ISOLATION_PUBLICATION",
+      "kind": "REVIEWED_RUNTIME_TOOL_TEST_OR_DOCUMENTATION",
+      "release_sha256": "4ac2d50499958bde0eebfee86124c723f2cc90289a188922f41ebee638bc6231",
+      "previous_releases": [
+        {
+          "release_sha256": "e6d3a15e5547c6314a3db87dc3ae9af3e264a55f58a65d0db48829e2a7e7e1e2",
+          "source": "GITHUB_PINNED_AUTOTUNE_BOOTSTRAP",
+          "kind": "SOURCE_BUILD_DOWNLOAD_AND_RESEARCH_CONFIGURATION_ONLY"
+        }
+      ]
     },
     {
       "path": "tools/sched_ext/new_a_bootstrap/test_recovery_review.py",
-      "source": "LIBC_EXTERNAL_PROCESS_CPU_CLOCK_FIX",
-      "kind": "REQUEST_CPU_CLOCK_AND_RECOVERY_EVIDENCE_ONLY",
-      "release_sha256": "f61d81fea5db3afea407997756c893baf063026e4639522dc6f42c8a705ce484"
+      "source": "AUTOTUNE_AUTH_POWER_ISOLATION_PUBLICATION",
+      "kind": "REVIEWED_RUNTIME_TOOL_TEST_OR_DOCUMENTATION",
+      "release_sha256": "2a33b37844db28b0a0575195c49762983c5b549a040c6c68902a39dc60fcedaa",
+      "previous_releases": [
+        {
+          "source": "LIBC_EXTERNAL_PROCESS_CPU_CLOCK_FIX",
+          "kind": "REQUEST_CPU_CLOCK_AND_RECOVERY_EVIDENCE_ONLY",
+          "release_sha256": "f61d81fea5db3afea407997756c893baf063026e4639522dc6f42c8a705ce484"
+        }
+      ]
     },
     {
       "path": "tools/sched_ext/new_a_final/README.md",
@@ -968,21 +1161,42 @@
     },
     {
       "path": "tools/sched_ext/new_a_hybrid_autotune/autotune.py",
-      "source": "FOREGROUND_BOUNDARY_USER_REAUTH",
-      "kind": "AUTHENTICATION_BOUNDARY_ONLY_EXPERIMENT_AND_POLICY_UNCHANGED",
-      "release_sha256": "bb07338e000e7fdef397885cfb8641ac44bf086239ba6f27279a651268236ad8"
+      "source": "AUTOTUNE_AUTH_POWER_ISOLATION_PUBLICATION",
+      "kind": "REVIEWED_RUNTIME_TOOL_TEST_OR_DOCUMENTATION",
+      "release_sha256": "a81a94e369aeae4cbedc7a6291840ae8156c09a27465e15480289597b599d958",
+      "previous_releases": [
+        {
+          "source": "FOREGROUND_BOUNDARY_USER_REAUTH",
+          "kind": "AUTHENTICATION_BOUNDARY_ONLY_EXPERIMENT_AND_POLICY_UNCHANGED",
+          "release_sha256": "bb07338e000e7fdef397885cfb8641ac44bf086239ba6f27279a651268236ad8"
+        }
+      ]
     },
     {
       "path": "tools/sched_ext/new_a_hybrid_autotune/backend.py",
-      "release_sha256": "42d09d4b3ad2713020c609126bf63cd823b23d9b7d34e4d46b5d68dc53a46afc",
-      "source": "GITHUB_PINNED_AUTOTUNE_BOOTSTRAP",
-      "kind": "SOURCE_BUILD_DOWNLOAD_AND_RESEARCH_CONFIGURATION_ONLY"
+      "source": "AUTOTUNE_AUTH_POWER_ISOLATION_PUBLICATION",
+      "kind": "REVIEWED_RUNTIME_TOOL_TEST_OR_DOCUMENTATION",
+      "release_sha256": "16ae81a8e9122219c368716699ba719316e2a5d7653e8348be0850d0f5f856cb",
+      "previous_releases": [
+        {
+          "release_sha256": "42d09d4b3ad2713020c609126bf63cd823b23d9b7d34e4d46b5d68dc53a46afc",
+          "source": "GITHUB_PINNED_AUTOTUNE_BOOTSTRAP",
+          "kind": "SOURCE_BUILD_DOWNLOAD_AND_RESEARCH_CONFIGURATION_ONLY"
+        }
+      ]
     },
     {
       "path": "tools/sched_ext/new_a_hybrid_autotune/experiment.py",
-      "source": "FOREGROUND_BOUNDARY_USER_REAUTH",
-      "kind": "AUTHENTICATION_BOUNDARY_ONLY_EXPERIMENT_AND_POLICY_UNCHANGED",
-      "release_sha256": "722a7f7c6439364b4a5a58a73ce5388e7be46d7200f651e768508bac0824f649"
+      "source": "AUTOTUNE_AUTH_POWER_ISOLATION_PUBLICATION",
+      "kind": "REVIEWED_RUNTIME_TOOL_TEST_OR_DOCUMENTATION",
+      "release_sha256": "fa48143bd2862777b57682e1b79967fcfa4aaca1f09dca853a72c7d8f7103b62",
+      "previous_releases": [
+        {
+          "source": "FOREGROUND_BOUNDARY_USER_REAUTH",
+          "kind": "AUTHENTICATION_BOUNDARY_ONLY_EXPERIMENT_AND_POLICY_UNCHANGED",
+          "release_sha256": "722a7f7c6439364b4a5a58a73ce5388e7be46d7200f651e768508bac0824f649"
+        }
+      ]
     },
     {
       "path": "tools/sched_ext/new_a_hybrid_autotune/planning.py",
@@ -992,9 +1206,16 @@
     },
     {
       "path": "tools/sched_ext/new_a_hybrid_autotune/test_autotune.py",
-      "release_sha256": "b3d42d6517d6b4af08e9c6ab11355d2cccb3cb17952041b541dd4d1ddb0434c0",
-      "source": "GITHUB_PINNED_AUTOTUNE_BOOTSTRAP",
-      "kind": "SOURCE_BUILD_DOWNLOAD_AND_RESEARCH_CONFIGURATION_ONLY"
+      "source": "AUTOTUNE_AUTH_POWER_ISOLATION_PUBLICATION",
+      "kind": "REVIEWED_RUNTIME_TOOL_TEST_OR_DOCUMENTATION",
+      "release_sha256": "b1e58dcc5e1df815186955e53c39842807a1495e2d20a4828b409b7cf9f2564b",
+      "previous_releases": [
+        {
+          "release_sha256": "b3d42d6517d6b4af08e9c6ab11355d2cccb3cb17952041b541dd4d1ddb0434c0",
+          "source": "GITHUB_PINNED_AUTOTUNE_BOOTSTRAP",
+          "kind": "SOURCE_BUILD_DOWNLOAD_AND_RESEARCH_CONFIGURATION_ONLY"
+        }
+      ]
     },
     {
       "path": "tools/sched_ext/new_a_portable/README.md",
@@ -1227,9 +1448,16 @@
     },
     {
       "path": "tools/sched_ext/new_a_universal_runtime/boundary_auth.py",
-      "source": "FOREGROUND_BOUNDARY_USER_REAUTH",
-      "kind": "AUTHENTICATION_BOUNDARY_ONLY_EXPERIMENT_AND_POLICY_UNCHANGED",
-      "release_sha256": "b3c45201749ca8f1df4de7e848ec39824fd907fb6de07a074a5946fbc42a2992"
+      "source": "AUTOTUNE_AUTH_POWER_ISOLATION_PUBLICATION",
+      "kind": "REVIEWED_RUNTIME_TOOL_TEST_OR_DOCUMENTATION",
+      "release_sha256": "541a006993216d0efa567592841aca7479b9856afbb0e80fea66d0c8fbabd87b",
+      "previous_releases": [
+        {
+          "source": "FOREGROUND_BOUNDARY_USER_REAUTH",
+          "kind": "AUTHENTICATION_BOUNDARY_ONLY_EXPERIMENT_AND_POLICY_UNCHANGED",
+          "release_sha256": "b3c45201749ca8f1df4de7e848ec39824fd907fb6de07a074a5946fbc42a2992"
+        }
+      ]
     },
     {
       "path": "tools/sched_ext/new_a_universal_runtime/build.py",
@@ -1239,15 +1467,29 @@
     },
     {
       "path": "tools/sched_ext/new_a_universal_runtime/contracts.py",
-      "source": "universal-runtime-independent-research",
-      "kind": "DYNAMIC_FULL_GUARD_ADAPTER_TEST_OR_DOCUMENTATION",
-      "release_sha256": "b77048786f982b802478624c88ed531b88e100c4b1977b63d3b7417630097ac7"
+      "source": "AUTOTUNE_AUTH_POWER_ISOLATION_PUBLICATION",
+      "kind": "REVIEWED_RUNTIME_TOOL_TEST_OR_DOCUMENTATION",
+      "release_sha256": "ba76a98559c4fbfd6401a2b4fb8e73334f37d743508274725bb346af4d23b987",
+      "previous_releases": [
+        {
+          "source": "universal-runtime-independent-research",
+          "kind": "DYNAMIC_FULL_GUARD_ADAPTER_TEST_OR_DOCUMENTATION",
+          "release_sha256": "b77048786f982b802478624c88ed531b88e100c4b1977b63d3b7417630097ac7"
+        }
+      ]
     },
     {
       "path": "tools/sched_ext/new_a_universal_runtime/controller.py",
-      "source": "FOREGROUND_BOUNDARY_USER_REAUTH",
-      "kind": "AUTHENTICATION_BOUNDARY_ONLY_EXPERIMENT_AND_POLICY_UNCHANGED",
-      "release_sha256": "5fa02d39ad4a8418c4b353c1eaede8150f24a8fdae0d7a2fa9d7535bc05ccd20"
+      "source": "AUTOTUNE_AUTH_POWER_ISOLATION_PUBLICATION",
+      "kind": "REVIEWED_RUNTIME_TOOL_TEST_OR_DOCUMENTATION",
+      "release_sha256": "eb200add25e155bcd06cb66170592d1098a2afab1321bfc548d6397ba5f37c1c",
+      "previous_releases": [
+        {
+          "source": "FOREGROUND_BOUNDARY_USER_REAUTH",
+          "kind": "AUTHENTICATION_BOUNDARY_ONLY_EXPERIMENT_AND_POLICY_UNCHANGED",
+          "release_sha256": "5fa02d39ad4a8418c4b353c1eaede8150f24a8fdae0d7a2fa9d7535bc05ccd20"
+        }
+      ]
     },
     {
       "path": "tools/sched_ext/new_a_universal_runtime/derive.py",
@@ -1257,9 +1499,16 @@
     },
     {
       "path": "tools/sched_ext/new_a_universal_runtime/evidence.py",
-      "source": "LIBC_EXTERNAL_PROCESS_CPU_CLOCK_FIX",
-      "kind": "REQUEST_CPU_CLOCK_AND_RECOVERY_EVIDENCE_ONLY",
-      "release_sha256": "bf2d3a7fcccdd71556c778d4b029345d29dea30d91796ddb34e4f02f441d7683"
+      "source": "AUTOTUNE_AUTH_POWER_ISOLATION_PUBLICATION",
+      "kind": "REVIEWED_RUNTIME_TOOL_TEST_OR_DOCUMENTATION",
+      "release_sha256": "ea4b67949dc654c41d7be559de476b8b433ec4067c79655747f28f6a8b424193",
+      "previous_releases": [
+        {
+          "source": "LIBC_EXTERNAL_PROCESS_CPU_CLOCK_FIX",
+          "kind": "REQUEST_CPU_CLOCK_AND_RECOVERY_EVIDENCE_ONLY",
+          "release_sha256": "bf2d3a7fcccdd71556c778d4b029345d29dea30d91796ddb34e4f02f441d7683"
+        }
+      ]
     },
     {
       "path": "tools/sched_ext/new_a_universal_runtime/guard_domain.h",
@@ -1274,6 +1523,12 @@
       "release_sha256": "a789c5c39b1e4e9e52b49229830d54ea43e3369fffe28a239d1614cb72b69ea1"
     },
     {
+      "path": "tools/sched_ext/new_a_universal_runtime/interference.py",
+      "source": "AUTOTUNE_AUTH_POWER_ISOLATION_PUBLICATION",
+      "kind": "REVIEWED_RUNTIME_TOOL_TEST_OR_DOCUMENTATION",
+      "release_sha256": "06b04196ed9e24c3fe05f9a8540f7f045181a3ed5fd3c5c5a1cb00f1eee32788"
+    },
+    {
       "path": "tools/sched_ext/new_a_universal_runtime/process_cpu.py",
       "source": "LIBC_EXTERNAL_PROCESS_CPU_CLOCK_FIX",
       "kind": "REQUEST_CPU_CLOCK_AND_RECOVERY_EVIDENCE_ONLY",
@@ -1281,9 +1536,16 @@
     },
     {
       "path": "tools/sched_ext/new_a_universal_runtime/runner.py",
-      "source": "LIBC_EXTERNAL_PROCESS_CPU_CLOCK_FIX",
-      "kind": "REQUEST_CPU_CLOCK_AND_RECOVERY_EVIDENCE_ONLY",
-      "release_sha256": "eda970e5caaddffa7e396f114fe82bf97d54d8b9efc509478a94cbf3d3b37cca"
+      "source": "AUTOTUNE_AUTH_POWER_ISOLATION_PUBLICATION",
+      "kind": "REVIEWED_RUNTIME_TOOL_TEST_OR_DOCUMENTATION",
+      "release_sha256": "6b6253bdba01850a3e3259a7e99d59a2f92d0d99df0dee30bd0fda51531c9df4",
+      "previous_releases": [
+        {
+          "source": "LIBC_EXTERNAL_PROCESS_CPU_CLOCK_FIX",
+          "kind": "REQUEST_CPU_CLOCK_AND_RECOVERY_EVIDENCE_ONLY",
+          "release_sha256": "eda970e5caaddffa7e396f114fe82bf97d54d8b9efc509478a94cbf3d3b37cca"
+        }
+      ]
     },
     {
       "path": "tools/sched_ext/new_a_universal_runtime/runtime.py",
@@ -1317,9 +1579,16 @@
     },
     {
       "path": "tools/sched_ext/new_a_universal_runtime/test_raw.py",
-      "source": "LIBC_EXTERNAL_PROCESS_CPU_CLOCK_FIX",
-      "kind": "REQUEST_CPU_CLOCK_AND_RECOVERY_EVIDENCE_ONLY",
-      "release_sha256": "507a7bc8b1fae26a68acc1ab8ca78f5e00caf1aca8edd07bc1ba15facc20c9b3"
+      "source": "AUTOTUNE_AUTH_POWER_ISOLATION_PUBLICATION",
+      "kind": "REVIEWED_RUNTIME_TOOL_TEST_OR_DOCUMENTATION",
+      "release_sha256": "4a87813907401a7031865773930f8e58b259b08210f3288292ba88a933232daf",
+      "previous_releases": [
+        {
+          "source": "LIBC_EXTERNAL_PROCESS_CPU_CLOCK_FIX",
+          "kind": "REQUEST_CPU_CLOCK_AND_RECOVERY_EVIDENCE_ONLY",
+          "release_sha256": "507a7bc8b1fae26a68acc1ab8ca78f5e00caf1aca8edd07bc1ba15facc20c9b3"
+        }
+      ]
     },
     {
       "path": "tools/sched_ext/new_a_universal_runtime/test_universal.py",

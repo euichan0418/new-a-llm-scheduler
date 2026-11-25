@@ -8,7 +8,7 @@ import shutil
 import stat
 import subprocess
 
-TOOLS={'cc':'build-essential','make':'build-essential','clang':'clang','bpftool':'bpftool','nm':'binutils','readelf':'binutils','powerprofilesctl':'power-profiles-daemon'}
+TOOLS={'cc':'build-essential','make':'build-essential','clang':'clang','bpftool':'bpftool','nm':'binutils','readelf':'binutils'}
 DEVEL=['libbpf-dev','libelf-dev','zlib1g-dev']
 
 

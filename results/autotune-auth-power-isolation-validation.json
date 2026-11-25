@@ -1,0 +1,88 @@
+{
+  "schema": 1,
+  "scope": "PUBLICATION_STATIC_AND_MOCK_VALIDATION_ONLY",
+  "base_commit": "dfa450f608854a4e385003641e90a9d40a020721",
+  "publication_branch": "feature/autotune-auth-power-isolation",
+  "previous_run": {
+    "status": "PASS",
+    "tests": 451,
+    "suites": 17,
+    "evidence_verified_against_implementation": true,
+    "private_log_sha256": "bf9704724ab2cd67734022583f9fba3731acaf143864ad0f21d482e3d6fca40d",
+    "source_manifest_sha256": "f8cc712d943586850684e45ae99f1178a3031b11fef6518735ca3932b9002478"
+  },
+  "publication_rerun": {
+    "status": "PASS",
+    "tests": 451,
+    "suites": 17,
+    "private_log_sha256": "774c86263ec1a3d208a791a0bf874f7c895a0a2e62e1232f702e693f1a607346"
+  },
+  "release_tooling_tests": {
+    "status": "PASS",
+    "tests": 5,
+    "suites": 1,
+    "private_log_sha256": "a77f0ddf7a2ab58903f0df260fa1d0423f9129a824a34927e2642aa2d5c48f52"
+  },
+  "actual_sudo": "NOT_RUN",
+  "actual_bpf_attach": "NOT_RUN",
+  "actual_long_running_inference": "NOT_RUN",
+  "actual_new_benchmark": "NOT_RUN",
+  "actual_model_download": "NOT_RUN",
+  "actual_engine_build": "NOT_RUN",
+  "team_campaign": "bootstrap-20261125T151205Z-7233cc74",
+  "team_campaign_resume": "RESUME_BLOCKED",
+  "team_campaign_raw_audit": "NOT_VERIFIED_RAW_NOT_AVAILABLE",
+  "required_checks": {
+    "POWER_MANAGEMENT_WRITES_REMOVED": {
+      "status": "PASS",
+      "scope": "MOCK_AND_STATIC_ONLY"
+    },
+    "NO_POWER_RESTORE_DEPENDENCY": {
+      "status": "PASS",
+      "scope": "MOCK_AND_STATIC_ONLY"
+    },
+    "CODEX_CONCURRENT_EXECUTION": {
+      "status": "PASS",
+      "scope": "MOCK_AND_STATIC_ONLY"
+    },
+    "WORKTREE_ISOLATION": {
+      "status": "PASS",
+      "scope": "MOCK_AND_STATIC_ONLY"
+    },
+    "FROZEN_BINARY_IDENTITY": {
+      "status": "PASS",
+      "scope": "MOCK_AND_STATIC_ONLY"
+    },
+    "CPU_INTERFERENCE_DETECTION": {
+      "status": "PASS",
+      "scope": "MOCK_AND_STATIC_ONLY"
+    },
+    "SAFE_MEASUREMENT_PAUSE_RESUME": {
+      "status": "PASS",
+      "scope": "MOCK_AND_STATIC_ONLY"
+    },
+    "SUDO_REAUTHENTICATION": {
+      "status": "PASS",
+      "scope": "MOCK_AND_STATIC_ONLY"
+    },
+    "EXISTING_RESULTS_PRESERVED": {
+      "status": "PASS",
+      "scope": "MOCK_AND_STATIC_ONLY"
+    },
+    "CLEANUP_ISOLATION": {
+      "status": "PASS",
+      "scope": "MOCK_AND_STATIC_ONLY"
+    }
+  },
+  "power_comparability": "NOT_GUARANTEED_BETWEEN_CAMPAIGNS",
+  "observer_overhead": "NOT_MEASURED",
+  "strict_acceptance": "FAILED",
+  "safety_verdict": "FAIL",
+  "overhead_review": "OVERHEAD_REVIEW_REQUIRED",
+  "private_raw_logs_included": false,
+  "main_changed": false,
+  "pr_created": false,
+  "package_integrity": "PASS",
+  "handoff_command_syntax": "PASS",
+  "published_file_count_expected": 218
+}

@@ -10,6 +10,7 @@ import unittest
 sys.path.insert(0,str(Path(__file__).resolve().parent))
 import runtime_core as core
 import evidence,controller
+import contracts
 import process_cpu
 import test_universal as fixture_source
 
@@ -63,7 +64,7 @@ def fixture(path,policy='E',audit=True):
 
 
 def finish(path,campaign,slot):
-    proof=dict(status='COMPLETE',campaign_id=campaign['id'],stage=slot['stage'],slot=slot,contract_binding=core.digest({k:campaign[k] for k in ['id','host','domain','baseline']}),files={str(p.relative_to(path)):core.sha(p) for p in path.rglob('*') if p.is_file() and p.name!='completion.json'})
+    proof=dict(status='COMPLETE',campaign_id=campaign['id'],stage=slot['stage'],slot=slot,contract_binding=contracts.evidence_binding(campaign),files={str(p.relative_to(path)):core.sha(p) for p in path.rglob('*') if p.is_file() and p.name!='completion.json'})
     (path/'completion.json').write_text(json.dumps(proof))
 
 

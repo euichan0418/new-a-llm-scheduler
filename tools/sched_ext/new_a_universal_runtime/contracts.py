@@ -12,6 +12,40 @@ from runtime_core import HERE, ROOT, LABELS, collect, profiles, domain, read, sa
 
 ENV_KEYS={'PATH','LC_ALL','LD_LIBRARY_PATH','OMP_NUM_THREADS','OMP_DYNAMIC','OMP_DISPLAY_AFFINITY','OMP_AFFINITY_FORMAT'}
 OMP_FORMAT='NEWA_TEAM pid=%P team=%N index=%n native=%i'
+UNMANAGED_POWER='USER_MANAGED_UNCONTROLLED_V1'
+
+
+def unmanaged(value):
+    mode=value.get('power_management')
+    require(mode in [None,UNMANAGED_POWER],'Unknown power contract')
+    return mode==UNMANAGED_POWER
+
+
+def evidence_binding(value):
+    binding={k:value[k]for k in ['id','host','domain','baseline']}
+    for k in ['power_management','interference_contract','cpu_isolation']:
+        if k in value:binding[k]=value[k]
+    return digest(binding)
+
+
+def thermal():
+    """Thermal safety only: never read governor/EPP/Turbo/profile/AC controls."""
+    temperatures=[]
+    for path in Path('/sys/class/thermal').glob('thermal_zone*/temp'):
+        n=int(path.read_text().strip())
+        require(-10000<=n<=150000,'Invalid thermal sensor')
+        temperatures.append(n/1000)
+    require(temperatures and max(temperatures)<85,'Thermal missing or >=85C')
+    return dict(temperatures_c=temperatures,throttle_counts=throttle_counts())
+
+
+def conditions(value):
+    if unmanaged(value):
+        require('power_binding' not in value['host'],'Unmanaged campaign contains managed power binding')
+        return thermal()
+    current=power()
+    require(power_binding(current)==value['host']['power_binding'],'Power binding changed')
+    return current
 
 
 def scheduler_state():return Path('/sys/kernel/sched_ext/state').read_text().strip()
@@ -155,6 +189,6 @@ def load_campaign(root,*,current=True):
         for path,expected in value['baseline']['resolutions'].items():require(resolve(path,loader,value['baseline']['server_env'])==expected,'ELF dependency resolution changed')
         detection=collect.inspect(value['build']['cpu_probe']['path'],value['configuration']['requested_cpus'])
         require(detection==value['host']['detection'],'Topology/online/allowed/cpuset/quota changed')
-        require(power_binding(power())==value['host']['power_binding'],'Power binding changed')
+        conditions(value)
         require(scheduler_state()=='disabled','sched_ext must be disabled before authentication')
     return value

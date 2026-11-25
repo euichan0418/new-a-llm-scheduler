@@ -76,8 +76,9 @@ def response(path,role,request_sha):
 
 
 def verify_session(path,campaign,stage,slot,prospective=None):
+    import contracts
     path=Path(path);proof=read(path/'completion.json') if prospective is None else prospective
-    require(proof['contract_binding']==digest({k:campaign[k] for k in ['id','host','domain','baseline']}),'Evidence belongs to a different Host/baseline/contract')
+    require(proof['contract_binding']==contracts.evidence_binding(campaign),'Evidence belongs to a different Host/baseline/contract')
     require(set(proof['files'])=={str(p.relative_to(path)) for p in path.rglob('*') if p.is_file() and p.name!='completion.json'},'Raw proof file coverage incomplete')
     require(proof['status']=='COMPLETE' and proof['campaign_id']==campaign['id'] and proof['stage']==stage and proof['slot']==slot,'Completion identity differs')
     for name,expected in proof['files'].items():require(sha(path/name)==expected,'Raw evidence changed: '+name)
@@ -86,7 +87,15 @@ def verify_session(path,campaign,stage,slot,prospective=None):
     samples=[json.loads(line) for line in (path/'monitor.jsonl').read_text().splitlines()];require(len(samples)>=2,'Monitor incomplete')
     require(any(sample['tasks'] for sample in samples),'No actual TID evidence')
     for sample in samples:
-        require(sample['power_binding']==campaign['host']['power_binding'] and sample['max_temperature_c']<85 and sample['throttle_unchanged']is True,'Power/thermal changed')
+        if 'interference_contract'in campaign:
+            import interference
+            interference.validate(campaign['interference_contract'])
+            require(sample.get('interference',{}).get('contaminated')is False,'Interference evidence absent/contaminated; not a valid measurement')
+        import contracts
+        if contracts.unmanaged(campaign):
+            require('power_binding' not in sample and sample.get('power_management')==contracts.UNMANAGED_POWER,'Unmanaged thermal provenance missing')
+        else:require(sample['power_binding']==campaign['host']['power_binding'],'Power changed')
+        require(sample['max_temperature_c']<85 and sample['throttle_unchanged']is True,'Thermal changed')
         require(sample['online']==campaign['domain']['online'] and sample['allowed']==campaign['domain']['allowed'],'Online/allowed changed')
         require(sample['stats_sysctl']==0,'Runtime Statistics activated')
         if sample['tasks']:

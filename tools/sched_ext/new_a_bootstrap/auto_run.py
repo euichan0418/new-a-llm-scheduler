@@ -29,7 +29,7 @@ def preparation_signals():
     previous={}
     def stop(sig,frame):
         for item in [signal.SIGINT,signal.SIGTERM,signal.SIGHUP]:signal.signal(item,signal.SIG_IGN)
-        raise KeyboardInterrupt('Signal '+str(sig)+'; preserve evidence and restore power after cleanup')
+        raise KeyboardInterrupt('Signal '+str(sig)+'; preserve evidence and verify process cleanup')
     try:
         for sig in [signal.SIGINT,signal.SIGTERM,signal.SIGHUP]:previous[sig]=signal.signal(sig,stop)
         yield
@@ -77,76 +77,10 @@ def restore_only(driver,journal):
 
 
 def run(driver,*,check=False,search_roots=None,guard_fd=None):
-    require(os.getuid()!=0 and os.sched_getscheduler(0)==0,'일반 사용자 SCHED_OTHER 터미널에서 실행하십시오. sudo로 이 스크립트를 실행하지 마십시오.')
-    if not check:require(os.isatty(0),'--auto requires a normal terminal for explicit approvals and sudo; use --auto-check for read-only diagnostics')
-    home=Path.home();results=driver.ROOT.parent/'new-a-autotune-results'
-    require(shutil.disk_usage(driver.nearest(results)).free>=driver.RESERVE,'DISK_SPACE_BLOCKED: 512MiB reserve required')
-    results.mkdir(mode=0o700,exist_ok=True)
-    if not check:
-        for journal in results.glob('auto-*/environment.private.json'):
-            value=json.loads(journal.read_text())
-            if value.get('attempted')and value.get('schema')==2 and value['status']=='RESTORED':system.audit_restoration(journal)
-            if value.get('attempted')and value['status']!='RESTORED':system.pending_recovery(journal,lambda:quiet(driver.engine()))
-    session=results/('auto-'+time.strftime('%Y%m%dT%H%M%SZ',time.gmtime())+'-'+uuid.uuid4().hex[:8]);session.mkdir(mode=0o700)
-    print('AUTO_RESULT_DIRECTORY='+str(session),flush=True)
-    state=dict(status='PREPARING',scheduler='linux',bpf_attach='NOT_RUN',inference='NOT_RUN',session=str(session),automatic_retry=False)
-    journal=session/'environment.private.json';module=None;restore_error=None
-    try:
-        pins=json.loads((driver.ROOT/'AUTO_ASSET_PINS.json').read_text())
-        selection=assets.discover(pins,search_roots if search_roots is not None else assets.roots(driver.ROOT))
-        state['assets']=selection;system.save(session/'asset-discovery.private.json',selection)
-        required=system.missing_packages();state['packages_required']=required
-        if check:
-            state['environment_plan']='DEPENDENCIES_REQUIRED_BEFORE_COMPLETE_CHECK'if required else system.power_plan()
-            if not required:
-                module=driver.engine();staged=assets.stage_assets(selection,pins,session/'approved-libraries')
-                state['elf']=assets.validate_elf(selection,staged,module.b.contracts)
-            state['status']='AUTO_CHECK_ONLY_NO_EXPERIMENT';return 0
-        original=system.snapshot();system.save(session/'before-install-environment.private.json',original)
-        system.install(required,session)
-        require(not system.missing_packages(),'DEPENDENCIES_STILL_MISSING; no experiment')
-        module=driver.engine();module.b.controller.foreign_processes()
-        require(module.b.contracts.scheduler_state()=='disabled','sched_ext must be disabled')
-        env=module.b.collect.environment();require(env['ac_online'],'AC_NOT_CONNECTED; attach AC manually; no automatic bypass')
-        temps=[int(r['value'])/1000 for r in env['temperature_millic']if r['value']is not None]
-        require(temps and max(temps)<85,'THERMAL_NOT_READY: missing sensor or >=85C; no stress/automatic threshold relaxation')
-        probe=module.b.probe_build(session/'probe');detection=module.b.collect.inspect(probe,None)
-        default=module.p.default(detection);state['cpu']=dict(summary=detection['summary'],default=default)
-        staged=assets.stage_assets(selection,pins,session/'approved-libraries')
-        compatible=assets.validate_elf(selection,staged,module.b.contracts);state['elf']=compatible
-        changes=system.power_plan(original);state['environment_plan']=changes
-        system.preregister(changes,journal)
-        restore_script='#!/usr/bin/env bash\nexec bash '+shlex.quote(str(driver.ROOT/'run-autotune.sh'))+' --restore-environment '+shlex.quote(str(journal))+'\n'
-        (session/'restore-environment.sh').write_text(restore_script)
-        # Permission to run this Linux batch is separate from system preparation consent.
-        system.consent('Linux 기본 스케줄러에서 Auto-Tuning을 실행합니다. NEW_A BPF를 attach하지 않습니다.\nCPU: '+str(detection['summary'])+'\n기본 구성: '+str(default)+'\n최대160서버 세션/7200초, 후보별 독립 서버/워밍업2/측정1, 2블록 선별 후 필요할 때 독립6블록 확증.\nSTRICT_ACCEPTANCE=FAILED / safety_verdict=FAIL / OVERHEAD_REVIEW_REQUIRED를 유지합니다.\n실패 자동 재시도·백그라운드 인증 갱신은 없습니다. 정리 확인된 세션 경계에서만 직접 비밀번호 재인증을 요청하며 결과를 보존합니다.')
-        system.save(session/'experiment-consent.private.json',dict(approved=True,scheduler='linux',default=default,maximum_sessions=160,maximum_seconds=7200,automatic_retry=False))
-        require(quiet(module),'CLEANUP_NOT_VERIFIED before power apply')
-        system.apply(changes,journal)
-        output=session/'tuning';state['tuning_output']=str(output)
-        arguments=['--server',compatible['server'],'--server-sha256',next(r['sha256']for r in selection['artifacts']if r['role']=='server'),'--model',selection['model'],'--model-sha256',pins['model']['sha256'],'--library-dir',str(staged),'--marker-elf',compatible['marker'],'--output',str(output),'--execute','--acknowledge-existing-safety-fail']
-        args,command=driver.action('run',arguments,module)
-        preflight=driver.dependencies(args,True,module)
-        driver.admission_record(args,command,driver.verify(),preflight)
-        state['status']='RUNNING';system.save(session/'auto-state.private.json',state)
-        if guard_fd is not None:fcntl.flock(guard_fd,fcntl.LOCK_UN)
-        code=child(command);state['child_returncode']=code
-        state['inference']='SEE_NATIVE_RAW_EVIDENCE';state['status']='COMPLETE'if code==0 else'EXPERIMENT_STOPPED'
-        require(code==0,'AUTO_TUNING_STOPPED: no automatic retry; raw data retained')
-        return 0
-    except (OSError,ValueError,KeyError,subprocess.SubprocessError,KeyboardInterrupt)as error:
-        state['status']='BLOCKED_OR_STOPPED';state['error']=type(error).__name__+': '+str(error);raise
-    finally:
-        if journal.is_file():
-            try:
-                if guard_fd is not None:fcntl.flock(guard_fd,fcntl.LOCK_EX|fcntl.LOCK_NB)
-                system.restore(journal,lambda:module is not None and quiet(module))
-            except (OSError,ValueError,KeyError,subprocess.SubprocessError,KeyboardInterrupt)as error:
-                restore_error=str(error);state['restore_error']=restore_error;state['status']='ENVIRONMENT_RESTORE_REQUIRED'
-                print('복원 미완료. 새 실험 금지. 정리 확인 후 실행: bash '+shlex.quote(str(session/'restore-environment.sh')),file=sys.stderr)
-        report(session,state)
-        print('한국어 보고서: '+str(session/'REPORT.ko.md'),flush=True)
-        if restore_error:raise ValueError('ENVIRONMENT_RESTORE_REQUIRED: '+restore_error)
+    # Legacy asset-discovery auto entry delegates to the same unmanaged bootstrap.
+    # The historical journal restore tool above is explicitly manual and separate.
+    import bootstrap
+    return bootstrap.run(driver,driver.ROOT/'.autotune-work',check=check,guard=guard_fd)
 
 
 def locked_run(driver,check=False):

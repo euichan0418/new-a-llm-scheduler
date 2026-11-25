@@ -18,7 +18,7 @@ import boundary_auth
 def token():return time.strftime('%Y%m%dT%H%M%SZ',time.gmtime())+'-'+uuid.uuid4().hex[:8]
 
 
-def completed(root,campaign,stage,resume_auth=False):
+def completed(root,campaign,stage,resume_auth=False,resume_interference=False):
     found={};pending=False
     for slot in runner.slots(stage):
         slot=dict(slot,stage=stage);paths=sorted((Path(root)/'attempts'/stage/slot['id']).glob('*'));valid=[]
@@ -34,17 +34,36 @@ def completed(root,campaign,stage,resume_auth=False):
             pending=True
             if paths:
                 path=paths[-1];failure=read(path/'failure.json');cleanup=read(path/'cleanup.json')
-                require(resume_auth and safe_auth_resume(path,campaign,failure,cleanup),'Previous failure is not eligible for explicit auth resume: '+str(path))
+                require(resume_auth and safe_auth_resume(path,campaign,failure,cleanup)or resume_interference and safe_interference_resume(path,campaign,failure,cleanup),'Previous failure is not eligible for explicit auth resume: '+str(path))
     return found
 
 
 def safe_auth_resume(path,campaign,failure,cleanup):
-    if failure['kind']!='SUDO_AUTH_REQUIRED_OR_EXPIRED' or cleanup['status']!='PASS' or cleanup['errors']:return False
+    if failure['kind']!='SUDO_AUTH_REQUIRED_OR_EXPIRED' or cleanup!=dict(status='PASS',errors=[],sched_ext='disabled',server_exited=True,loader_exited=True):return False
     auth=[]
     for p in Path(path).glob('*-command.json'):
         value=read(p)
         if isinstance(value,dict) and value.get('returncode',0)!=0 and 'sudo:' in value.get('stderr','') and 'a password is required' in value['stderr']:auth.append(p)
-    if not auth:return False
+    # The immediate noninteractive gate may stop before issuing the operation.
+    # Its failure is authenticated by runner's recorded phase; missing evidence
+    # remains blocked rather than guessing that an operation never ran.
+    if not auth:
+        gate=Path(path)/'credential-gate-failure.json'
+        if not gate.is_file():return False
+        value=read(gate)
+        if value.get('kind')!='SUDO_AUTH_REQUIRED_OR_EXPIRED' or value.get('operation_started')is not False or value.get('phase')!=failure.get('phase'):return False
+    return safe_cleanup_scope(path,campaign)
+
+
+def safe_interference_resume(path,campaign,failure,cleanup):
+    if failure.get('kind')!='CPU_INTERFERENCE_DETECTED'or cleanup!=dict(status='PASS',errors=[],sched_ext='disabled',server_exited=True,loader_exited=True):return False
+    if not(Path(path)/'monitor.jsonl').is_file()or 'interference_contract'not in campaign:return False
+    records=[json.loads(line)for line in (Path(path)/'monitor.jsonl').read_text().splitlines()]
+    if not any(row.get('interference',{}).get('contaminated')is True for row in records):return False
+    return safe_cleanup_scope(path,campaign)
+
+
+def safe_cleanup_scope(path,campaign):
     if not(Path(path)/'server-command.json').exists() and not(Path(path)/'loader-command.json').exists() and not(Path(path)/'kernel-watch.stderr.log').exists():return True
     if read(Path(path)/'kernel-watch-result.json')['status']!='PASS':return False
     if (Path(path)/'loader-command.json').exists():
@@ -88,7 +107,7 @@ def execute(root,stage,ack,resume_auth=False):
     consent=root/('consent-'+token()+'.json');save(consent,dict(stage=stage,slots=visits,maximum_sessions=len(visits),maximum_requests=3*len(visits),deadline_seconds=1800,existing_safety_fail_ack=True,automatic_retry=False,credential_keepalive=False,foreground_boundary_user_reauthentication=True))
     auth=boundary_auth.BoundaryAuth(root,quiet_boundary)
     auth.initial()
-    runner.root_command(['true'],root/('post-auth-'+token()+'-command.json'))
+    with runner.auth_context(auth):runner.root_command(['true'],root/('post-auth-'+token()+'-command.json'))
     deadline=time.monotonic()+1800
     for slot in visits:
         require(time.monotonic()<deadline,'Controller boundary deadline exceeded; preserved completed sessions')
@@ -97,7 +116,7 @@ def execute(root,stage,ack,resume_auth=False):
         folder=root/'attempts'/stage/slot['id'];folder.mkdir(parents=True,exist_ok=True)
         path=folder/token()
         print(stage+' '+slot['id']+' '+str(path),flush=True)
-        runner.acquire_session(campaign,root,path,slot)
+        with runner.auth_context(auth):runner.acquire_session(campaign,root,path,slot)
         evidence.verify_session(path,campaign,stage,slot)
         auth.completed(path,campaign,slot)
         print(slot['id']+': raw COMPLETE; cleanup PASS',flush=True)

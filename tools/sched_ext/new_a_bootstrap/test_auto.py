@@ -176,47 +176,11 @@ class PowerAndApproval(unittest.TestCase):
 
 
 class AutoExecution(unittest.TestCase):
-    def test_auto_check_never_install_modify_or_infer(self):
-        with tempfile.TemporaryDirectory()as tmp:
-            root=Path(tmp)/'package';root.mkdir();pins=fixture(root);(root/'AUTO_ASSET_PINS.json').write_text(json.dumps(pins));mockdriver=SimpleNamespace(ROOT=root,nearest=driver.nearest,RESERVE=driver.RESERVE,engine=Mock())
-            with patch.object(s,'missing_packages',return_value=['missing']),patch.object(s,'install')as install,patch.object(s,'apply')as apply,patch.object(run,'child')as child:
-                self.assertEqual(run.run(mockdriver,check=True,search_roots=[root]),0);install.assert_not_called();apply.assert_not_called();child.assert_not_called()
-    def test_missing_files_stops_before_install(self):
-        with tempfile.TemporaryDirectory()as tmp:
-            root=Path(tmp)/'package';root.mkdir();pins=fixture(root);(root/'model.gguf').unlink();(root/'AUTO_ASSET_PINS.json').write_text(json.dumps(pins));d=SimpleNamespace(ROOT=root,nearest=driver.nearest,RESERVE=driver.RESERVE)
-            with patch.object(os,'isatty',return_value=True),patch.object(s,'install')as install:
-                with self.assertRaisesRegex(ValueError,'MODEL_NOT_FOUND'):run.run(d,search_roots=[root])
-                install.assert_not_called();self.assertEqual(len(list(root.parent.glob('new-a-autotune-results/auto-*/REPORT.ko.md'))),1)
-    def test_auto_requires_explicit_terminal(self):
-        with patch.object(os,'isatty',return_value=False):
-            with self.assertRaisesRegex(ValueError,'normal terminal'):run.run(driver)
-    def test_existing_pending_restore_blocks_new_experiment(self):
-        with tempfile.TemporaryDirectory()as tmp:
-            root=Path(tmp)/'package';root.mkdir();folder=root.parent/'new-a-autotune-results/auto-old';folder.mkdir(parents=True);(folder/'environment.private.json').write_text(json.dumps(dict(attempted=[0],status='APPLIED')));d=SimpleNamespace(ROOT=root,nearest=driver.nearest,RESERVE=driver.RESERVE)
-            with patch.object(os,'isatty',return_value=True),patch.object(a,'discover')as discover,patch.object(s,'pending_recovery',side_effect=ValueError('PENDING_ENVIRONMENT_RESTORE')):
-                with self.assertRaisesRegex(ValueError,'PENDING_ENVIRONMENT_RESTORE'):run.run(d)
-                discover.assert_not_called()
-    def test_full_auto_handoff_and_restore_with_mocked_experiment(self):
-        for code in [0,2,'interrupt','cpu-fail','cpu-and-restore-fail']:
-            with self.subTest(code=code),tempfile.TemporaryDirectory()as tmp:
-                root=Path(tmp)/'package';root.mkdir();pins=fixture(root);(root/'AUTO_ASSET_PINS.json').write_text(json.dumps(pins))
-                b=SimpleNamespace(contracts=SimpleNamespace(scheduler_state=Mock(return_value='disabled')),controller=SimpleNamespace(foreign_processes=Mock()),collect=SimpleNamespace(environment=Mock(return_value=dict(ac_online=True,temperature_millic=[dict(value='40000')])),inspect=Mock(return_value=dict(summary='SYNTHETIC'))),probe_build=Mock(return_value='NOT_REAL_PROBE'))
-                module=SimpleNamespace(b=b,p=SimpleNamespace(default=Mock(return_value=dict(compute_threads=4,batch_threads=8))))
-                def action(mode,argv,module):return SimpleNamespace(output=Path(argv[argv.index('--output')+1])),['SYNTHETIC_NO_SERVER_EXECUTION']
-                d=SimpleNamespace(ROOT=root,nearest=driver.nearest,RESERVE=driver.RESERVE,engine=Mock(return_value=module),action=action,dependencies=Mock(return_value={}),admission_record=Mock(),verify=Mock(return_value={}))
-                fake=FakePower(2)
-                if code=='cpu-and-restore-fail':fake.fail=lambda key,value:key=='profile'and value=='balanced'
-                error=KeyboardInterrupt()if code=='interrupt'else ValueError('PROCESS_CPU_CLOCK_ID_FAILED')if code in ['cpu-fail','cpu-and-restore-fail']else None
-                with fake.patched(),patch.object(os,'isatty',return_value=True),patch.object(s,'missing_packages',return_value=[]),patch.object(s,'install'),patch.object(a,'validate_elf',return_value=dict(server=str(root/'llama-server'),marker=str(root/'libfixture.so'))),patch.object(s,'consent'),patch.object(run,'child',return_value=code,side_effect=error):
-                    if code==0:self.assertEqual(run.run(d,search_roots=[root]),0)
-                    else:
-                        with self.assertRaises((ValueError,KeyboardInterrupt)):run.run(d,search_roots=[root])
-                    journals=list(root.parent.glob('new-a-autotune-results/auto-*/environment.private.json'))
-                    self.assertEqual(json.loads(journals[0].read_text())['status'],'RESTORE_REQUIRED'if code=='cpu-and-restore-fail'else'RESTORED');self.assertEqual([value for key,value,_ in fake.trace if key=='profile'],['performance','balanced'])
-                    if code in ['cpu-fail','cpu-and-restore-fail']:
-                        result=json.loads(journals[0].with_name('auto-result.private.json').read_text())
-                        self.assertIn('PROCESS_CPU_CLOCK_ID_FAILED',result['error'])
-                        self.assertEqual(result['status'],'ENVIRONMENT_RESTORE_REQUIRED'if code=='cpu-and-restore-fail'else'BLOCKED_OR_STOPPED')
+    def test_auto_delegates_to_unmanaged_bootstrap(self):
+        import bootstrap
+        with patch.object(bootstrap,'run',return_value=0)as call:
+            self.assertEqual(run.run(driver,check=True),0)
+            call.assert_called_once_with(driver,driver.ROOT/'.autotune-work',check=True,guard=None)
     def test_quiet_requires_scheduler_and_no_foreign_processes(self):
         b=SimpleNamespace(contracts=SimpleNamespace(scheduler_state=Mock(return_value='disabled')),controller=SimpleNamespace(foreign_processes=Mock()))
         self.assertTrue(run.quiet(SimpleNamespace(b=b)));b.contracts.scheduler_state.return_value='enabled';self.assertFalse(run.quiet(SimpleNamespace(b=b)))

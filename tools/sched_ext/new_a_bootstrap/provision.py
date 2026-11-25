@@ -17,6 +17,20 @@ require=assets.require
 sha=assets.digest
 
 
+def seal_runtime(binary,model):
+    """Read-only owner files prevent accidental rebuilds, not hostile same-UID writes."""
+    binary=Path(binary).resolve();model=Path(model).resolve()
+    paths={model}
+    for p in binary.iterdir():
+        if p.is_file():
+            target=p.resolve();require(target.is_relative_to(binary),'Runtime symlink escapes private binary folder')
+            paths.add(target)
+    for path in paths:
+        require(path.is_file()and path.stat().st_uid==os.getuid(),'Owned private runtime files required')
+        path.chmod(0o500 if path.stat().st_mode&0o111 else 0o400)
+    return dict(files={str(p):sha(p)for p in sorted(paths)},accidental_overwrite_protection='OWNER_READ_ONLY',hostile_same_uid_protection=False)
+
+
 def command(argv,log,*,cwd=None,env=None,timeout=1800):
     with Path(log).open('a')as f:
         f.write(json.dumps(list(map(str,argv)))+'\n');f.flush()

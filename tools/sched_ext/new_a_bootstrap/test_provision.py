@@ -93,7 +93,7 @@ class Bootstrap(unittest.TestCase):
     def test_prepare_success_is_not_experiment_complete_and_failure_preserved(self):
         for failed in [False,True]:
             with self.subTest(failed=failed),tempfile.TemporaryDirectory()as tmp:
-                contracts=SimpleNamespace(scheduler_state=Mock(return_value='disabled'))
+                contracts=SimpleNamespace(scheduler_state=Mock(return_value='disabled'),thermal=Mock(return_value=dict(temperatures_c=[40])))
                 module=SimpleNamespace(b=SimpleNamespace(universal_build=Mock(return_value=Path('/SYNTHETIC_STATIC_REPORT')),contracts=contracts,controller=SimpleNamespace(foreign_processes=Mock()),collect=SimpleNamespace(environment=Mock(return_value=dict(ac_online=True,temperature_millic=[dict(value='40000')])))))
                 fake=SimpleNamespace(ROOT=driver.ROOT,engine=Mock(return_value=module))
                 with patch.object(b.os,'isatty',return_value=True),patch.object(b.shutil,'disk_usage',return_value=SimpleNamespace(free=10**12)),patch.object(b.system,'missing_packages',return_value=[]),patch.object(b.system,'install'),patch.object(b.system,'snapshot',return_value=dict(sysfs={},profile=None)),patch.object(b.system,'power_plan',return_value=[]),patch.object(b.system,'consent'),patch.object(p,'source',return_value=Path('/SYNTHETIC_SOURCE')),patch.object(p,'build',return_value=Path('/SYNTHETIC_BUILD/bin')),patch.object(p,'model',return_value=Path('/SYNTHETIC_MODEL'),side_effect=ValueError('MODEL_INTEGRITY_FAILED')if failed else None),patch.object(b.auto_run,'child')as child:

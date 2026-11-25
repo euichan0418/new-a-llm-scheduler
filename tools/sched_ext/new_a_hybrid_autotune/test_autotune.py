@@ -166,7 +166,7 @@ class FailureAndAdmission(unittest.TestCase):
             self.assertIsNone(x.recovered(dict(raw=str(path),variant='S',slot={}),{},True));check.assert_called_once()
     def test_no_execute_resume_does_not_authenticate(self):
         args=cli.parser().parse_args(['run','--server','/S','--model','/M','--output','/SYNTHETIC','--resume'])
-        tune={'options':cli.options(args)}
+        tune={'options':cli.options(args),'power_management':b.contracts.UNMANAGED_POWER}
         with patch.object(x,'load',return_value=tune),patch.object(b,'current'),patch.object(cli,'analyze',return_value='SAFE'),patch.object(b.runner.subprocess,'run')as auth:
             self.assertEqual(cli.execute(args),'SAFE');auth.assert_not_called()
     def test_changed_selection_margin_rejected_on_resume(self):

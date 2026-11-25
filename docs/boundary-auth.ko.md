@@ -26,16 +26,12 @@ sudo의 캐시 검사는 현재 유효 여부만 제공하며 실제 남은 유�
 - 인증 실패/거부/Ctrl-C/EOF, TTY 변경, cache probe 오류, Host 변경 또는 deadline 초과이면 새 세션을 시작하지 않는다.
 - 인증 대기 중 자체 BPF·서버·관측 자원을 유지하지 않는다. 외부 프로세스나 외부 sched_ext를 강제로 종료하지 않는다.
 - 비밀번호 대기는 기존 캠페인 전체 시간 상한에 포함한다. 재인증으로 deadline이나 세션 수를 초기화하지 않는다.
-- 권한을 얻지 못하면 전원 복원도 실패할 수 있다. 기존 복원 journal/`restore-environment.sh` 및 RESTORE_REQUIRED 차단을 유지한다. 복원 실패를 PASS로 바꾸거나 거부 직후 몰래 인증을 갱신하지 않는다.
+- 신규 bootstrap에는 전원 변경·복원 경로가 없다. 과거 복구 도구와 저널은 별도 수동 관리로 보존하며 과거 실패를 PASS로 바꾸지 않는다.
 - 인증 중단은 실패 raw를 지우지 않는다. 현재 캠페인의 성공 슬롯은 원시 검증 후 건너뛴다. 측정 실패는 다음 세션과 자동 재시도를 차단한다. 이미 시작된 세션의 인증 실패 재개는 기존 `--resume-auth`와 안전성 검토 조건을 유지한다.
 
 ## 업데이트 후 실행
 
-기존 `feature/new-a-universal-runtime` checkout에서:
-
-```bash
-git pull --ff-only && bash scripts/autotune-bootstrap.sh --auto
-```
+기존 연구 브랜치를 덮어쓰지 말고 [팀 인계 문서](../AUTOTUNE_AUTH_POWER_ISOLATION_HANDOFF.md)의 새 `feature/autotune-auth-power-isolation` clone 절차를 사용한다. 원래 연구 브랜치에서 `git pull`만 실행하는 것으로 이 개선본을 받았다고 가정하지 않는다. 실제 인증·짧은 기능 검증이 끝나기 전 전체 탐색을 시작하지 않는다.
 
 이미 최신 코드면 기존처럼 다음 한 명령만 사용한다.
 
@@ -58,3 +54,9 @@ STRICT_ACCEPTANCE=FAILED
 safety_verdict=FAIL
 OVERHEAD_REVIEW_REQUIRED
 ```
+
+## 명령 직전 재검사와 명시적 재개
+
+경계 검사에 더해 모든 실제 runner sudo 명령 직전에 같은 Python PID/PPID/session/TTY 문맥으로 비갱신 캐시 검사를 한다. 자원이 없을 때만 전경 재인증을 허용한다. 검사 직후 실제 sudo가 인증 오류로 거절되면 자원 미시작 조건에서 최대 한 차례 직접 재인증하고 명령을 재시도한다. 실패한 측정의 재실행은 아니다. 자원이 시작된 뒤에는 캐시 만료를 감지해도 비밀번호를 기다리지 않고 Cleanup 후 중단한다. 관리자 정책의 실제 TTL은 알 수 없으므로 만료를 완전히 예방한다고 보장하지 않는다.
+
+동일한 고정 소스/Boot/모델/바이너리 계약이면 `--resume-campaign`으로 완료 raw를 재검증하고 건너뛴다. 인증 실패 슬롯은 별도 `--resume-auth`, 간섭 제외 슬롯은 `--resume-interference`를 요구한다. 과거 managed-power 캠페인을 새 계약으로 자동 변환하지 않는다. 정확한 관문과 정적 검증 범위는 [동시 개발 안내](concurrent-autotune.ko.md)를 따른다.

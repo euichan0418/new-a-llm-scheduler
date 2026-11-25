@@ -44,8 +44,19 @@ test-bootstrap:
 	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B tools/sched_ext/new_a_bootstrap/test_package.py
 	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B tools/sched_ext/new_a_bootstrap/test_auto.py
 	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B tools/sched_ext/new_a_bootstrap/test_provision.py
+	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B tools/sched_ext/new_a_bootstrap/test_auth_unmanaged.py
+	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B tools/sched_ext/new_a_bootstrap/test_concurrent.py
 
 .PHONY: test-power-state
 test-power-state:
 	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B tools/sched_ext/new_a_bootstrap/test_power_state.py
 	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B tools/sched_ext/new_a_bootstrap/test_recovery_review.py
+
+.PHONY: manifest check-manifest test-publication
+manifest:
+	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B scripts/update_publication_manifest.py --write
+check-manifest:
+	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B scripts/update_publication_manifest.py
+	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B scripts/verify_release.py
+test-publication:
+	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B scripts/test_publication_manifest.py

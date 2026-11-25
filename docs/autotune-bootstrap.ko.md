@@ -4,13 +4,13 @@
 
 `time.clock_getcpuclockid` 오류가 있었다면 [전체 프로세스 CPU Clock 수정 및 복원 확인](process-cpu-clock.ko.md)을 확인한다. 실패 캠페인은 보존하고 최신 코드에서 새 캠페인을 시작한다.
 
-전원 복원에서 intel_pstate EPP busy 오류가 있었다면 [전원 적용·복원 v2 및 수동 복구 안내](power-restore.ko.md)를 먼저 확인한다. 원본 실패는 보존하고, 새 실행에서 수동 복구 상태를 별도로 승인한다.
+신규 캠페인은 전원 설정을 변경하거나 복구하지 않는다. 과거 저널을 신규 진입 조건으로 읽지 않는다. 과거 미복구 상태는 [별도 수동 복구 안내](power-restore.ko.md)로 보존하며 성공으로 재분류하지 않는다. [동시 개발 및 Resume 계약](concurrent-autotune.ko.md)을 확인한다.
 
 
 기존 NEW_A/Frozen/모델/라이브러리가 없는 PC를 위한 소스 기반 준비 경로다. 기본은 **Linux 기본 스케줄러의 실행 구성 탐색**이며 NEW_A BPF를 자동 attach하지 않는다.
 
 ```bash
-git clone --branch feature/new-a-universal-runtime https://github.com/euichan0418/new-a-llm-scheduler.git && cd new-a-llm-scheduler && bash scripts/autotune-bootstrap.sh --auto
+git clone --branch feature/autotune-auth-power-isolation https://github.com/euichan0418/new-a-llm-scheduler.git && cd new-a-llm-scheduler && bash scripts/autotune-bootstrap.sh --auto
 ```
 
 동명 폴더가 있으면 git clone이 오류를 내며 `&&` 뒤 작업은 진행하지 않는다. 기존 폴더를 자동 삭제/덮어쓰기/reset하지 않는다. 새 빈 부모 디렉터리에서 실행한다. git/bash와 Ubuntu 기본 명령은 선행 조건이다. 서버·모델·library/output 경로를 찾거나 입력할 필요가 없다.
@@ -19,18 +19,18 @@ git clone --branch feature/new-a-universal-runtime https://github.com/euichan041
 
 1. 일반 사용자/SCHED_OTHER, 배포 소스 SHA256, 저장 공간을 확인한다.
 2. Python3.11 이상이 없으면 Ubuntu 저장소 기본 버전을 확인하고 계획 승인 후 설치한다. 배포판 기본 Python이 너무 오래되면 OS/PPA를 자동 변경하지 않는다.
-3. C/C++ compiler, CMake, clang BPF, bpftool, binutils, libbpf/libelf/zlib 개발 파일, 현재 커널 헤더, powerprofilesctl 등을 검사한다. 설치 계획·새 의존성의 디스크 사용·변경 범위를 출력하고 YES 승인 후 설치한다. 기존 패키지 업그레이드/제거·저장소 추가·커널 교체·sudoers 변경은 하지 않는다. 설치 패키지는 종료 후에도 남으며 자동 제거하지 않는다.
-4. AC와 sched_ext 지원 커널을 요구한다. 기본 Ubuntu 커널이 필요한 기능을 제공하지 않으면 명확히 차단하며 새 커널을 자동 설치하지 않는다.
+3. C/C++ compiler, CMake, clang BPF, bpftool, binutils, libbpf/libelf/zlib 개발 파일, 현재 커널 헤더를 검사한다. powerprofilesctl/전원 데몬은 필요하지 않다. 설치 계획·새 의존성의 디스크 사용·변경 범위를 출력하고 YES 승인 후 설치한다. 기존 패키지 업그레이드/제거·저장소 추가·커널 교체·sudoers 변경은 하지 않는다. 설치 패키지는 종료 후에도 남으며 자동 제거하지 않는다.
+4. sched_ext 지원 커널과 열 안전성을 확인한다. AC/Turbo/Governor/EPP/Profile은 승인 관문이 아니다. 기본 Ubuntu 커널이 필요한 기능을 제공하지 않으면 명확히 차단하며 새 커널을 자동 설치하지 않는다.
 5. 검증된 소스/모델 URL·리비전·라이선스를 표시한 뒤 별도 준비 승인을 받는다. 사용자 소유 코드로 root shell을 실행하지 않는다. 빌드와 다운로드는 일반 사용자다.
 6. 고정 Frozen C 소스를 GitHub에서 shallow/partial fetch하고 tree identity를 확인한다. 모델/vocab/docs/test/example 디렉터리는 sparse 제외하고 빌드 소스는 유지한다. 임의 main/latest 엔진을 사용하지 않는다.
 7. 원래 Release/CPU/native/OpenMP 옵션으로 서버를 **직렬 빌드**한다. phase symbol, CLI, ELF 의존성과 프로젝트 라이브러리 위치를 검증한다. source/options/compiler/CPU/산출물 해시를 기록해 재사용을 검증한다.
 8. 고정 모델 URL에서 가중치를 받고 파일 크기·SHA256·GGUF architecture/name을 확인한다. 잘못된 파일을 덮어쓰거나 다른 모델을 선택하지 않는다. 부분 다운로드/불완전 빌드는 보존하고 자동 재시도하지 않는다.
 9. 실제 CPU P/E/SMT/Online/Allowed/L2를 탐지한다. 기본 구성과 실험 상한을 출력하고 실험 승인을 받는다.
-10. 원래 전원 상태를 기록한 뒤 승인받은 경우만 Turbo OFF, governor/profile performance를 설정한다. AC/열·커널 조건을 우회하지 않는다. 일반 터미널의 정상 sudo 인증만 사용한다.
+10. 전원 설정은 사용자 관리로 유지한다. 열·커널·Mask·프로세스 안전성을 유지하며 일반 터미널의 정상 sudo 인증만 사용한다. 실행 소스는 별도 읽기 전용 스냅샷으로 고정하고 개발 소스 변경을 섞지 않는다.
 11. 기존 Linux Audit/Clean 기능 검증을 후보별로 먼저 수행한다. 실제 토큰·OpenMP 팀·Thread/Affinity·응답 hash·Thermal·Runtime Statistics OFF·Cleanup 증거가 없으면 성능을 시작하지 않는다.
-12. Prefill/Decode 탐색·조건별 분석·사전 관문의 독립 확증·최종 추천을 수행한다. 정상/실패/인터럽트 뒤 전원 복원을 검증한다.
+12. Prefill/Decode 탐색·조건별 분석·사전 관문의 독립 확증·최종 추천을 수행한다. 정상/실패/인터럽트 뒤 자체 실험 자원 Cleanup을 검증한다. 전원 Apply/Restore/저널은 생성하지 않는다.
 
-설치·준비·실험 승인은 구분된다. sudo 비밀번호 저장이나 background keepalive는 없다. 시작 인증 후 세션 경계에서 캐시를 검사하며, 만료/시간 여유 부족이면 사용자가 직접 재인증한다. 인증 거부·실패 또는 측정/정리 실패 시 다음 세션·자동 재시도를 차단한다. 복원이 실패하면 `restore-environment.sh`를 안내하고 새 자동 실험을 차단한다. 외부 server/loader를 자동으로 죽이거나 정리 PASS를 조작하지 않는다.
+설치·준비·실험 승인은 구분된다. sudo 비밀번호 저장이나 background keepalive는 없다. 시작 인증 후 세션 경계에서 캐시를 검사하며, 만료/시간 여유 부족이면 사용자가 직접 재인증한다. 인증 거부·실패 또는 측정/정리 실패 시 다음 세션·자동 재시도를 차단한다. 실행 중 인증 만료는 Cleanup 후 중단하며, 명시적 Resume에서 정상 완료 슬롯을 건너뛴다. 외부 server/loader를 자동으로 죽이거나 정리 PASS를 조작하지 않는다.
 
 ## 정확히 무엇을 받는가
 
@@ -57,13 +57,13 @@ Prefill grid는 Compute=P를 고정하고 Batch와 affinity를 함께 바꾸는 
 
 ```text
 .autotune-work/
+  source-snapshots/              # manifest 고정 소스; 개발 checkout과 분리
   engine-source/                 # 고정 sparse Git checkout
   engine-build/                  # 소스/옵션/CPU/컴파일러 proof와 산출물
   model-cache/                   # 검증된 GGUF 및 다운로드 provenance
   runs/bootstrap-UTC-식별자/
-    REPORT.ko.md                 # 준비/실험/복원 상태
+    REPORT.ko.md                 # 준비/실험/Cleanup 상태
     bootstrap-result.private.json
-    environment.private.json, restore-environment.sh
     tuning/analysis/*.md, *.csv, *.json
     tuning/raw/, tuning/variants/, tuning/records/
 ```
@@ -98,3 +98,5 @@ OVERHEAD_REVIEW_REQUIRED
 ```
 
 NEW_A 기능 모드는 기존 [범용 Runtime](universal-runtime.md)의 새 C/E Audit/Clean·Identity·Mask/Tracking·Cleanup 관문을 별도로 만족해야 한다. 이 bootstrap은 자동 BPF 실험 승인이 아니다.
+
+현재 전원 조건은 캠페인 간 동일성을 보장하지 않는다. 다른 캠페인의 차이를 동일 전원하의 스케줄러 효과로 해석하지 않는다. CPU 간섭 관문과 명시적 재개는 [동시 개발 안내](concurrent-autotune.ko.md)를 따른다.

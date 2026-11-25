@@ -13,10 +13,13 @@ AUTH_HORIZON_S=600
 NEXT_SESSION_RESERVE_S=360
 
 
+class CredentialExpired(ValueError):pass
+
+
 def terminal_context():
     require(os.getuid()!=0 and os.isatty(0),'AUTH_TERMINAL_REQUIRED: normal user terminal; no session started')
     try:
-        value=dict(sid=os.getsid(0),tty=os.fstat(0).st_rdev,pgrp=os.getpgrp(),foreground=os.tcgetpgrp(0))
+        value=dict(pid=os.getpid(),ppid=os.getppid(),sid=os.getsid(0),tty=os.fstat(0).st_rdev,pgrp=os.getpgrp(),foreground=os.tcgetpgrp(0))
     except OSError as error:raise ValueError('AUTH_TERMINAL_UNAVAILABLE: '+str(error))from error
     require(value['tty']!=0 and value['pgrp']==value['foreground'],'AUTH_FOREGROUND_TERMINAL_REQUIRED')
     return value
@@ -89,13 +92,35 @@ class BoundaryAuth:
         if not valid or age+NEXT_SESSION_RESERVE_S>=AUTH_HORIZON_S:
             self.authenticate('인증 만료'if not valid else'다음 세션의 인증 시간 여유 부족',cached_valid=valid)
             if after_auth is not None:after_auth()
-        self.safe()
-        # Waiting for a password must not reset or bypass campaign limits/readiness.
-        if ready is not None:ready()
-        age=self.clock()-self.issued
-        require(0<=age and age+NEXT_SESSION_RESERVE_S<AUTH_HORIZON_S,'AUTH_PLANNING_WINDOW_EXCEEDED; no session started')
-        require(self.cached(),'AUTH_EXPIRED_BEFORE_SESSION; no session started')
+        # Raw/source/hash validation can itself outlast a very short timestamp.
+        # One bounded reauthentication is allowed before resources, never a retry
+        # of a failed measurement. No guessed horizon guarantees sudo lifetime.
+        for attempt in range(2):
+            self.safe()
+            if ready is not None:ready()
+            age=self.clock()-self.issued
+            require(0<=age and age+NEXT_SESSION_RESERVE_S<AUTH_HORIZON_S,'AUTH_PLANNING_WINDOW_EXCEEDED; no session started')
+            if self.cached():break
+            if attempt:raise CredentialExpired('AUTH_EXPIRED_BEFORE_SESSION; no session started')
+            self.authenticate('마지막 사전 검사 도중 인증 만료')
+            if after_auth is not None:after_auth()
         self.event('SESSION_BOUNDARY_READY',label=label,credential_age_s=age,planning_horizon_s=AUTH_HORIZON_S,next_session_reserve_s=NEXT_SESSION_RESERVE_S,sudo_remaining_time_known=False)
+
+    def before_privileged(self,label,*,active):
+        """Same Python/TTY context immediately before every actual sudo use."""
+        require(self.issued is not None,'INITIAL_USER_AUTH_REQUIRED')
+        require(self.context==terminal_context(),'AUTH_TERMINAL_CONTEXT_CHANGED; no privileged operation')
+        if not active:self.safe()
+        valid=self.cached()
+        self.event('PRIVILEGED_GATE',label=label,resources_active=active,cached=valid,context=terminal_context())
+        if valid:return
+        if active:raise CredentialExpired('SUDO_AUTH_REQUIRED_OR_EXPIRED; active resources: cleanup required, no prompt/no retry')
+        self.authenticate('권한 명령 직전 인증 만료: '+label)
+
+    def command_auth_failure(self,label,*,active):
+        self.event('ACTUAL_SUDO_AUTH_FAILURE',label=label,resources_active=active,operation_executed=False)
+        if active:raise CredentialExpired('SUDO_AUTH_REQUIRED_OR_EXPIRED; cleanup required, no prompt/no retry')
+        self.authenticate('권한 명령 직전 timestamp 무효화: '+label)
 
     def completed(self,path,campaign,slot):
         evidence.verify_session(path,campaign,slot['stage'],slot)

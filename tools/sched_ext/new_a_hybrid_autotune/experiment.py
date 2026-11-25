@@ -9,6 +9,7 @@ import subprocess
 import time
 from planning import candidate,paired,default,prefill,decode,possible,balanced,means,screening,report,fingerprint,require
 import backend as b
+import interference
 
 
 def seal(root,value):
@@ -41,7 +42,7 @@ def validate_record(record,campaign):
     s=record['slot'];require(s['candidate_id']==c['id'] and s['tuning_stage']==record['stage'] and s['block']==record['block'] and s['position']==record['position'],'Journal/raw slot differs')
 
 
-def recovered(record,tune,resume_auth):
+def recovered(record,tune,resume_auth,resume_interference=False):
     path=Path(record['raw']);campaign=b.contracts.load_campaign(record['variant'],current=True)
     if (path/'completion.json').exists():
         require(not(path/'failure.json').exists(),'Failed raw cannot become success')
@@ -49,7 +50,7 @@ def recovered(record,tune,resume_auth):
         return b.verify(path,campaign,record['slot'])
     require(path.exists(),'Incomplete attempt without raw cleanup; review required')
     failure=b.read(path/'failure.json');cleanup=b.read(path/'cleanup.json')
-    require(resume_auth and b.controller.safe_auth_resume(path,campaign,failure,cleanup),'Failed attempt retained; automatic retry prohibited: '+str(path))
+    require(resume_auth and b.controller.safe_auth_resume(path,campaign,failure,cleanup)or resume_interference and b.controller.safe_interference_resume(path,campaign,failure,cleanup),'Failed attempt retained; automatic retry prohibited: '+str(path))
     return None
 
 
@@ -61,7 +62,7 @@ def stage_plan(root,name,visits):
 
 def export(root,tune,rows,complete):
     result=report(tune['host']['detection'],rows,tune['rules'],tune['scheduler'],complete)
-    result.update(excluded_attempts=[r for r in records(root)if not(Path(r['raw'])/'completion.json').exists()],execution_conditions=dict(kernel=tune['host']['kernel'],server_sha256=tune['base']['server_sha'],model_sha256=tune['base']['model_sha'],request_sha256=tune['base']['request_sha256'],power=tune['host']['power_binding'],thermal_limit_c=85,whole_process_cpu_clock=True),raw_records=rows,limits=tune['limits'])
+    result.update(excluded_attempts=[r for r in records(root)if not(Path(r['raw'])/'completion.json').exists()],execution_conditions=dict(kernel=tune['host']['kernel'],server_sha256=tune['base']['server_sha'],model_sha256=tune['base']['model_sha'],request_sha256=tune['base']['request_sha256'],power=tune['host'].get('power_binding','USER_MANAGED_UNCONTROLLED; CROSS_CAMPAIGN_POWER_EQUALITY_NOT_GUARANTEED'),thermal_limit_c=85,whole_process_cpu_clock=True),raw_records=rows,limits=tune['limits'])
     folder=root/'analysis';folder.mkdir(exist_ok=True)
     path=folder/(b.token()+'.json');b.save(path,result)
     columns=['stage','block','position','compute','batch','affinity','prefill_tps','decode_tps','http_s','process_cpu_s','peak_temperature_c','observed_process_tid_count','raw']
@@ -79,43 +80,45 @@ def export(root,tune,rows,complete):
 
 
 class Experiment:
-    def __init__(self,root,tune,resume_auth=False,auth=None):
+    def __init__(self,root,tune,resume_auth=False,auth=None,resume_interference=False):
         self.root,self.tune,self.resume_auth=Path(root),tune,resume_auth;self.rows=[];self.deadline=time.monotonic()+tune['limits']['seconds']
-        self.auth=auth
+        self.auth=auth;self.resume_interference=resume_interference
         (self.root/'records').mkdir(exist_ok=True);(self.root/'raw').mkdir(exist_ok=True);(self.root/'variants').mkdir(exist_ok=True)
     def bound(self):
         require(time.monotonic()<self.deadline,'Controller boundary deadline; completed raw preserved')
         count=len(records(self.root))+sum(1 for p in (self.root/'variants').glob('*/attempts/FUNCTIONAL/*/*')if p.is_dir())
         require(count<self.tune['limits']['sessions'],'Approved campaign session limit reached')
     def functionals(self,path,campaign):
-        done=b.controller.completed(path,campaign,'FUNCTIONAL',self.resume_auth)
+        done=b.controller.completed(path,campaign,'FUNCTIONAL',self.resume_auth,self.resume_interference)
         needed=b.runner.slots('FUNCTIONAL') if self.tune['scheduler']=='new-a' else [v for v in b.runner.slots('FUNCTIONAL')if v['policy']=='C']
         if self.tune['scheduler']=='new-a':require(len(done)==4,'Missing fresh NEW_A functionality; no automatic attach here');return
         for v in needed:
             if v['id']in done:continue
             self.bound();b.current(self.tune);slot=dict(v,stage='FUNCTIONAL')
             require(self.auth is not None,'BOUNDARY_USER_AUTH_REQUIRED')
+            if 'interference_contract'in campaign:interference.wait_quiet(campaign,self.root,campaign['domain']['selected'],self.auth.safe,self.bound)
             self.auth.before_session(v['id'],ready=self.bound,after_auth=lambda:b.current(self.tune))
             folder=Path(path)/'attempts/FUNCTIONAL'/v['id'];folder.mkdir(parents=True,exist_ok=True);raw=folder/b.token()
-            b.acquire(raw,campaign,path,slot);self.auth.completed(raw,campaign,slot)
+            b.acquire(raw,campaign,path,slot,auth=self.auth);self.auth.completed(raw,campaign,slot)
     def measure(self,stage,visit):
         config=visit['candidate'];path,campaign=variant(self.root,self.tune,config,self.tune['scheduler']);self.functionals(path,campaign)
         slot=dict(id=stage+'-'+str(visit['block'])+'-'+config['id'],policy='E'if self.tune['scheduler']=='new-a'else'C',audit=False,stage='PERFORMANCE',block=visit['block'],position=visit['position'],tuning_stage=stage,candidate_id=config['id'],decision_rules_sha256=fingerprint(self.tune['rules']))
         old=[r for r in records(self.root)if r['slot']==slot]
         valid=[]
         for r in old:
-            result=recovered(r,self.tune,self.resume_auth)
+            result=recovered(r,self.tune,self.resume_auth,self.resume_interference)
             if result is not None:valid.append((r,result))
         require(len(valid)<=1,'Duplicate successful samples')
         if valid:
             require(valid[0][0]==old[-1],'A later failed/unknown attempt follows success');record,result=valid[0]
         else:
             self.bound();b.current(self.tune);require(self.auth is not None,'BOUNDARY_USER_AUTH_REQUIRED')
+            if 'interference_contract'in campaign:interference.wait_quiet(campaign,self.root,campaign['domain']['selected'],self.auth.safe,self.bound)
             self.auth.before_session(slot['id'],ready=self.bound,after_auth=lambda:b.current(self.tune))
             folder=self.root/'raw'/stage/slot['id'];folder.mkdir(parents=True,exist_ok=True);raw=folder/b.token()
             record=dict(raw=str(raw),variant=str(path),slot=slot,stage=stage,candidate=config,block=visit['block'],position=visit['position'])
             record_path=self.root/'records'/(b.token()+'.json');b.save(record_path,record)
-            try:result=b.acquire(raw,campaign,path,slot)
+            try:result=b.acquire(raw,campaign,path,slot,auth=self.auth)
             except BaseException as error:
                 b.save(record_path.with_name(record_path.stem+'.outcome.json'),dict(status='FAILED_EXCLUDED',error=type(error).__name__+': '+str(error),automatic_retry=False));raise
             b.save(record_path.with_name(record_path.stem+'.outcome.json'),dict(status='RAW_COMPLETE',cleanup='PASS'))

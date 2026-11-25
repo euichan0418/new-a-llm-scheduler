@@ -1,17 +1,21 @@
 # NEW_A - CPU 토폴로지 기반 LLM 추론 연구
 
+자동 튜닝 안정성 개선본의 전달·첫 점검·명시적 재개 절차는 [팀 인계 문서](AUTOTUNE_AUTH_POWER_ISOLATION_HANDOFF.md)를 먼저 확인하세요. 실제 sudo·장시간 추론·BPF 실행은 아직 검증하지 않았습니다.
+
 ## GitHub Intel Hybrid Auto-Tuning
+
+새로운 전원 비관리·고정 스냅샷·CPU 간섭 보류·명시적 재개 계약은 [동시 개발 안내](docs/concurrent-autotune.ko.md)를 참고하세요. Codex의 존재 자체를 차단하지 않습니다. 공유 캐시·메모리·전력 간섭은 여전히 가능합니다.
 
 장시간 실행은 [안전한 세션 경계 재인증](docs/boundary-auth.ko.md)을 지원합니다. 서버/BPF와 Cleanup 상태를 확인한 뒤 터미널에서 직접 비밀번호를 다시 입력합니다.
 
 전체 프로세스 CPU Time API 오류 수정과 실패 캠페인 복원 확인은 [CPU Clock 안내](docs/process-cpu-clock.ko.md)를 참고하세요. 기존 실패 자료는 보존하고 새 캠페인을 사용합니다.
 
-Intel HWP Governor/EPP 충돌을 피하는 전원 복원 v2와 기존 실패의 수동 복구 확인은 [복원 안내](docs/power-restore.ko.md)를 참고하세요.
+과거 전원 변경 캠페인에만 해당하는 별도 수동 복구 확인은 [복원 안내](docs/power-restore.ko.md)를 참고하세요.
 
-기존 Frozen/모델이 없는 PC의 고정 소스 빌드·정확한 GGUF 다운로드·Linux 설정 탐색 진입점은 [한국어 bootstrap 안내](docs/autotune-bootstrap.ko.md)를 참고하세요. `bash scripts/autotune-bootstrap.sh --auto`를 사용하며 설치/준비/전원/실험은 명시적 승인을 요구합니다. 기존 FULL 정책과 전역 안전성 FAIL은 유지하고 BPF를 자동 attach하지 않습니다. 실제 검증 범위와 NOT_RUN 항목은 [검증 요약](results/autotune-bootstrap-validation.json)에 구분합니다.
+기존 Frozen/모델이 없는 PC의 고정 소스 빌드·정확한 GGUF 다운로드·Linux 설정 탐색 진입점은 [한국어 bootstrap 안내](docs/autotune-bootstrap.ko.md)를 참고하세요. `bash scripts/autotune-bootstrap.sh --auto`를 사용하며 설치/준비/실험은 명시적 승인을 요구합니다. 신규 실행은 전원 설정을 변경하거나 복원하지 않습니다. 기존 FULL 정책과 전역 안전성 FAIL은 유지하고 BPF를 자동 attach하지 않습니다. 실제 검증 범위와 NOT_RUN 항목은 [검증 요약](results/autotune-bootstrap-validation.json)에 구분합니다.
 
 ```bash
-git clone --branch feature/new-a-universal-runtime https://github.com/euichan0418/new-a-llm-scheduler.git && cd new-a-llm-scheduler && bash scripts/autotune-bootstrap.sh --auto
+git clone --branch feature/autotune-auth-power-isolation https://github.com/euichan0418/new-a-llm-scheduler.git && cd new-a-llm-scheduler && bash scripts/autotune-bootstrap.sh --auto
 ```
 
 
@@ -29,7 +33,7 @@ Portable runtime performance equivalence: NOT ESTABLISHED
 최신 공유 내용은 [feature/new-a-48-research-update](https://github.com/euichan0418/new-a-llm-scheduler/tree/feature/new-a-48-research-update)에서 검토한다. main은 팀원 검토·Merge 전까지 기존 상태다.
 
 ```bash
-git clone --branch feature/new-a-universal-runtime https://github.com/euichan0418/new-a-llm-scheduler.git
+git clone --branch feature/autotune-auth-power-isolation https://github.com/euichan0418/new-a-llm-scheduler.git
 cd new-a-llm-scheduler
 ```
 

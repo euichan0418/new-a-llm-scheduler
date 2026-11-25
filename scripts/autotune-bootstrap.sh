@@ -35,9 +35,17 @@ if [[ -z "$PYTHON_BIN" ]]; then
     LOG_FILE="$LOG_DIR/bootstrap-python-$(date -u +%Y%m%dT%H%M%SZ)-$$.private.log"
     printf '%s\n' "$plan" > "$LOG_FILE"
     /usr/bin/sudo -v
-    /usr/bin/sudo -N -n /usr/bin/apt-get -y --no-remove --no-upgrade --no-install-recommends install python3 2>&1 | tee -a "$LOG_FILE"
+    # Keep the same parent shell for sudo timestamp_type=ppid as well as tty.
+    if /usr/bin/sudo -N -n /usr/bin/apt-get -y --no-remove --no-upgrade --no-install-recommends install python3 >> "$LOG_FILE" 2>&1; then
+        cat -- "$LOG_FILE"
+    else
+        result=$?
+        cat -- "$LOG_FILE" >&2
+        echo 'BLOCKED: Python 설치/인증 실패. 로그 보존; 추론을 시작하지 않습니다.' >&2
+        exit "$result"
+    fi
     python3 -I -B -c 'import sys;sys.exit(sys.version_info < (3,11))' || { echo 'BLOCKED: Ubuntu 저장소의 Python이3.11 미만입니다. OS/PPA를 자동 변경하지 않습니다.' >&2; exit 2; }
     PYTHON_BIN=python3
 fi
 export PYTHONDONTWRITEBYTECODE=1
-exec "$PYTHON_BIN" -I -B "$SCRIPT_DIR/../tools/sched_ext/new_a_bootstrap/package_driver.py" "$@"
+exec "$PYTHON_BIN" -I -B "$SCRIPT_DIR/../tools/sched_ext/new_a_bootstrap/snapshot_launcher.py" "$@"

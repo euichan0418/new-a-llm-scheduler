@@ -29,7 +29,7 @@ def parser():
         s.add_argument('--confirmation-blocks',type=int,choices=[6,12,18],default=6);s.add_argument('--finalists',type=int,choices=[2,3],default=3)
         s.add_argument('--max-sessions',type=int,default=160);s.add_argument('--max-seconds',type=int,default=7200);s.add_argument('--ack-shared-housekeeping',action='store_true')
         if cmd=='run':
-            s.add_argument('--execute',action='store_true');s.add_argument('--acknowledge-existing-safety-fail',action='store_true');s.add_argument('--resume',action='store_true');s.add_argument('--resume-auth',action='store_true')
+            s.add_argument('--execute',action='store_true');s.add_argument('--acknowledge-existing-safety-fail',action='store_true');s.add_argument('--resume',action='store_true');s.add_argument('--resume-auth',action='store_true');s.add_argument('--resume-interference',action='store_true')
     s=sub.add_parser('analyze');s.add_argument('--output',type=Path,required=True)
     return a
 
@@ -37,7 +37,7 @@ def parser():
 def selection_rules(args):return p.rules({k:getattr(args,k)for k in p.DEFAULT_RULES})
 
 
-def options(args):return {k:str(v)if isinstance(v,Path)else v for k,v in vars(args).items()if k not in ['output','execute','resume','resume_auth','acknowledge_existing_safety_fail']}
+def options(args):return {k:str(v)if isinstance(v,Path)else v for k,v in vars(args).items()if k not in ['output','execute','resume','resume_auth','resume_interference','acknowledge_existing_safety_fail']}
 
 
 def analyze(root):
@@ -56,12 +56,14 @@ def analyze(root):
 
 def execute(args):
     global RUN_ROOT
-    root=args.output.resolve();r=selection_rules(args);resumed=getattr(args,'resume',False)or getattr(args,'resume_auth',False)
+    root=args.output.resolve();r=selection_rules(args);resumed=getattr(args,'resume',False)or getattr(args,'resume_auth',False)or getattr(args,'resume_interference',False)
     b.require(os.getuid()!=0 and os.sched_getscheduler(0)==0,'Normal user SCHED_OTHER controller required')
     if args.command=='run'and args.execute:b.require(args.acknowledge_existing_safety_fail and os.isatty(0),'Use a normal terminal and --acknowledge-existing-safety-fail; no sudo attempted')
     b.require(1<=args.max_sessions<=1024 and 60<=args.max_seconds<=21600,'Bounded approved sessions/time required')
     if resumed:
-        tune=x.load(root);b.require(tune['options']==options(args),'Arguments/selection margins changed; new campaign required');RUN_ROOT=root;b.current(tune)
+        tune=x.load(root)
+        b.require(b.contracts.unmanaged(tune),'NEW_CAMPAIGN_REQUIRED: legacy managed-power contract preserved; no automatic migration')
+        b.require(tune['options']==options(args),'Arguments/selection margins changed; new campaign required');RUN_ROOT=root;b.current(tune)
         if not args.execute or (root/'DONE.json').exists():return analyze(root)
     else:
         b.require(not root.exists(),'New output required; use explicit --resume for preserved campaign')
@@ -72,7 +74,7 @@ def execute(args):
         if actual:
             b.require(Path(args.server).is_file() and os.access(args.server,os.X_OK) and Path(args.model).is_file(),'Explicit existing server/model required before build; no fallback')
             if args.command=='prepare-functional' or args.scheduler=='new-a':b.require(args.marker_elf is not None and Path(args.marker_elf).is_file(),'Explicit existing --marker-elf required for NEW_A preparation/admission')
-            b.contracts.power();b.require(b.contracts.scheduler_state()=='disabled','sched_ext must be disabled')
+            b.contracts.thermal();b.require(b.contracts.scheduler_state()=='disabled','sched_ext must be disabled')
             build=args.build_report
             if build is None and args.scheduler=='new-a'and args.command=='run':
                 b.require(args.functional_root is not None,'Candidate-specific functional root required')
@@ -109,8 +111,8 @@ def execute(args):
     b.save(root/('consent-'+b.token()+'.json'),dict(scheduler=args.scheduler,approved_search_plan=b.sha(root/'plan.private.json'),rules=r,limits=tune['limits'],sudo_keepalive=False,automatic_retry=False,resume=resumed,foreground_boundary_user_reauthentication=True))
     auth=boundary_auth.BoundaryAuth(root,b.controller.quiet_boundary)
     auth.initial()
-    b.runner.root_command(['true'],root/('post-auth-'+b.token()+'-command.json'))
-    result=x.Experiment(root,tune,args.resume_auth,auth=auth).run()
+    with b.runner.auth_context(auth):b.runner.root_command(['true'],root/('post-auth-'+b.token()+'-command.json'))
+    result=x.Experiment(root,tune,args.resume_auth,auth=auth,resume_interference=args.resume_interference).run()
     if not(root/'DONE.json').exists():b.save(root/'DONE.json',dict(status='COMPLETE',global_optimum=False,policy=result['reason']))
     return result
 

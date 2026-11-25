@@ -75,12 +75,15 @@ class Review(unittest.TestCase):
             with self.subTest(schema=schema,status=status),tempfile.TemporaryDirectory()as tmp:
                 fake,journal=self.recovered(tmp);row=json.loads(journal.read_text());row.update(schema=schema,status=status);journal.write_text(json.dumps(row))
                 with self.assertRaises(ValueError):system.audit_restoration(journal)
-    def test_invalid_previous_v2_proof_blocks_new_bootstrap_before_install(self):
+    def test_invalid_previous_v2_proof_is_preserved_but_not_new_campaign_gate(self):
         with tempfile.TemporaryDirectory()as tmp:
             fake,journal=self.recovered(tmp);row=json.loads(journal.read_text());row['attempt_history']=[];journal.write_text(json.dumps(row))
-            with patch.object(bootstrap.os,'isatty',return_value=True),patch.object(bootstrap.system,'install')as install,patch.object(bootstrap.system,'authenticate')as auth:
-                with self.assertRaisesRegex(ValueError,'attempt evidence'):bootstrap.run(Mock(ROOT=Path(__file__).resolve().parents[3]),tmp)
+            before=journal.read_bytes()
+            with patch.object(bootstrap.system,'missing_packages',return_value=[]),patch.object(bootstrap.system,'audit_restoration',side_effect=AssertionError('No legacy journal gate')),patch.object(bootstrap.system,'install')as install,patch.object(bootstrap.system,'authenticate')as auth:
+                self.assertEqual(bootstrap.run(Mock(ROOT=Path(__file__).resolve().parents[3]),tmp,check=True),0)
                 install.assert_not_called();auth.assert_not_called()
+            self.assertEqual(journal.read_bytes(),before)
+            with self.assertRaisesRegex(ValueError,'attempt evidence'):system.audit_restoration(journal)
 
 
 if __name__=='__main__':unittest.main(verbosity=2)
