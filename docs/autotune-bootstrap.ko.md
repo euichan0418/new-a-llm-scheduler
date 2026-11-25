@@ -1,5 +1,7 @@
 # GitHub에서 시작하는 Intel Hybrid Auto-Tuning
 
+장시간 실행의 sudo 재입력은 [안전한 세션 경계 재인증](boundary-auth.ko.md)을 따른다. 서버/BPF가 종료되고 Cleanup이 재검증된 경계에서만 직접 비밀번호를 요청한다.
+
 `time.clock_getcpuclockid` 오류가 있었다면 [전체 프로세스 CPU Clock 수정 및 복원 확인](process-cpu-clock.ko.md)을 확인한다. 실패 캠페인은 보존하고 최신 코드에서 새 캠페인을 시작한다.
 
 전원 복원에서 intel_pstate EPP busy 오류가 있었다면 [전원 적용·복원 v2 및 수동 복구 안내](power-restore.ko.md)를 먼저 확인한다. 원본 실패는 보존하고, 새 실행에서 수동 복구 상태를 별도로 승인한다.
@@ -28,7 +30,7 @@ git clone --branch feature/new-a-universal-runtime https://github.com/euichan041
 11. 기존 Linux Audit/Clean 기능 검증을 후보별로 먼저 수행한다. 실제 토큰·OpenMP 팀·Thread/Affinity·응답 hash·Thermal·Runtime Statistics OFF·Cleanup 증거가 없으면 성능을 시작하지 않는다.
 12. Prefill/Decode 탐색·조건별 분석·사전 관문의 독립 확증·최종 추천을 수행한다. 정상/실패/인터럽트 뒤 전원 복원을 검증한다.
 
-설치·준비·실험 승인은 구분된다. sudo 비밀번호를 저장하거나 주기적으로 인증을 갱신하지 않는다. 한 번의 인증으로 장시간 완료된다고 보장하지 않는다. 인증/측정/정리 실패 시 다음 세션·자동 재시도를 차단한다. 복원이 실패하면 `restore-environment.sh`를 안내하고 새 자동 실험을 차단한다. 남아 있는 server/loader를 자동으로 죽이거나 정리 PASS를 조작하지 않는다.
+설치·준비·실험 승인은 구분된다. sudo 비밀번호 저장이나 background keepalive는 없다. 시작 인증 후 세션 경계에서 캐시를 검사하며, 만료/시간 여유 부족이면 사용자가 직접 재인증한다. 인증 거부·실패 또는 측정/정리 실패 시 다음 세션·자동 재시도를 차단한다. 복원이 실패하면 `restore-environment.sh`를 안내하고 새 자동 실험을 차단한다. 외부 server/loader를 자동으로 죽이거나 정리 PASS를 조작하지 않는다.
 
 ## 정확히 무엇을 받는가
 

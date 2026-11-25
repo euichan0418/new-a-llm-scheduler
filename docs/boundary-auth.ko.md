@@ -1,0 +1,60 @@
+# Auto-Tuning의 안전한 세션 경계 재인증
+
+시작 시 한 번만 sudo를 인증하던 기존 실행은 장시간 탐색 중 캐시가 만료되면 중단됐다. 이제 Linux Auto-Tuning 및 범용 C/E 기능·성능 controller가 공통 `boundary_auth.py`를 사용한다. 실험 순서·후보 생성·기본 정책 우선 선정·워밍업2/측정1·HTTP/CPU 지표·최대 세션 및 시간 상한은 변경하지 않는다.
+
+## 동작
+
+1. 기존과 같이 시작 시 일반 사용자 터미널에서 `sudo -v`를 수행한다.
+2. 매 새 서버 세션 전에 현재 Host/Baseline과 완료 증거를 검사한다.
+3. 직전 성공 세션의 raw/Identity/Mask/Tracking/Cleanup 증거를 다시 검증하고 sched_ext disabled, 잔여 서버·로더·커널 감시·관측기 부재를 확인한다. 이 조건을 만족하지 않으면 비밀번호 요청도 하지 않는다.
+4. `sudo -N -n -v`로 캐시를 검사한다. 이 검사는 timestamp를 연장하지 않는다. 정책 거부·명령 오류를 인증 만료로 오분류하지 않는다.
+5. 캐시가 만료됐거나 아래 보수적 시간 기준에 도달하면 사용자에게 재인증 사유를 표시하고 정상 터미널에서 직접 비밀번호를 입력받는다.
+6. 인증 후 같은 POSIX session/TTY인지 확인하고 캐시를 재검사한다. 사용자 대기 이후 Host/Baseline과 기존 deadline도 재확인한 다음에만 새 세션을 시작한다.
+
+비밀번호는 sudo가 직접 입력받으며 Python은 읽거나 저장하지 않는다. background thread/process/timer keepalive, sudoers 변경, root Python controller는 없다. 실제 권한 작업의 `sudo -N -n`과 기존 FULL Guard·Mask·Tracking·Identity·Statistics OFF·Cleanup은 유지한다. NEW_A는 해당 설정의 기존 기능 증거가 있어야 하며 자동 튜닝 기본은 Linux다.
+
+## 다음 세션의 시간 여유
+
+sudo의 캐시 검사는 현재 유효 여부만 제공하며 실제 남은 유효시간을 반환하지 않는다. 이 구현은 관리자 정책의 timeout을 읽거나 변경하지 않는다. 사용자가 보고한 약15분 만료보다 보수적으로 **10분의 로컬 계획 구간에서 다음 세션용6분을 예약**한다. 따라서 마지막 명시적 인증 완료 후4분 이상 지난 경계에서는 캐시가 아직 유효해도 재인증한다. 실행 중에는 인증을 하지 않으므로 실제 요청 시각 간격은 세션 길이에 따라 달라진다.
+
+이 값은 실제 sudo TTL이나 모든 환경에서의 완료 보장이 아니다. 더 짧은 정책·외부 캐시 무효화·예상보다 긴 작업으로 세션 중 만료되면 기존 비대화식 명령이 실패하고 Cleanup 후 중단한다. 세션 중 비밀번호를 기다리거나 실패한 측정을 자동으로 다시 실행하지 않는다. 관리자가 정책을 바꾼 환경은 별도 검토가 필요하다.
+
+유효한 캐시를 앞당겨 재인증할 때는 경계에서 `sudo -k`를 별도로 호출한 뒤 `sudo -v`를 실행한다. 두 옵션을 한 호출로 묶으면 새 timestamp를 기록하지 않는 sudo 동작이 있어 분리했다. 이는 사용자가 비밀번호를 입력하는 전경 절차이며, 정책상 비밀번호가 요구되는 경우 직접 입력해야 한다. 만료된 경우에는 `sudo -v`로 바로 요청한다. 설치된 `sudo(8)` 매뉴얼의 `-k`, `-N`, `-v` 계약을 기준으로 구현했다.
+
+## 취소·실패·시간 상한
+
+- 인증 실패/거부/Ctrl-C/EOF, TTY 변경, cache probe 오류, Host 변경 또는 deadline 초과이면 새 세션을 시작하지 않는다.
+- 인증 대기 중 자체 BPF·서버·관측 자원을 유지하지 않는다. 외부 프로세스나 외부 sched_ext를 강제로 종료하지 않는다.
+- 비밀번호 대기는 기존 캠페인 전체 시간 상한에 포함한다. 재인증으로 deadline이나 세션 수를 초기화하지 않는다.
+- 권한을 얻지 못하면 전원 복원도 실패할 수 있다. 기존 복원 journal/`restore-environment.sh` 및 RESTORE_REQUIRED 차단을 유지한다. 복원 실패를 PASS로 바꾸거나 거부 직후 몰래 인증을 갱신하지 않는다.
+- 인증 중단은 실패 raw를 지우지 않는다. 현재 캠페인의 성공 슬롯은 원시 검증 후 건너뛴다. 측정 실패는 다음 세션과 자동 재시도를 차단한다. 이미 시작된 세션의 인증 실패 재개는 기존 `--resume-auth`와 안전성 검토 조건을 유지한다.
+
+## 업데이트 후 실행
+
+기존 `feature/new-a-universal-runtime` checkout에서:
+
+```bash
+git pull --ff-only && bash scripts/autotune-bootstrap.sh --auto
+```
+
+이미 최신 코드면 기존처럼 다음 한 명령만 사용한다.
+
+```bash
+bash scripts/autotune-bootstrap.sh --auto
+```
+
+별도 workspace를 사용했다면 동일한 `--workspace` 옵션을 유지한다. 실행 중 안전한 경계에서 sudo가 요청하는 비밀번호를 직접 입력하면 승인된 다음 세션으로 계속 진행한다. 세션마다 별도의 Enter 확인을 추가하지 않았다.
+
+**이번 코드 업데이트 이전 캠페인의 소스 봉인은 재사용하지 않는다.** controller 및 인증 코드 hash가 달라 기존 approved inputs와 맞지 않기 때문이다. `--auto`는 새 고유 bootstrap/Host/Baseline/튜닝 디렉터리를 생성하고, 검증된 엔진/모델 캐시만 입력 hash가 맞을 때 재사용한다. 과거 원시 성공·실패·전원 저널은 보존하고 새 표본과 합산하지 않는다. 봉인을 편집해 기존 실패 캠페인을 강제로 재개하지 않는다. 같은 소스/Boot의 명시적 native resume에서 완료한 슬롯은 재검증 후 재실행하지 않는다.
+
+기록은 새 `tuning/auth-boundaries/*.json`에 남는다. 캐시 검사, 사용자 재인증 요청/결과/취소, 이전 raw 경로, TTY 문맥, 계획 시간과 새 세션 허용 여부를 기록하며 비밀번호는 없다. 측정 원시 데이터/성공 completion/실패 outcome은 기존 위치와 형식을 유지한다.
+
+## 개발 검증 범위
+
+실제 sudo 인증·BPF attach·LLM 추론은 개발 과정에서 실행하지 않는다. 가상 시계/가짜 sudo로 약73분·20세션·최초 인증1회 및 수동 재인증9회, 예고 갱신·실제 만료·취소·정책 거부·raw 변조·Cleanup 실패·TTY/Host 변경·deadline 소진 및 성공 중복 방지를 검증한다. 모의 성공은 팀원 실제 터미널 인증 완료가 아니다.
+
+```text
+STRICT_ACCEPTANCE=FAILED
+safety_verdict=FAIL
+OVERHEAD_REVIEW_REQUIRED
+```

@@ -13,6 +13,7 @@ sys.path.insert(0,str(Path(__file__).resolve().parent))
 import planning as p
 import backend as b
 import experiment as x
+import boundary_auth
 RUN_ROOT=None
 
 
@@ -105,12 +106,11 @@ def execute(args):
         b.require(tune['functional_root']is not None,'No NEW_A functional evidence; blocked before authentication')
         for config in p.possible(tune['host']['detection']):b.admit_newa(Path(tune['functional_root'])/'variants'/config['id'],tune,config)
     b.current(tune)
-    b.save(root/('consent-'+b.token()+'.json'),dict(scheduler=args.scheduler,approved_search_plan=b.sha(root/'plan.private.json'),rules=r,limits=tune['limits'],sudo_keepalive=False,automatic_retry=False,resume=resumed))
-    result=b.runner.subprocess.run(['/usr/bin/sudo','-v'],check=False)
-    b.save(root/('authentication-'+b.token()+'.json'),dict(returncode=result.returncode,password_recorded=False,automatic_refresh=False))
-    b.require(result.returncode==0,'User sudo authentication failed; no session started')
+    b.save(root/('consent-'+b.token()+'.json'),dict(scheduler=args.scheduler,approved_search_plan=b.sha(root/'plan.private.json'),rules=r,limits=tune['limits'],sudo_keepalive=False,automatic_retry=False,resume=resumed,foreground_boundary_user_reauthentication=True))
+    auth=boundary_auth.BoundaryAuth(root,b.controller.quiet_boundary)
+    auth.initial()
     b.runner.root_command(['true'],root/('post-auth-'+b.token()+'-command.json'))
-    result=x.Experiment(root,tune,args.resume_auth).run()
+    result=x.Experiment(root,tune,args.resume_auth,auth=auth).run()
     if not(root/'DONE.json').exists():b.save(root/'DONE.json',dict(status='COMPLETE',global_optimum=False,policy=result['reason']))
     return result
 

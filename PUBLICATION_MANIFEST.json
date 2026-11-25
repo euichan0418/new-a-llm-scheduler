@@ -39,8 +39,8 @@
     },
     {
       "path": "Makefile",
-      "size": 2829,
-      "sha256": "2b8dfc7bf3d130662bde79680d00b0f83e4c472c84f6a5bd991656af15b345f8",
+      "size": 2931,
+      "sha256": "3f5a94cd537a08308a86902ddb2abe73952c4e1e69d360293bb343448b865c9c",
       "executable": false
     },
     {
@@ -51,20 +51,20 @@
     },
     {
       "path": "PUBLICATION_PROVENANCE.json",
-      "size": 69011,
-      "sha256": "26c6b07e5595617f55427efec858bb1298928f8fe0b57fec21358e6c5cdbb975",
+      "size": 70489,
+      "sha256": "da16a66864571e3ad09a845aacc87ee687f252aef6dea7b76af4c604f02685f5",
       "executable": false
     },
     {
       "path": "README.ko.md",
-      "size": 9067,
-      "sha256": "5acc0b192f7975c371440e69dbb73f8d55b4d1ee79e323a1df3c0587d2bb227a",
+      "size": 9279,
+      "sha256": "6a3fea2c437640a646f223f48e9c603f826d91940415fcab854ba90be0f8a55d",
       "executable": false
     },
     {
       "path": "README.md",
-      "size": 18320,
-      "sha256": "0cdd14820cc5d87f0bf3a401423970791ddb637ee4ecd8886d2a0f2697e6c494",
+      "size": 18532,
+      "sha256": "9d5d22962099634dcf83755637d58f80b188502f852dfd0adcd55d6ae0f2d1b7",
       "executable": false
     },
     {
@@ -99,8 +99,14 @@
     },
     {
       "path": "docs/autotune-bootstrap.ko.md",
-      "size": 10113,
-      "sha256": "b6ad69c08954fa550259522ed811e69b9a6d47c391eef23665a7da34103c80c5",
+      "size": 10377,
+      "sha256": "52e520cdb5364b29eea15538762c4f0efe0129b6de0b3feadacffe1f9f77eb78",
+      "executable": false
+    },
+    {
+      "path": "docs/boundary-auth.ko.md",
+      "size": 6563,
+      "sha256": "f11812763eea8099dbc8fd21ded8c40061a9b1694447ab52cb86a684173b015f",
       "executable": false
     },
     {
@@ -171,8 +177,8 @@
     },
     {
       "path": "docs/universal-runtime.md",
-      "size": 8894,
-      "sha256": "49424bf4e658f1839edfffba3f433d35c7997a4ad07440f2568e93e803aaac11",
+      "size": 8998,
+      "sha256": "0ebe77b2dd33c698164c244fce0ebe02d96a3b87b6ca7537164d4f8b6da9abc1",
       "executable": false
     },
     {
@@ -215,6 +221,12 @@
       "path": "results/benchmarks.json",
       "size": 36620,
       "sha256": "f09a8addefdbd4080d6ca215782c754f0a40a134fd68a5385db373805c4dd749",
+      "executable": false
+    },
+    {
+      "path": "results/boundary-auth-validation.json",
+      "size": 1355,
+      "sha256": "9069aaa828875630e6716b3307b3d1b0a3e91964d86c3479e5927361f1dcd5fd",
       "executable": false
     },
     {
@@ -639,8 +651,8 @@
     },
     {
       "path": "tools/sched_ext/new_a_bootstrap/auto_run.py",
-      "size": 11036,
-      "sha256": "7600481009d67313bbe38a5b0943eb12d259f32c2f1da2a088e7e5a7b1c553b6",
+      "size": 11129,
+      "sha256": "996473c7929c8b12832feb749b24247926b3e742cb19ddcca0312e67df82461a",
       "executable": false
     },
     {
@@ -651,8 +663,8 @@
     },
     {
       "path": "tools/sched_ext/new_a_bootstrap/bootstrap.py",
-      "size": 9925,
-      "sha256": "38bfe426215336ca7ddf6eb81812a667784fbb1fec1a6d69f221dc08c2d1cb2f",
+      "size": 10031,
+      "sha256": "eadd45ef711f626e9411bb62cb0506d4019ab48eb46fb962405851565a10453c",
       "executable": false
     },
     {
@@ -879,8 +891,8 @@
     },
     {
       "path": "tools/sched_ext/new_a_hybrid_autotune/autotune.py",
-      "size": 10308,
-      "sha256": "d79002efa27aacbaa6918d8025936945ce38f741f762d388911ccb9a168abe54",
+      "size": 10176,
+      "sha256": "bb07338e000e7fdef397885cfb8641ac44bf086239ba6f27279a651268236ad8",
       "executable": false
     },
     {
@@ -891,8 +903,8 @@
     },
     {
       "path": "tools/sched_ext/new_a_hybrid_autotune/experiment.py",
-      "size": 10733,
-      "sha256": "f3ea126d7fe63ac64f8346b94f2ca95d0bc70d4c761af5abb9a17fe5c2fdacce",
+      "size": 11260,
+      "sha256": "722a7f7c6439364b4a5a58a73ce5388e7be46d7200f651e768508bac0824f649",
       "executable": false
     },
     {
@@ -1106,6 +1118,12 @@
       "executable": false
     },
     {
+      "path": "tools/sched_ext/new_a_universal_runtime/boundary_auth.py",
+      "size": 5828,
+      "sha256": "b3c45201749ca8f1df4de7e848ec39824fd907fb6de07a074a5946fbc42a2992",
+      "executable": false
+    },
+    {
       "path": "tools/sched_ext/new_a_universal_runtime/build.py",
       "size": 7105,
       "sha256": "634c02fe56e1da96b65a21faa8ddfa0bb4997069215635ceb2cc964770a050de",
@@ -1119,8 +1137,8 @@
     },
     {
       "path": "tools/sched_ext/new_a_universal_runtime/controller.py",
-      "size": 7289,
-      "sha256": "372b7267a8ed72d426d5910902538f4f31f1a3cf4c0b88f12ed3744c77313dd4",
+      "size": 7629,
+      "sha256": "5fa02d39ad4a8418c4b353c1eaede8150f24a8fdae0d7a2fa9d7535bc05ccd20",
       "executable": false
     },
     {
@@ -1169,6 +1187,12 @@
       "path": "tools/sched_ext/new_a_universal_runtime/runtime_core.py",
       "size": 3528,
       "sha256": "dc084b21bd076abdf0caab3a42e90b03f1ff2e217d416e393e832c12a1635a24",
+      "executable": false
+    },
+    {
+      "path": "tools/sched_ext/new_a_universal_runtime/test_boundary_auth.py",
+      "size": 18663,
+      "sha256": "f660f16aa606e32b7ee6163ec8e933ab07517e553fb99715695c06831bdccaad",
       "executable": false
     },
     {

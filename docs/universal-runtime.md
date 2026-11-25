@@ -69,7 +69,7 @@ python3 -B "$U" analyze --campaign "$TASK_DIR/campaign"
 
 ## 인증·실패·재개
 
-일반 사용자 controller가 직접 `sudo -v` 인증을 요청한다. 그 controller의 같은 POSIX session/부모 문맥에서 `sudo -N -n`으로만 권한 작업을 실행한다. 비밀번호 저장, keepalive, sudoers 변경, root Python controller는 없다. 한 인증으로 모두 완료된다는 보장은 없다. 인증 만료이면 즉시 중단하며 자동 재시도하지 않는다.
+일반 사용자 controller가 직접 `sudo -v` 인증을 요청한다. 그 controller의 같은 POSIX session/TTY에서 `sudo -N -n`으로만 권한 작업을 실행한다. [세션 경계 재인증](boundary-auth.ko.md)은 Cleanup과 sched_ext disabled를 확인한 후에만 사용자 비밀번호를 다시 요청한다. 비밀번호 저장, background keepalive, sudoers 변경, root Python controller는 없다. 세션 중 인증 만료이면 즉시 중단하며 자동 재시도하지 않는다.
 
 인증 오류가 원시 stderr로 입증되고 Cleanup PASS, 오류 없는 진단·Identity 등 중단 시점에 필요한 증거가 남은 경우에만 같은 단계의 `--execute ... --resume-auth`로 사용자가 새 인증/새 시도를 승인할 수 있다. 성공 증거는 다시 검사하고 재실행하지 않는다. 다른 실패·불확실한 Cleanup·진단 누락은 차단한다. Kernel/Boot/BTF·library·CPU·cgroup·입력이 바뀌면 새 캠페인을 준비한다. 봉인을 편집하지 않는다.
 

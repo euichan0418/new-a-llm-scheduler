@@ -1,0 +1,54 @@
+{
+  "status": "FOREGROUND_BOUNDARY_REAUTH_STATIC_AND_MOCK_READY",
+  "new_boundary_tests": 28,
+  "total_nonprivileged_tests": 420,
+  "virtual_run": {
+    "sessions": 20,
+    "session_seconds": 220,
+    "total_seconds": 4400,
+    "initial_auth": 1,
+    "manual_reauth": 9
+  },
+  "cache_probe": [
+    "sudo",
+    "-N",
+    "-n",
+    "-v"
+  ],
+  "initial_user_auth": [
+    "sudo",
+    "-v"
+  ],
+  "proactive_user_auth": [
+    [
+      "sudo",
+      "-k"
+    ],
+    [
+      "sudo",
+      "-v"
+    ]
+  ],
+  "planning_horizon_s": 600,
+  "next_session_reserve_s": 360,
+  "reauth_boundary_age_s": 240,
+  "sudo_policy_remaining_time_known": false,
+  "background_keepalive": false,
+  "password_storage": false,
+  "sudoers_change": false,
+  "auth_only_at_verified_resource_free_boundaries": true,
+  "previous_raw_cleanup_revalidated": true,
+  "waiting_counts_against_campaign_deadline": true,
+  "failed_session_auto_retry": false,
+  "completed_session_reexecution": false,
+  "old_source_seals_require_new_campaign": true,
+  "experiment_design_and_metrics": "UNCHANGED",
+  "power_restoration": "EXISTING_V2_UNCHANGED_FAIL_CLOSED",
+  "actual_sudo": "NOT_RUN",
+  "actual_bpf_attach": "NOT_RUN",
+  "actual_llm_performance": "NOT_RUN",
+  "team_terminal": "NOT_TESTED",
+  "strict_acceptance": "FAILED",
+  "safety_verdict": "FAIL",
+  "overhead": "OVERHEAD_REVIEW_REQUIRED"
+}

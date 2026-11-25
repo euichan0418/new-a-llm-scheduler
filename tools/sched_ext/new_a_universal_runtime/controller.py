@@ -12,6 +12,7 @@ from runtime_core import read,save,require,space,sha
 import contracts
 import evidence
 import runner
+import boundary_auth
 
 
 def token():return time.strftime('%Y%m%dT%H%M%SZ',time.gmtime())+'-'+uuid.uuid4().hex[:8]
@@ -73,26 +74,32 @@ def foreign_processes():
     require(not found,'Existing server/loader/kernel monitor processes require review: '+str(found))
 
 
+def quiet_boundary():
+    require(contracts.scheduler_state()=='disabled','AUTH_BOUNDARY_SCHED_EXT_ACTIVE; no password prompt')
+    foreign_processes()
+
+
 def execute(root,stage,ack,resume_auth=False):
     require(ack,'Explicit --acknowledge-existing-safety-fail required')
     require(os.getuid()!=0 and os.isatty(0),'Use a normal-user controlling terminal')
     root=Path(root);campaign,done=gate(root,stage,resume_auth);foreign_processes()
     visits=[dict(v,stage=stage) for v in runner.slots(stage) if v['id'] not in done]
     if not visits:return dict(status='ALREADY_COMPLETE',sessions=0)
-    consent=root/('consent-'+token()+'.json');save(consent,dict(stage=stage,slots=visits,maximum_sessions=len(visits),maximum_requests=3*len(visits),deadline_seconds=1800,existing_safety_fail_ack=True,automatic_retry=False,credential_keepalive=False))
-    # All normal sudo calls share this controller's POSIX session and parent context.
-    result=subprocess.run(['/usr/bin/sudo','-v'],check=False)
-    require(result.returncode==0,'User authentication failed before resources')
+    consent=root/('consent-'+token()+'.json');save(consent,dict(stage=stage,slots=visits,maximum_sessions=len(visits),maximum_requests=3*len(visits),deadline_seconds=1800,existing_safety_fail_ack=True,automatic_retry=False,credential_keepalive=False,foreground_boundary_user_reauthentication=True))
+    auth=boundary_auth.BoundaryAuth(root,quiet_boundary)
+    auth.initial()
     runner.root_command(['true'],root/('post-auth-'+token()+'-command.json'))
     deadline=time.monotonic()+1800
     for slot in visits:
         require(time.monotonic()<deadline,'Controller boundary deadline exceeded; preserved completed sessions')
         campaign=contracts.load_campaign(root,current=True);foreign_processes()
+        auth.before_session(slot['id'],ready=lambda:require(time.monotonic()<deadline,'Controller boundary deadline exceeded while waiting for user authentication'),after_auth=lambda:contracts.load_campaign(root,current=True))
         folder=root/'attempts'/stage/slot['id'];folder.mkdir(parents=True,exist_ok=True)
         path=folder/token()
         print(stage+' '+slot['id']+' '+str(path),flush=True)
         runner.acquire_session(campaign,root,path,slot)
         evidence.verify_session(path,campaign,stage,slot)
+        auth.completed(path,campaign,slot)
         print(slot['id']+': raw COMPLETE; cleanup PASS',flush=True)
     return analyze(root)
 

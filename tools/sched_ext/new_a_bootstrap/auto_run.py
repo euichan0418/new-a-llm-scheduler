@@ -119,7 +119,7 @@ def run(driver,*,check=False,search_roots=None,guard_fd=None):
         restore_script='#!/usr/bin/env bash\nexec bash '+shlex.quote(str(driver.ROOT/'run-autotune.sh'))+' --restore-environment '+shlex.quote(str(journal))+'\n'
         (session/'restore-environment.sh').write_text(restore_script)
         # Permission to run this Linux batch is separate from system preparation consent.
-        system.consent('Linux 기본 스케줄러에서 Auto-Tuning을 실행합니다. NEW_A BPF를 attach하지 않습니다.\nCPU: '+str(detection['summary'])+'\n기본 구성: '+str(default)+'\n최대160서버 세션/7200초, 후보별 독립 서버/워밍업2/측정1, 2블록 선별 후 필요할 때 독립6블록 확증.\nSTRICT_ACCEPTANCE=FAILED / safety_verdict=FAIL / OVERHEAD_REVIEW_REQUIRED를 유지합니다.\n실패 자동 재시도·인증 갱신은 없으며 결과를 보존하고 중단합니다.')
+        system.consent('Linux 기본 스케줄러에서 Auto-Tuning을 실행합니다. NEW_A BPF를 attach하지 않습니다.\nCPU: '+str(detection['summary'])+'\n기본 구성: '+str(default)+'\n최대160서버 세션/7200초, 후보별 독립 서버/워밍업2/측정1, 2블록 선별 후 필요할 때 독립6블록 확증.\nSTRICT_ACCEPTANCE=FAILED / safety_verdict=FAIL / OVERHEAD_REVIEW_REQUIRED를 유지합니다.\n실패 자동 재시도·백그라운드 인증 갱신은 없습니다. 정리 확인된 세션 경계에서만 직접 비밀번호 재인증을 요청하며 결과를 보존합니다.')
         system.save(session/'experiment-consent.private.json',dict(approved=True,scheduler='linux',default=default,maximum_sessions=160,maximum_seconds=7200,automatic_retry=False))
         require(quiet(module),'CLEANUP_NOT_VERIFIED before power apply')
         system.apply(changes,journal)

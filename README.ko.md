@@ -2,6 +2,8 @@
 
 ## GitHub Intel Hybrid Auto-Tuning
 
+장시간 실행은 [안전한 세션 경계 재인증](docs/boundary-auth.ko.md)을 지원합니다. 서버/BPF와 Cleanup 상태를 확인한 뒤 터미널에서 직접 비밀번호를 다시 입력합니다.
+
 전체 프로세스 CPU Time API 오류 수정과 실패 캠페인 복원 확인은 [CPU Clock 안내](docs/process-cpu-clock.ko.md)를 참고하세요. 기존 실패 자료는 보존하고 새 캠페인을 사용합니다.
 
 Intel HWP Governor/EPP 충돌을 피하는 전원 복원 v2와 기존 실패의 수동 복구 확인은 [복원 안내](docs/power-restore.ko.md)를 참고하세요.

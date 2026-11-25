@@ -79,8 +79,9 @@ def export(root,tune,rows,complete):
 
 
 class Experiment:
-    def __init__(self,root,tune,resume_auth=False):
+    def __init__(self,root,tune,resume_auth=False,auth=None):
         self.root,self.tune,self.resume_auth=Path(root),tune,resume_auth;self.rows=[];self.deadline=time.monotonic()+tune['limits']['seconds']
+        self.auth=auth
         (self.root/'records').mkdir(exist_ok=True);(self.root/'raw').mkdir(exist_ok=True);(self.root/'variants').mkdir(exist_ok=True)
     def bound(self):
         require(time.monotonic()<self.deadline,'Controller boundary deadline; completed raw preserved')
@@ -92,8 +93,11 @@ class Experiment:
         if self.tune['scheduler']=='new-a':require(len(done)==4,'Missing fresh NEW_A functionality; no automatic attach here');return
         for v in needed:
             if v['id']in done:continue
-            self.bound();b.current(self.tune);slot=dict(v,stage='FUNCTIONAL');folder=Path(path)/'attempts/FUNCTIONAL'/v['id'];folder.mkdir(parents=True,exist_ok=True)
-            b.acquire(folder/b.token(),campaign,path,slot)
+            self.bound();b.current(self.tune);slot=dict(v,stage='FUNCTIONAL')
+            require(self.auth is not None,'BOUNDARY_USER_AUTH_REQUIRED')
+            self.auth.before_session(v['id'],ready=self.bound,after_auth=lambda:b.current(self.tune))
+            folder=Path(path)/'attempts/FUNCTIONAL'/v['id'];folder.mkdir(parents=True,exist_ok=True);raw=folder/b.token()
+            b.acquire(raw,campaign,path,slot);self.auth.completed(raw,campaign,slot)
     def measure(self,stage,visit):
         config=visit['candidate'];path,campaign=variant(self.root,self.tune,config,self.tune['scheduler']);self.functionals(path,campaign)
         slot=dict(id=stage+'-'+str(visit['block'])+'-'+config['id'],policy='E'if self.tune['scheduler']=='new-a'else'C',audit=False,stage='PERFORMANCE',block=visit['block'],position=visit['position'],tuning_stage=stage,candidate_id=config['id'],decision_rules_sha256=fingerprint(self.tune['rules']))
@@ -106,13 +110,16 @@ class Experiment:
         if valid:
             require(valid[0][0]==old[-1],'A later failed/unknown attempt follows success');record,result=valid[0]
         else:
-            self.bound();b.current(self.tune);folder=self.root/'raw'/stage/slot['id'];folder.mkdir(parents=True,exist_ok=True);raw=folder/b.token()
+            self.bound();b.current(self.tune);require(self.auth is not None,'BOUNDARY_USER_AUTH_REQUIRED')
+            self.auth.before_session(slot['id'],ready=self.bound,after_auth=lambda:b.current(self.tune))
+            folder=self.root/'raw'/stage/slot['id'];folder.mkdir(parents=True,exist_ok=True);raw=folder/b.token()
             record=dict(raw=str(raw),variant=str(path),slot=slot,stage=stage,candidate=config,block=visit['block'],position=visit['position'])
             record_path=self.root/'records'/(b.token()+'.json');b.save(record_path,record)
             try:result=b.acquire(raw,campaign,path,slot)
             except BaseException as error:
                 b.save(record_path.with_name(record_path.stem+'.outcome.json'),dict(status='FAILED_EXCLUDED',error=type(error).__name__+': '+str(error),automatic_retry=False));raise
             b.save(record_path.with_name(record_path.stem+'.outcome.json'),dict(status='RAW_COMPLETE',cleanup='PASS'))
+        if self.auth is not None:self.auth.completed(record['raw'],campaign,slot)
         row=dict(stage=stage,candidate=config,block=visit['block'],position=visit['position'],metrics=result,raw=record['raw']);self.rows.append(row)
         export(self.root,self.tune,self.rows,False)
     def stage(self,name,candidates,blocks):

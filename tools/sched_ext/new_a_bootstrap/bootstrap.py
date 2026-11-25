@@ -75,7 +75,7 @@ def run(driver,base,check=False,prepare_only=False,guard=None):
         default=module.p.default(detected);state['cpu']=dict(summary=detected['summary'],default=default)
         changes=system.power_plan(original);require(changes==initial_changes,'Power plan changed during provisioning; new review required')
         restore='#!/usr/bin/env bash\nexec bash '+shlex.quote(str(driver.ROOT/'scripts/autotune-bootstrap.sh'))+' --restore-environment '+shlex.quote(str(journal))+'\n';(folder/'restore-environment.sh').write_text(restore)
-        system.consent('Linux Auto-Tuning 범위를 승인합니다: 최대160 독립 서버/7200초, 각 워밍업2+측정1, 2블록 선별 및 유망 후보의 새 최소6블록.\nCPU/default: '+str(state['cpu'])+'\nSTRICT_ACCEPTANCE=FAILED / safety_verdict=FAIL / OVERHEAD_REVIEW_REQUIRED 유지.\n실패 자동 재시도/인증 갱신/BPF 자동 attach 없음. 기능 검증 실패 시 측정 차단.')
+        system.consent('Linux Auto-Tuning 범위를 승인합니다: 최대160 독립 서버/7200초, 각 워밍업2+측정1, 2블록 선별 및 유망 후보의 새 최소6블록.\nCPU/default: '+str(state['cpu'])+'\nSTRICT_ACCEPTANCE=FAILED / safety_verdict=FAIL / OVERHEAD_REVIEW_REQUIRED 유지.\n실패 자동 재시도/백그라운드 인증 갱신/BPF 자동 attach 없음. 정리 확인된 세션 경계에서만 직접 비밀번호 재인증을 요청합니다. 기능 검증 실패 시 측정 차단.')
         require(auto_run.quiet(module),'CLEANUP_NOT_VERIFIED before power apply')
         system.apply(changes,journal)
         target=folder/'tuning';state['tuning_output']=str(target)
