@@ -5,6 +5,7 @@ import math
 import re
 from pathlib import Path
 from runtime_core import require, read, sha, digest
+from process_cpu import validate_record as validate_process_cpu
 
 SYMBOLS={'llama_select_cpu','llama_enqueue','llama_dispatch','llama_running','llama_stopping','new_a_set_cpumask','llama_enable','llama_init','llama_exit','llama_phase'}
 CALLBACKS={'select_cpu':'llama_select_cpu','enqueue':'llama_enqueue','dispatch':'llama_dispatch','running':'llama_running','stopping':'llama_stopping'}
@@ -135,6 +136,7 @@ def verify_session(path,campaign,stage,slot,prospective=None):
         previous=value['programs']
     results=[response(path,role,campaign['request_sha256']) for role in ['warmup-1','warmup-2','measured']]
     cpu=read(path/'process-cpu.json');require(cpu['pid']==server['pid'] and cpu['starttime']==server['starttime'] and cpu['after_ns']>cpu['before_ns'] and cpu['before_mono_ns']<=results[-1][1]['begin_ns']<results[-1][1]['end_ns']<=cpu['after_mono_ns'],'Whole-process CPU clock bracket invalid')
+    validate_process_cpu(cpu,server,results[-1][1])
     data,client=results[-1];t=data['timings']
     resources=resource_metrics(read(path/'metrics-before.json'),read(path/'metrics-after.json'),campaign['domain']['selected'])
     return dict(resources=resources,status='FUNCTIONAL_PASS' if stage=='FUNCTIONAL' else 'RAW_COMPLETE',http_ms=client['request_wall_ms'],process_cpu_s=(cpu['after_ns']-cpu['before_ns'])/1e9,

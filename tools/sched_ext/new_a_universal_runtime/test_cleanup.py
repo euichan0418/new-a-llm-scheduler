@@ -36,7 +36,7 @@ class Cleanup(unittest.TestCase):
             if kind=='auth':raise runner.AuthRequired('SYNTHETIC_AUTH_EXPIRED')
             return ''
         watch=Watch(code,bad)
-        error=KeyboardInterrupt('SYNTHETIC_SIGTERM') if signal_error else ValueError('SYNTHETIC_ATTACH_FAILURE')
+        error=KeyboardInterrupt('SYNTHETIC_SIGTERM') if signal_error else runner.process_cpu.ProcessCPUError('SYNTHETIC_CPU_CLOCK_FAILURE') if kind=='cpu' else ValueError('SYNTHETIC_ATTACH_FAILURE')
         with patch.object(Path,'read_text',read),patch.object(runner,'root_command',side_effect=auth),patch.object(runner,'root_process',side_effect=[watch,error]),patch.object(runner.select,'select',return_value=([watch.stdout],[],[])),patch.object(runner.contracts,'throttle_counts',return_value={}):
             with self.assertRaises(ValueError):runner.acquire_session(campaign,root,path,slot)
         self.assertFalse((path/'completion.json').exists());self.assertTrue((path/'failure.json').is_file())
@@ -63,6 +63,11 @@ class Cleanup(unittest.TestCase):
         with tempfile.TemporaryDirectory() as t:
             path,c=self.run_fault(t,'auth');cleanup=core.read(path/'cleanup.json');cleanup.update(status='FAIL',errors=['UNCERTAIN'])
             self.assertFalse(controller.safe_auth_resume(path,c,core.read(path/'failure.json'),cleanup))
+    def test_cpu_clock_failure_still_cleans_up_and_is_not_auth_retry(self):
+        with tempfile.TemporaryDirectory()as t:
+            path,c=self.run_fault(t,'cpu');failure=core.read(path/'failure.json');cleanup=core.read(path/'cleanup.json')
+            self.assertEqual(failure['kind'],'PROCESS_CPU_CLOCK_FAILURE');self.assertEqual(cleanup['status'],'PASS')
+            self.assertFalse(controller.safe_auth_resume(path,c,failure,cleanup));self.assertFalse((path/'completion.json').exists())
 
 
 if __name__=='__main__':unittest.main(verbosity=2)

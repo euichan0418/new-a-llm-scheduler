@@ -29,6 +29,7 @@ test-universal:
 	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B tools/sched_ext/new_a_universal_runtime/test_universal.py
 	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B tools/sched_ext/new_a_universal_runtime/test_raw.py
 	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B tools/sched_ext/new_a_universal_runtime/test_cleanup.py
+	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B tools/sched_ext/new_a_universal_runtime/test_process_cpu.py
 build-universal:
 	@test -n "$(NEW_BUILD)" || { echo "Set NEW_BUILD to a new external directory" >&2; exit 2; }
 	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B tools/sched_ext/new_a_universal_runtime/build.py --output "$(NEW_BUILD)"
@@ -46,3 +47,4 @@ test-bootstrap:
 .PHONY: test-power-state
 test-power-state:
 	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B tools/sched_ext/new_a_bootstrap/test_power_state.py
+	PYTHONDONTWRITEBYTECODE=1 $(PYTHON) -B tools/sched_ext/new_a_bootstrap/test_recovery_review.py

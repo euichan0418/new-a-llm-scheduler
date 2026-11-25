@@ -10,6 +10,7 @@ import unittest
 sys.path.insert(0,str(Path(__file__).resolve().parent))
 import runtime_core as core
 import evidence,controller
+import process_cpu
 import test_universal as fixture_source
 
 
@@ -50,7 +51,11 @@ def fixture(path,policy='E',audit=True):
     for role in ['warmup-1','warmup-2','measured']:
         save(role+'-response.json',response)
         save(role+'-client.json',dict(role=role,http_status=200,request_sha256='a'*64,response_sha256=core.sha(path/(role+'-response.json')),request_wall_ms=2,begin_ns=2000000,end_ns=4000000))
-    save('process-cpu.json',dict(pid=pid,starttime=5,before_ns=100,after_ns=200,before_mono_ns=1000000,after_mono_ns=5000000))
+    def point(ns,mono):
+        row=dict(pid=pid,starttime=5,uid=uid,state='S',utime_ticks=0,stime_ticks=0)
+        return dict(ns=ns,before_mono_ns=mono,after_mono_ns=mono+1,proc_before=row,proc_after=dict(row))
+    save('process-cpu.json',dict(pid=pid,starttime=5,clock_id=-33926,before_ns=100,after_ns=200,before_mono_ns=1000000,after_mono_ns=5000000,
+        scope=process_cpu.SCOPE,clock_api=process_cpu.API,clock_verification=dict(schema=1,clk_tck=100,pidfd_alive_before_after=True,before=point(100,1000000),after=point(200,4999999))))
     for after in [False,True]:
         save('metrics-'+('after' if after else 'before')+'.json',dict(tids={'4242':dict(starttime=5,context_switches=2 if after else 1,migrations=1 if after else 0,runtime_ns=200 if after else 100)},cpus={'cpu'+str(c):dict(total=20 if after else 10,idle=4 if after else 2) for c in domain['selected']}))
     finish(path,campaign,slot)
@@ -92,6 +97,19 @@ class Raw(unittest.TestCase):
         with tempfile.TemporaryDirectory() as temp:
             root=Path(temp);path=root/'attempts/FUNCTIONAL/E-audit/attempt';path.parent.mkdir(parents=True);campaign,slot=fixture(path);core.save(path/'failure.json',dict(kind='SYNTHETIC_FAILURE'))
             with self.assertRaises(ValueError):controller.completed(root,campaign,'FUNCTIONAL',True)
+
+    def test_process_cpu_identity_scope_and_proc_proof_required_on_c_and_e(self):
+        mutations=[lambda x:x.update(scope='THREAD_CPU_CLOCK'),lambda x:x.update(clock_api='pthread_getcpuclockid'),
+            lambda x:x['clock_verification'].update(pidfd_alive_before_after=False),
+            lambda x:x['clock_verification']['after']['proc_after'].update(starttime=6),
+            lambda x:x['clock_verification']['before']['proc_before'].update(utime_ticks=1000),
+            lambda x:x.pop('clock_verification'),lambda x:x['clock_verification']['after'].update(before_mono_ns=1)]
+        for policy in ['C','E']:
+            for mutate in mutations:
+                with self.subTest(policy=policy,mutation=mutate),tempfile.TemporaryDirectory() as temp:
+                    path=Path(temp)/'raw';campaign,slot=fixture(path,policy)
+                    value=core.read(path/'process-cpu.json');mutate(value);(path/'process-cpu.json').write_text(json.dumps(value));finish(path,campaign,slot)
+                    with self.assertRaises((ValueError,KeyError)):evidence.verify_session(path,campaign,'FUNCTIONAL',slot)
 
 
 if __name__=='__main__':unittest.main(verbosity=2)

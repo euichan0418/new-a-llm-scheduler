@@ -7,7 +7,8 @@
     "Original guarded-loader monitor instrumentation is retained; no diagnostic reduction.",
     "Universal runtime adds independent loader/monitor binding and dynamic raw verification; original E FULL source is unchanged. Actual universal functional and performance validation NOT_RUN.",
     "GitHub bootstrap fetches a pinned historical engine revision and exact licensed GGUF; no BPF auto attach or historical byte/performance equivalence claim.",
-    "Intel HWP restoration uses powersave bridge, exact EPP baseline and full readback; historical failure evidence stays unchanged. Actual power writes and performance NOT_RUN."
+    "Intel HWP restoration uses powersave bridge, exact EPP baseline and full readback; historical failure evidence stays unchanged. Actual power writes and performance NOT_RUN.",
+    "Process CPU clock uses libc with pidfd/starttime and proc crosschecks. Existing policy and performance field meanings are unchanged; actual LLM/BPF NOT_RUN."
   ],
   "files": [
     {
@@ -42,9 +43,9 @@
     },
     {
       "path": "Makefile",
-      "source": "INTEL_HWP_POWER_RESTORE_V2",
-      "kind": "POWER_PREPARATION_AND_RECOVERY_ONLY",
-      "release_sha256": "2bc44fdd3088bc8d3da64f12840b6bdef0c60628e3e3936786f0be5941a09fb8"
+      "source": "LIBC_EXTERNAL_PROCESS_CPU_CLOCK_FIX",
+      "kind": "REQUEST_CPU_CLOCK_AND_RECOVERY_EVIDENCE_ONLY",
+      "release_sha256": "2b8dfc7bf3d130662bde79680d00b0f83e4c472c84f6a5bd991656af15b345f8"
     },
     {
       "path": "NOTICE",
@@ -54,15 +55,15 @@
     },
     {
       "path": "README.ko.md",
-      "source": "INTEL_HWP_POWER_RESTORE_V2",
-      "kind": "POWER_PREPARATION_AND_RECOVERY_ONLY",
-      "release_sha256": "0662e470b18e0892e6afb93915b417fb95b606176cc78f4ae6c72a9e07d8cbc9"
+      "source": "LIBC_EXTERNAL_PROCESS_CPU_CLOCK_FIX",
+      "kind": "REQUEST_CPU_CLOCK_AND_RECOVERY_EVIDENCE_ONLY",
+      "release_sha256": "5acc0b192f7975c371440e69dbb73f8d55b4d1ee79e323a1df3c0587d2bb227a"
     },
     {
       "path": "README.md",
-      "source": "INTEL_HWP_POWER_RESTORE_V2",
-      "kind": "POWER_PREPARATION_AND_RECOVERY_ONLY",
-      "release_sha256": "a02d5ce59d1b2d3b08f8551d3eadcb58d495c7ee3558195e57e397b2556fb7ad"
+      "source": "LIBC_EXTERNAL_PROCESS_CPU_CLOCK_FIX",
+      "kind": "REQUEST_CPU_CLOCK_AND_RECOVERY_EVIDENCE_ONLY",
+      "release_sha256": "0cdd14820cc5d87f0bf3a401423970791ddb637ee4ecd8886d2a0f2697e6c494"
     },
     {
       "path": "config/autotune-provision.json",
@@ -96,9 +97,9 @@
     },
     {
       "path": "docs/autotune-bootstrap.ko.md",
-      "source": "INTEL_HWP_POWER_RESTORE_V2",
-      "kind": "POWER_PREPARATION_AND_RECOVERY_ONLY",
-      "release_sha256": "2758627e6b394eea10276edd18e4e6b770bed9ad6fa65f653bce39bbbd427dfa"
+      "source": "LIBC_EXTERNAL_PROCESS_CPU_CLOCK_FIX",
+      "kind": "REQUEST_CPU_CLOCK_AND_RECOVERY_EVIDENCE_ONLY",
+      "release_sha256": "b6ad69c08954fa550259522ed811e69b9a6d47c391eef23665a7da34103c80c5"
     },
     {
       "path": "docs/frozen-engine-reproduction.md",
@@ -123,6 +124,12 @@
       "source": "INTEL_HWP_POWER_RESTORE_V2",
       "kind": "POWER_PREPARATION_AND_RECOVERY_ONLY",
       "release_sha256": "e7e7046087649c4f638c7ad969802c2180c2b790bb24e945b770d976bf8166a1"
+    },
+    {
+      "path": "docs/process-cpu-clock.ko.md",
+      "source": "LIBC_EXTERNAL_PROCESS_CPU_CLOCK_FIX",
+      "kind": "REQUEST_CPU_CLOCK_AND_RECOVERY_EVIDENCE_ONLY",
+      "release_sha256": "42d5eb0f6cfef5e1fb5df834b6d39f72628f83e2f213dc1d56d79fbc1d1ede55"
     },
     {
       "path": "docs/research/asymmetric-threads.md",
@@ -222,6 +229,12 @@
       "release_sha256": "709f7a564cc792d57a7e132ab9cd042f1b2ef51561bf9706db9c353d8261cbcf"
     },
     {
+      "path": "results/process-cpu-clock-fix-validation.json",
+      "source": "LIBC_EXTERNAL_PROCESS_CPU_CLOCK_FIX",
+      "kind": "REQUEST_CPU_CLOCK_AND_RECOVERY_EVIDENCE_ONLY",
+      "release_sha256": "3c0340d280e2d90b84c472aa4d8ee71ac03e3c839e2a6573c46eaf0d218a3972"
+    },
+    {
       "path": "results/release-validation.json",
       "release_sha256": "b27fafc2daa9a89dcd16115208124b6018ebd3e588126449cc12ae67d0859592",
       "source": "verified-private-research-numeric-export",
@@ -256,6 +269,12 @@
       "release_sha256": "66e066babc71bb9e0cd1ce869ca45a8e55ec481ea9c23e17aff94b52d4c9e4cc",
       "source": "GITHUB_PINNED_AUTOTUNE_BOOTSTRAP",
       "kind": "SOURCE_BUILD_DOWNLOAD_AND_RESEARCH_CONFIGURATION_ONLY"
+    },
+    {
+      "path": "scripts/check-autotune-recovery.py",
+      "source": "LIBC_EXTERNAL_PROCESS_CPU_CLOCK_FIX",
+      "kind": "REQUEST_CPU_CLOCK_AND_RECOVERY_EVIDENCE_ONLY",
+      "release_sha256": "a696063a8e3431ca7df213557ca5039462019911e933efc88ae6b5f009990b4d"
     },
     {
       "path": "scripts/summarize_research.py",
@@ -675,21 +694,21 @@
     },
     {
       "path": "tools/sched_ext/new_a_bootstrap/auto_run.py",
-      "source": "INTEL_HWP_POWER_RESTORE_V2",
-      "kind": "POWER_PREPARATION_AND_RECOVERY_ONLY",
-      "release_sha256": "0534e7fc76819c6cf7e638b3a6e8b78bda715fce17b65d0daba027defc607379"
+      "source": "LIBC_EXTERNAL_PROCESS_CPU_CLOCK_FIX",
+      "kind": "REQUEST_CPU_CLOCK_AND_RECOVERY_EVIDENCE_ONLY",
+      "release_sha256": "7600481009d67313bbe38a5b0943eb12d259f32c2f1da2a088e7e5a7b1c553b6"
     },
     {
       "path": "tools/sched_ext/new_a_bootstrap/auto_system.py",
-      "source": "INTEL_HWP_POWER_RESTORE_V2",
-      "kind": "POWER_PREPARATION_AND_RECOVERY_ONLY",
-      "release_sha256": "45dce72e33707dbb48a5f2a881a48bc20ed366d16226c2ab6112ddeaa553fba6"
+      "source": "LIBC_EXTERNAL_PROCESS_CPU_CLOCK_FIX",
+      "kind": "REQUEST_CPU_CLOCK_AND_RECOVERY_EVIDENCE_ONLY",
+      "release_sha256": "5ee70df83636f79b14af45cea365e6a44c6026942bb56907403c943782bed8a0"
     },
     {
       "path": "tools/sched_ext/new_a_bootstrap/bootstrap.py",
-      "source": "INTEL_HWP_POWER_RESTORE_V2",
-      "kind": "POWER_PREPARATION_AND_RECOVERY_ONLY",
-      "release_sha256": "ab24a38d4c0a9e2d7eae5c1342567ab6c39ab133dbeb9e19239050b2b8c2a413"
+      "source": "LIBC_EXTERNAL_PROCESS_CPU_CLOCK_FIX",
+      "kind": "REQUEST_CPU_CLOCK_AND_RECOVERY_EVIDENCE_ONLY",
+      "release_sha256": "38bfe426215336ca7ddf6eb81812a667784fbb1fec1a6d69f221dc08c2d1cb2f"
     },
     {
       "path": "tools/sched_ext/new_a_bootstrap/package_driver.py",
@@ -699,9 +718,9 @@
     },
     {
       "path": "tools/sched_ext/new_a_bootstrap/power_state.py",
-      "source": "INTEL_HWP_POWER_RESTORE_V2",
-      "kind": "POWER_PREPARATION_AND_RECOVERY_ONLY",
-      "release_sha256": "a3c1421eb04d32d392775e390087dba30d9285b9a5c8174ecb7501adca7e465b"
+      "source": "LIBC_EXTERNAL_PROCESS_CPU_CLOCK_FIX",
+      "kind": "REQUEST_CPU_CLOCK_AND_RECOVERY_EVIDENCE_ONLY",
+      "release_sha256": "caec01cc657eb56ffd7b8340a3606028cbcb1088175bd3f2a5e1f78d6077d318"
     },
     {
       "path": "tools/sched_ext/new_a_bootstrap/provision.py",
@@ -711,9 +730,9 @@
     },
     {
       "path": "tools/sched_ext/new_a_bootstrap/test_auto.py",
-      "source": "INTEL_HWP_POWER_RESTORE_V2",
-      "kind": "POWER_PREPARATION_AND_RECOVERY_ONLY",
-      "release_sha256": "138555ea11a4352e7a839ef29afa1876bfdd6a78d94ed811726e3bd9fbaf9de3"
+      "source": "LIBC_EXTERNAL_PROCESS_CPU_CLOCK_FIX",
+      "kind": "REQUEST_CPU_CLOCK_AND_RECOVERY_EVIDENCE_ONLY",
+      "release_sha256": "947b1d9298aa0c4c52bed2d0a425dfa70cc4eae2d0eefb904a1c41fe72f71ea5"
     },
     {
       "path": "tools/sched_ext/new_a_bootstrap/test_package.py",
@@ -732,6 +751,12 @@
       "release_sha256": "e6d3a15e5547c6314a3db87dc3ae9af3e264a55f58a65d0db48829e2a7e7e1e2",
       "source": "GITHUB_PINNED_AUTOTUNE_BOOTSTRAP",
       "kind": "SOURCE_BUILD_DOWNLOAD_AND_RESEARCH_CONFIGURATION_ONLY"
+    },
+    {
+      "path": "tools/sched_ext/new_a_bootstrap/test_recovery_review.py",
+      "source": "LIBC_EXTERNAL_PROCESS_CPU_CLOCK_FIX",
+      "kind": "REQUEST_CPU_CLOCK_AND_RECOVERY_EVIDENCE_ONLY",
+      "release_sha256": "f61d81fea5db3afea407997756c893baf063026e4639522dc6f42c8a705ce484"
     },
     {
       "path": "tools/sched_ext/new_a_final/README.md",
@@ -1213,9 +1238,9 @@
     },
     {
       "path": "tools/sched_ext/new_a_universal_runtime/evidence.py",
-      "source": "universal-runtime-independent-research",
-      "kind": "DYNAMIC_FULL_GUARD_ADAPTER_TEST_OR_DOCUMENTATION",
-      "release_sha256": "a0c41969844597fa5388e52cc5e27ef45818fe987b406a932b013948fd9cf1fa"
+      "source": "LIBC_EXTERNAL_PROCESS_CPU_CLOCK_FIX",
+      "kind": "REQUEST_CPU_CLOCK_AND_RECOVERY_EVIDENCE_ONLY",
+      "release_sha256": "bf2d3a7fcccdd71556c778d4b029345d29dea30d91796ddb34e4f02f441d7683"
     },
     {
       "path": "tools/sched_ext/new_a_universal_runtime/guard_domain.h",
@@ -1230,10 +1255,16 @@
       "release_sha256": "a789c5c39b1e4e9e52b49229830d54ea43e3369fffe28a239d1614cb72b69ea1"
     },
     {
+      "path": "tools/sched_ext/new_a_universal_runtime/process_cpu.py",
+      "source": "LIBC_EXTERNAL_PROCESS_CPU_CLOCK_FIX",
+      "kind": "REQUEST_CPU_CLOCK_AND_RECOVERY_EVIDENCE_ONLY",
+      "release_sha256": "693cb902c050276305887f7a2d1eaeae9a0fa84294017d8fe114349f3ac252f6"
+    },
+    {
       "path": "tools/sched_ext/new_a_universal_runtime/runner.py",
-      "source": "universal-runtime-independent-research",
-      "kind": "DYNAMIC_FULL_GUARD_ADAPTER_TEST_OR_DOCUMENTATION",
-      "release_sha256": "d5f680b7109e8425269f5e65f8d1e889e035ca6a16ff1127af7315ce65ffed8d"
+      "source": "LIBC_EXTERNAL_PROCESS_CPU_CLOCK_FIX",
+      "kind": "REQUEST_CPU_CLOCK_AND_RECOVERY_EVIDENCE_ONLY",
+      "release_sha256": "eda970e5caaddffa7e396f114fe82bf97d54d8b9efc509478a94cbf3d3b37cca"
     },
     {
       "path": "tools/sched_ext/new_a_universal_runtime/runtime.py",
@@ -1249,15 +1280,21 @@
     },
     {
       "path": "tools/sched_ext/new_a_universal_runtime/test_cleanup.py",
-      "source": "universal-runtime-independent-research",
-      "kind": "DYNAMIC_FULL_GUARD_ADAPTER_TEST_OR_DOCUMENTATION",
-      "release_sha256": "6cac44c36a96d113c15331a1182de87ed4d28eef2e5afbfb70a9c85590b694cb"
+      "source": "LIBC_EXTERNAL_PROCESS_CPU_CLOCK_FIX",
+      "kind": "REQUEST_CPU_CLOCK_AND_RECOVERY_EVIDENCE_ONLY",
+      "release_sha256": "74f39a1ec37e51b2930828548ef2f6dc64a3ef4f41edb2f82e47ce90119eecdd"
+    },
+    {
+      "path": "tools/sched_ext/new_a_universal_runtime/test_process_cpu.py",
+      "source": "LIBC_EXTERNAL_PROCESS_CPU_CLOCK_FIX",
+      "kind": "REQUEST_CPU_CLOCK_AND_RECOVERY_EVIDENCE_ONLY",
+      "release_sha256": "c27b66334ef277db777c24d88a64ba1a1d5543446461d7850ff0fd9aab4d2fe1"
     },
     {
       "path": "tools/sched_ext/new_a_universal_runtime/test_raw.py",
-      "source": "universal-runtime-independent-research",
-      "kind": "DYNAMIC_FULL_GUARD_ADAPTER_TEST_OR_DOCUMENTATION",
-      "release_sha256": "82ea24fed4bad64287c21e2f98b99276f1080ae5ab52176b227f4e2a7fc28462"
+      "source": "LIBC_EXTERNAL_PROCESS_CPU_CLOCK_FIX",
+      "kind": "REQUEST_CPU_CLOCK_AND_RECOVERY_EVIDENCE_ONLY",
+      "release_sha256": "507a7bc8b1fae26a68acc1ab8ca78f5e00caf1aca8edd07bc1ba15facc20c9b3"
     },
     {
       "path": "tools/sched_ext/new_a_universal_runtime/test_universal.py",

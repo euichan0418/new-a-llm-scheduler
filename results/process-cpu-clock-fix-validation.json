@@ -1,0 +1,36 @@
+{
+  "status": "PROCESS_CPU_CLOCK_FIX_EXTERNAL_PROCESS_AND_STATIC_VALIDATION",
+  "clock_source": "libc.clock_getcpuclockid+time.clock_gettime_ns",
+  "scope": "WHOLE_PROCESS_CPU_CLOCK_ALL_THREADS_REQUEST_BRACKET",
+  "new_process_clock_tests": 17,
+  "new_recovery_review_tests": 12,
+  "total_nonprivileged_tests": 392,
+  "python_runtime": "3.12.3",
+  "python311_syntax": "CHECKED",
+  "python311_execution": "NOT_RUN_NOT_INSTALLED",
+  "external_process_multithread_clock": "TESTED_NO_LLM",
+  "proc_stat_crosscheck": "TESTED",
+  "pid_reuse_detection": "STARTTIME_CHANGE_SIMULATION",
+  "c_and_e_raw_contract": "SAME_PROCESS_CPU_VALIDATOR",
+  "reported_team_failure_raw_available": false,
+  "reported_team_power_restoration": "NOT_VERIFIED_RAW_NOT_AVAILABLE",
+  "historical_failure_reclassification": false,
+  "power_restore_v2_order": "UNCHANGED",
+  "actual_sudo": "NOT_RUN",
+  "actual_bpf_attach": "NOT_RUN",
+  "actual_inference_performance": "NOT_RUN",
+  "strict_acceptance": "FAILED",
+  "safety_verdict": "FAIL",
+  "overhead": "OVERHEAD_REVIEW_REQUIRED",
+  "external_process_test_observation": {
+    "python": "3.12.3",
+    "workers_ns": [
+      60027594,
+      60004253
+    ],
+    "process_ns": 120495739,
+    "external_clock_delta_ns": 120741190,
+    "proc_delta_ns": 130000000.0,
+    "leader_delta_ns": 0.0
+  }
+}

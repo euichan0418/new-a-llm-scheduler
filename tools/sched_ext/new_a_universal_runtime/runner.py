@@ -16,6 +16,7 @@ import uuid
 from runtime_core import HERE, LABELS, collect, read, save, sha, digest, require, space, guard_bytes, ticks, module
 import contracts
 import evidence
+import process_cpu
 
 
 class AuthRequired(ValueError):pass
@@ -93,18 +94,25 @@ def request(campaign,path,role,monitor,cpu_target=None):
     argv=campaign['baseline']['server_argv'];port=int(argv[argv.index('--port')+1])
     body=json.dumps(campaign['request'],sort_keys=True,separators=(',',':'),allow_nan=False).encode()
     def perform():
-        cpu={}
-        if cpu_target is not None:
-            clock=time.clock_getcpuclockid(cpu_target['pid']);cpu=dict(pid=cpu_target['pid'],starttime=cpu_target['starttime'],clock_id=clock,before_mono_ns=time.monotonic_ns(),before_ns=time.clock_gettime_ns(clock),scope='WHOLE_PROCESS_CPU_CLOCK_ALL_THREADS_REQUEST_BRACKET')
-        begin=time.monotonic_ns()
-        connection=http.client.HTTPConnection('127.0.0.1',port,timeout=120)
+        cpu={};counter=None;connection=None
         try:
+            if cpu_target is not None:
+                counter=process_cpu.ProcessCPUClock(cpu_target);counter.begin()
+            begin=time.monotonic_ns()
+            connection=http.client.HTTPConnection('127.0.0.1',port,timeout=120)
             connection.request('POST','/completion',body,{'Content-Type':'application/json'})
             response=connection.getresponse();data=response.read(4*1024*1024+1);require(len(data)<=4*1024*1024,'Oversized HTTP evidence')
             end=time.monotonic_ns()
-            if cpu_target is not None:cpu.update(after_ns=time.clock_gettime_ns(clock),after_mono_ns=time.monotonic_ns())
+            if counter is not None:cpu=counter.finish(begin,end)
             return response.status,data,begin,end,cpu
-        finally:connection.close()
+        except process_cpu.ProcessCPUError as error:
+            save(path/(role+'-process-cpu-failure.json'),dict(status='FAILED_NOT_A_SAMPLE',target=cpu_target,error=str(error),partial_samples=counter.samples if counter else {},automatic_retry=False))
+            raise
+        finally:
+            try:
+                if connection is not None:connection.close()
+            finally:
+                if counter is not None:counter.close()
     with concurrent.futures.ThreadPoolExecutor(max_workers=1) as pool:
         future=pool.submit(perform)
         while not future.done():monitor();time.sleep(.25)
@@ -262,7 +270,8 @@ def acquire_session(campaign,root,path,slot):
         save(path/'cleanup.json',dict(status='FAIL' if cleanup_errors else 'PASS',errors=cleanup_errors,sched_ext=state(),server_exited=process is None or process.poll() is not None,loader_exited=loader is None or loader.poll() is not None))
     if failure or cleanup_errors:
         auth_error=isinstance(failure,AuthRequired) or any(p.read_text().strip()=='sudo: a password is required' for p in path.glob('*.log') if 'stderr' in p.name or p.name=='loader.log')
-        save(path/'failure.json',dict(kind='SUDO_AUTH_REQUIRED_OR_EXPIRED' if auth_error else 'SESSION_OR_CLEANUP_FAILURE',error=str(failure),cleanup_errors=cleanup_errors,automatic_retry=False))
+        kind='SUDO_AUTH_REQUIRED_OR_EXPIRED' if auth_error else 'PROCESS_CPU_CLOCK_FAILURE' if isinstance(failure,process_cpu.ProcessCPUError) and not cleanup_errors else 'SESSION_OR_CLEANUP_FAILURE'
+        save(path/'failure.json',dict(kind=kind,error=str(failure),cleanup_errors=cleanup_errors,automatic_retry=False))
         raise ValueError('Session failed; no next session: '+str(failure or cleanup_errors))
     files={str(p.relative_to(path)):sha(p) for p in path.rglob('*') if p.is_file()}
     proof=dict(status='COMPLETE',campaign_id=campaign['id'],stage=slot['stage'],slot=slot,files=files,contract_binding=digest({k:campaign[k] for k in ['id','host','domain','baseline']}),**LABELS)

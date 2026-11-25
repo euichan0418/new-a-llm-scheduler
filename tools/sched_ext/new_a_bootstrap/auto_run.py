@@ -85,6 +85,7 @@ def run(driver,*,check=False,search_roots=None,guard_fd=None):
     if not check:
         for journal in results.glob('auto-*/environment.private.json'):
             value=json.loads(journal.read_text())
+            if value.get('attempted')and value.get('schema')==2 and value['status']=='RESTORED':system.audit_restoration(journal)
             if value.get('attempted')and value['status']!='RESTORED':system.pending_recovery(journal,lambda:quiet(driver.engine()))
     session=results/('auto-'+time.strftime('%Y%m%dT%H%M%SZ',time.gmtime())+'-'+uuid.uuid4().hex[:8]);session.mkdir(mode=0o700)
     print('AUTO_RESULT_DIRECTORY='+str(session),flush=True)

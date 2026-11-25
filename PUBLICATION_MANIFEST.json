@@ -39,8 +39,8 @@
     },
     {
       "path": "Makefile",
-      "size": 2633,
-      "sha256": "2bc44fdd3088bc8d3da64f12840b6bdef0c60628e3e3936786f0be5941a09fb8",
+      "size": 2829,
+      "sha256": "2b8dfc7bf3d130662bde79680d00b0f83e4c472c84f6a5bd991656af15b345f8",
       "executable": false
     },
     {
@@ -51,20 +51,20 @@
     },
     {
       "path": "PUBLICATION_PROVENANCE.json",
-      "size": 67004,
-      "sha256": "49e4ffb85823194e2569115bbe5d4469618647d80585462170447e83687bb040",
+      "size": 69011,
+      "sha256": "26c6b07e5595617f55427efec858bb1298928f8fe0b57fec21358e6c5cdbb975",
       "executable": false
     },
     {
       "path": "README.ko.md",
-      "size": 8842,
-      "sha256": "0662e470b18e0892e6afb93915b417fb95b606176cc78f4ae6c72a9e07d8cbc9",
+      "size": 9067,
+      "sha256": "5acc0b192f7975c371440e69dbb73f8d55b4d1ee79e323a1df3c0587d2bb227a",
       "executable": false
     },
     {
       "path": "README.md",
-      "size": 18095,
-      "sha256": "a02d5ce59d1b2d3b08f8551d3eadcb58d495c7ee3558195e57e397b2556fb7ad",
+      "size": 18320,
+      "sha256": "0cdd14820cc5d87f0bf3a401423970791ddb637ee4ecd8886d2a0f2697e6c494",
       "executable": false
     },
     {
@@ -99,8 +99,8 @@
     },
     {
       "path": "docs/autotune-bootstrap.ko.md",
-      "size": 9879,
-      "sha256": "2758627e6b394eea10276edd18e4e6b770bed9ad6fa65f653bce39bbbd427dfa",
+      "size": 10113,
+      "sha256": "b6ad69c08954fa550259522ed811e69b9a6d47c391eef23665a7da34103c80c5",
       "executable": false
     },
     {
@@ -125,6 +125,12 @@
       "path": "docs/power-restore.ko.md",
       "size": 6916,
       "sha256": "e7e7046087649c4f638c7ad969802c2180c2b790bb24e945b770d976bf8166a1",
+      "executable": false
+    },
+    {
+      "path": "docs/process-cpu-clock.ko.md",
+      "size": 6630,
+      "sha256": "42d5eb0f6cfef5e1fb5df834b6d39f72628f83e2f213dc1d56d79fbc1d1ede55",
       "executable": false
     },
     {
@@ -224,6 +230,12 @@
       "executable": false
     },
     {
+      "path": "results/process-cpu-clock-fix-validation.json",
+      "size": 1313,
+      "sha256": "3c0340d280e2d90b84c472aa4d8ee71ac03e3c839e2a6573c46eaf0d218a3972",
+      "executable": false
+    },
+    {
       "path": "results/release-validation.json",
       "size": 788,
       "sha256": "b27fafc2daa9a89dcd16115208124b6018ebd3e588126449cc12ae67d0859592",
@@ -258,6 +270,12 @@
       "size": 2794,
       "sha256": "66e066babc71bb9e0cd1ce869ca45a8e55ec481ea9c23e17aff94b52d4c9e4cc",
       "executable": true
+    },
+    {
+      "path": "scripts/check-autotune-recovery.py",
+      "size": 1902,
+      "sha256": "a696063a8e3431ca7df213557ca5039462019911e933efc88ae6b5f009990b4d",
+      "executable": false
     },
     {
       "path": "scripts/summarize_research.py",
@@ -621,20 +639,20 @@
     },
     {
       "path": "tools/sched_ext/new_a_bootstrap/auto_run.py",
-      "size": 10906,
-      "sha256": "0534e7fc76819c6cf7e638b3a6e8b78bda715fce17b65d0daba027defc607379",
+      "size": 11036,
+      "sha256": "7600481009d67313bbe38a5b0943eb12d259f32c2f1da2a088e7e5a7b1c553b6",
       "executable": false
     },
     {
       "path": "tools/sched_ext/new_a_bootstrap/auto_system.py",
-      "size": 8358,
-      "sha256": "45dce72e33707dbb48a5f2a881a48bc20ed366d16226c2ab6112ddeaa553fba6",
+      "size": 8465,
+      "sha256": "5ee70df83636f79b14af45cea365e6a44c6026942bb56907403c943782bed8a0",
       "executable": false
     },
     {
       "path": "tools/sched_ext/new_a_bootstrap/bootstrap.py",
-      "size": 9790,
-      "sha256": "ab24a38d4c0a9e2d7eae5c1342567ab6c39ab133dbeb9e19239050b2b8c2a413",
+      "size": 9925,
+      "sha256": "38bfe426215336ca7ddf6eb81812a667784fbb1fec1a6d69f221dc08c2d1cb2f",
       "executable": false
     },
     {
@@ -645,8 +663,8 @@
     },
     {
       "path": "tools/sched_ext/new_a_bootstrap/power_state.py",
-      "size": 14231,
-      "sha256": "a3c1421eb04d32d392775e390087dba30d9285b9a5c8174ecb7501adca7e465b",
+      "size": 16594,
+      "sha256": "caec01cc657eb56ffd7b8340a3606028cbcb1088175bd3f2a5e1f78d6077d318",
       "executable": false
     },
     {
@@ -657,8 +675,8 @@
     },
     {
       "path": "tools/sched_ext/new_a_bootstrap/test_auto.py",
-      "size": 17625,
-      "sha256": "138555ea11a4352e7a839ef29afa1876bfdd6a78d94ed811726e3bd9fbaf9de3",
+      "size": 18346,
+      "sha256": "947b1d9298aa0c4c52bed2d0a425dfa70cc4eae2d0eefb904a1c41fe72f71ea5",
       "executable": false
     },
     {
@@ -677,6 +695,12 @@
       "path": "tools/sched_ext/new_a_bootstrap/test_provision.py",
       "size": 8821,
       "sha256": "e6d3a15e5547c6314a3db87dc3ae9af3e264a55f58a65d0db48829e2a7e7e1e2",
+      "executable": false
+    },
+    {
+      "path": "tools/sched_ext/new_a_bootstrap/test_recovery_review.py",
+      "size": 6618,
+      "sha256": "f61d81fea5db3afea407997756c893baf063026e4639522dc6f42c8a705ce484",
       "executable": false
     },
     {
@@ -1107,8 +1131,8 @@
     },
     {
       "path": "tools/sched_ext/new_a_universal_runtime/evidence.py",
-      "size": 14347,
-      "sha256": "a0c41969844597fa5388e52cc5e27ef45818fe987b406a932b013948fd9cf1fa",
+      "size": 14463,
+      "sha256": "bf2d3a7fcccdd71556c778d4b029345d29dea30d91796ddb34e4f02f441d7683",
       "executable": false
     },
     {
@@ -1124,9 +1148,15 @@
       "executable": false
     },
     {
+      "path": "tools/sched_ext/new_a_universal_runtime/process_cpu.py",
+      "size": 7132,
+      "sha256": "693cb902c050276305887f7a2d1eaeae9a0fa84294017d8fe114349f3ac252f6",
+      "executable": false
+    },
+    {
       "path": "tools/sched_ext/new_a_universal_runtime/runner.py",
-      "size": 19109,
-      "sha256": "d5f680b7109e8425269f5e65f8d1e889e035ca6a16ff1127af7315ce65ffed8d",
+      "size": 19448,
+      "sha256": "eda970e5caaddffa7e396f114fe82bf97d54d8b9efc509478a94cbf3d3b37cca",
       "executable": false
     },
     {
@@ -1143,14 +1173,20 @@
     },
     {
       "path": "tools/sched_ext/new_a_universal_runtime/test_cleanup.py",
-      "size": 4340,
-      "sha256": "6cac44c36a96d113c15331a1182de87ed4d28eef2e5afbfb70a9c85590b694cb",
+      "size": 4922,
+      "sha256": "74f39a1ec37e51b2930828548ef2f6dc64a3ef4f41edb2f82e47ce90119eecdd",
+      "executable": false
+    },
+    {
+      "path": "tools/sched_ext/new_a_universal_runtime/test_process_cpu.py",
+      "size": 11335,
+      "sha256": "c27b66334ef277db777c24d88a64ba1a1d5543446461d7850ff0fd9aab4d2fe1",
       "executable": false
     },
     {
       "path": "tools/sched_ext/new_a_universal_runtime/test_raw.py",
-      "size": 9005,
-      "sha256": "82ea24fed4bad64287c21e2f98b99276f1080ae5ab52176b227f4e2a7fc28462",
+      "size": 10558,
+      "sha256": "507a7bc8b1fae26a68acc1ab8ca78f5e00caf1aca8edd07bc1ba15facc20c9b3",
       "executable": false
     },
     {

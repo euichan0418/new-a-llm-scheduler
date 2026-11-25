@@ -148,3 +148,8 @@ def restore(journal,quiet,*,reauthenticate=False,approve=None):
 def pending_recovery(journal,quiet,*,readonly=False,approve=None):
     import power_state
     return power_state.pending(journal,quiet,readonly=readonly,approve=approve)
+
+
+def audit_restoration(journal):
+    import power_state
+    return power_state.audit_restoration(journal)

@@ -193,6 +193,35 @@ def restore(journal,quiet,reauthenticate=False,approve=None):
     state['status']='RESTORED';state['restored']=list(range(len(state['changes'])));io().save(journal,state)
 
 
+def audit_restoration(journal):
+    """Read a v2 restore proof; never overwrite a journal or infer missing EPP."""
+    journal=Path(journal).resolve();state=json.loads(journal.read_text())
+    require(state.get('schema')==2,'RESTORE_PROOF_V2_REQUIRED; legacy EPP not recorded')
+    if not state.get('attempted'):
+        require(state.get('status')=='NOT_APPLIED'and state.get('attempt_history')==[],'Unattempted power state inconsistent')
+        if state['changes']:
+            original,_=unpack(state['changes']);require(state['original']==original,'Original/plan mismatch')
+            source=journal
+        else:
+            source=journal.parent/'before-install-environment.private.json';original=json.loads(source.read_text())
+            require(original.get('schema')==2,'No original EPP snapshot');validate(original)
+        return dict(status='NO_POWER_CHANGE_RECORDED',journal_sha256=hashlib.sha256(journal.read_bytes()).hexdigest(),
+                    proof_sha256=hashlib.sha256(source.read_bytes()).hexdigest(),proof=str(source),original=original)
+    require(state.get('status')=='RESTORED'and state.get('attempted'),'RESTORATION_NOT_VERIFIED: unresolved power journal')
+    original,_=unpack(state['changes']);require(state['original']==original,'Restore original/plan mismatch')
+    require(state['restored']==list(range(len(state['changes']))),'Restore scope incomplete')
+    history=state.get('attempt_history',[]);require(history,'Missing restore attempt evidence')
+    path=Path(history[-1]).resolve()
+    require(path.parent==journal.parent and path.name.startswith(journal.name+'.restore-'),'Foreign/non-restore final attempt')
+    proof=json.loads(path.read_text())
+    require(proof.get('status')=='PASS'and proof.get('phase')=='restore'and proof.get('errors')==[]and proof.get('expected')==original,'Restore attempt did not PASS')
+    for key,partial in [('non_turbo_observed',True),('observed',False)]:
+        rows=proof.get(key,[]);require(len(rows)==2,'Restore readback proof incomplete')
+        for row in rows:require(not mismatch(row,original,non_turbo=partial),'Restore saved readback mismatch')
+    return dict(status='RESTORE_EVIDENCE_VERIFIED',journal_sha256=hashlib.sha256(journal.read_bytes()).hexdigest(),
+                proof_sha256=hashlib.sha256(path.read_bytes()).hexdigest(),proof=str(path),original=original)
+
+
 def legacy_expected(journal,state):
     original=state.get('original')
     if state.get('schema')==2 and original:return original

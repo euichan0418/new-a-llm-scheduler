@@ -32,6 +32,8 @@ def run(driver,base,check=False,prepare_only=False,guard=None):
     prior_recoveries=[]
     for old in (base/'runs').glob('*/environment.private.json'):
         value=json.loads(old.read_text())
+        if value.get('attempted')and value.get('schema')==2 and value['status']=='RESTORED':
+            system.audit_restoration(old)
         if value.get('attempted')and value['status']!='RESTORED':
             evidence=system.pending_recovery(old,lambda:auto_run.quiet(driver.engine()),readonly=check)
             if evidence:prior_recoveries.append(str(evidence))

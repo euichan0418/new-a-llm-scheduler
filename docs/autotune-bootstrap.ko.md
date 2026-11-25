@@ -1,5 +1,7 @@
 # GitHub에서 시작하는 Intel Hybrid Auto-Tuning
 
+`time.clock_getcpuclockid` 오류가 있었다면 [전체 프로세스 CPU Clock 수정 및 복원 확인](process-cpu-clock.ko.md)을 확인한다. 실패 캠페인은 보존하고 최신 코드에서 새 캠페인을 시작한다.
+
 전원 복원에서 intel_pstate EPP busy 오류가 있었다면 [전원 적용·복원 v2 및 수동 복구 안내](power-restore.ko.md)를 먼저 확인한다. 원본 실패는 보존하고, 새 실행에서 수동 복구 상태를 별도로 승인한다.
 
 
